@@ -1725,12 +1725,101 @@ document
 ========================= */
 
 function employeeAction(action) {
+function updateEmployeeCard(employeeId) {
 
-alert(
-"CEO: " +
-action +
-"\n\nФункция будет подключена на следующем этапе."
-);
+    const cards = document.querySelectorAll(".employee");
+
+    cards.forEach(function(card) {
+
+        const onclickValue = card.getAttribute("onclick");
+
+        if (onclickValue === "openEmployee('" + employeeId + "')") {
+
+            const employee = employees[employeeId];
+
+            const percentage =
+                parseInt(employee.kpi);
+
+            const numbers =
+                card.querySelectorAll(".kpi-label span");
+
+            if (numbers.length >= 2) {
+                numbers[1].textContent =
+                    employee.kpi;
+            }
+
+            const progress =
+                card.querySelector(".progress-bar");
+
+            if (progress) {
+                progress.style.width =
+                    percentage + "%";
+            }
+
+        }
+
+    });
+
+}
+    if (action === "Изменить KPI") {
+
+        const currentEmployee =
+            document.getElementById("profileName").textContent;
+
+        let employeeId = null;
+
+        for (const id in employees) {
+
+            if (employees[id].name === currentEmployee) {
+                employeeId = id;
+                break;
+            }
+
+        }
+
+        if (!employeeId) {
+            alert("Сотрудник не найден");
+            return;
+        }
+
+        const employee = employees[employeeId];
+
+        const newKpi = prompt(
+            "Изменить KPI сотрудника " +
+            employee.name +
+            "\n\nТекущий KPI: " +
+            employee.kpi +
+            "\n\nВведите новый KPI от 0 до 100:",
+            parseInt(employee.kpi)
+        );
+
+        if (newKpi === null) {
+            return;
+        }
+
+        const value = Number(newKpi);
+
+        if (isNaN(value) || value < 0 || value > 100) {
+
+            alert("Введите число от 0 до 100.");
+
+            return;
+        }
+
+        employee.kpi = value + "%";
+
+        document.getElementById("profileKpi").textContent =
+            employee.kpi;
+
+        updateEmployeeCard(employeeId);
+
+        return;
+    }
+
+    alert(
+        "CEO: " + action +
+        "\n\nЭта функция пока не подключена."
+    );
 
 }
 
