@@ -1,32 +1,2077 @@
-<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Alatau Nexus — CEO Control Center</title><style>
-*{box-sizing:border-box}body{margin:0;font:14px Arial,sans-serif;background:#0b1020;color:#eef2ff}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.side{position:fixed;width:220px;inset:0 auto 0 0;background:#11182b;border-right:1px solid #26304a;padding:20px 12px}.logo{font-size:20px;font-weight:800;padding:8px 10px 22px}.logo span{color:#718cff}.menu button{width:100%;padding:11px;border:0;border-radius:9px;background:none;color:#9eabc7;text-align:left;margin:3px 0}.menu button:hover,.menu button.active{background:#202b48;color:#fff}.main{margin-left:220px;padding:26px;width:calc(100% - 220px);max-width:1600px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.top h1{margin:0 0 4px}.ceo{display:flex;gap:10px;align-items:center;background:#151e34;padding:8px 12px;border-radius:11px}.avatar{width:40px;height:40px;border-radius:50%;background:#334b9a;display:grid;place-items:center;font-weight:bold}.muted{color:#93a0bc;font-size:12px}.section{display:none}.section.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card,.panel{background:#121a2e;border:1px solid #26304a;border-radius:15px;padding:17px}.metric{font-size:25px;font-weight:bold;margin:8px 0}.label{color:#93a0bc;font-size:12px}.panel{margin-top:16px}.panel h2{margin:0 0 14px}.directors{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.employee{background:#151e34;border:1px solid #293653;border-radius:13px;padding:14px;cursor:pointer}.employee:hover{border-color:#6885ff}.eh{display:flex;gap:10px;align-items:center}.employee h3{font-size:14px;margin:0 0 4px}.bar{height:7px;background:#252f48;border-radius:9px;overflow:hidden}.fill{height:100%;background:#6685ff}.line{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #25304a}.line:last-child{border:0}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.btn{border:1px solid #34415f;background:#1a2540;color:#fff;padding:9px 13px;border-radius:8px}.btn:hover{background:#26345a}.primary{background:#506ee8;border-color:#506ee8}.danger{background:#642538;border-color:#8f354b}.small{padding:6px 9px;font-size:12px}.search{background:#121a2e;color:#fff;border:1px solid #34415f;border-radius:8px;padding:9px 12px}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:11px;border-bottom:1px solid #25304a;text-align:left;font-size:13px}.table th{color:#93a0bc}.badge{padding:4px 8px;border-radius:20px;background:#263557;font-size:11px}.green{color:#61e5a8}.yellow{color:#ffd166}.red{color:#ff7c93}.modal{display:none;position:fixed;inset:0;background:#000b;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.on{display:flex}.box{background:#121a2e;border:1px solid #34415f;border-radius:16px;width:min(650px,100%);max-height:90vh;overflow:auto;padding:20px}.mh{display:flex;justify-content:space-between;align-items:center}.close{border:0;background:none;color:#aaa;font-size:25px}.form{display:grid;gap:11px}.form label{font-size:12px;color:#9eabc7}.form input,.form select,.form textarea{width:100%;padding:10px;border:1px solid #34415f;border-radius:8px;background:#0d1425;color:#fff}.form textarea{min-height:85px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.toast{position:fixed;right:20px;bottom:20px;background:#202d4c;border:1px solid #52658e;padding:12px 15px;border-radius:9px;display:none;z-index:50}.toast.on{display:block}.empty{text-align:center;padding:25px;color:#93a0bc}@media(max-width:1050px){.directors{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.side{position:static;width:100%;height:auto}.app{display:block}.main{margin:0;width:100%;padding:15px}.two,.three,.grid,.directors{grid-template-columns:1fr}}
-</style></head><body><div class="app"><aside class="side"><div class="logo">ALATAU <span>NEXUS</span></div><div class="menu"><button class="active" onclick="section('dashboard',this)">◈ Dashboard</button><button onclick="section('company',this)">🏢 Компания</button><button onclick="section('employees',this)">👥 Сотрудники</button><button onclick="section('departments',this)">▦ Отделы</button><button onclick="section('crm',this)">🤝 CRM</button><button onclick="section('projects',this)">◫ Проекты</button><button onclick="section('tasks',this)">☑ Задачи</button><button onclick="section('finance',this)">₸ Финансы</button><button onclick="section('hr',this)">♙ HR</button><button onclick="section('decisions',this)">⚖ Решения</button><button onclick="section('history',this)">◷ История</button></div></aside><main class="main"><header class="top"><div><h1 id="title">CEO Dashboard</h1><div class="muted">Alatau Nexus · Almaty, Kazakhstan</div></div><div class="ceo"><div class="avatar">OK</div><div><b>Олег Ким</b><div class="muted">Founder & CEO</div></div></div></header>
-<section id="dashboard" class="section active"><div id="metrics" class="grid"></div><div class="panel"><h2>Directors</h2><div id="directors" class="directors"></div></div><div class="two"><div class="panel"><h2>Morning Briefing</h2><div id="brief"></div></div><div class="panel"><h2>Recent Activity</h2><div id="recent"></div></div></div></section>
-<section id="company" class="section"><div class="panel"><h2>Компания</h2><div id="companyStats" class="three"></div></div><div class="panel"><h2>Организационная структура</h2><div id="org"></div></div></section>
-<section id="employees" class="section"><div class="toolbar"><input id="search" class="search" placeholder="Поиск сотрудника..." oninput="renderEmployees()"><button class="btn primary" onclick="openAddEmployee()">+ Добавить сотрудника</button></div><div class="panel" id="employeesTable"></div></section>
-<section id="departments" class="section"><div class="panel"><h2>Отделы</h2><div id="deps"></div></div></section>
-<section id="crm" class="section"><div class="toolbar"><button class="btn primary" onclick="openDeal()">+ Новая сделка</button></div><div class="panel" id="crmTable"></div></section>
-<section id="projects" class="section"><div class="toolbar"><button class="btn primary" onclick="openProject()">+ Новый проект</button></div><div class="panel" id="projectsTable"></div></section>
-<section id="tasks" class="section"><div class="toolbar"><button class="btn primary" onclick="openTask()">+ Поставить задачу</button></div><div class="panel" id="tasksTable"></div></section>
-<section id="finance" class="section"><div id="financeStats" class="grid"></div><div class="panel" id="financeTable"></div></section>
-<section id="hr" class="section"><div class="toolbar"><button class="btn primary" onclick="openCandidate()">+ Кандидат</button></div><div class="panel" id="hrTable"></div></section>
-<section id="decisions" class="section"><div class="panel"><h2>Центр решений CEO</h2><div id="decisionsList"></div></div></section>
-<section id="history" class="section"><div class="panel"><h2>История действий</h2><div id="historyTable"></div></div></section></main></div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alatau Nexus — CEO Control Center</title>
 
-<div id="employeeModal" class="modal"><div class="box"><div class="mh"><div><h2 id="pName"></h2><div id="pRole" class="muted"></div></div><button class="close" onclick="closeM('employeeModal')">×</button></div><div class="two"><div><div class="line"><span>Отдел</span><b id="pDept"></b></div><div class="line"><span>Зарплата</span><b id="pSalary"></b></div><div class="line"><span>KPI</span><b id="pKpi"></b></div></div><div><div class="line"><span>Нагрузка</span><b id="pWork"></b></div><div class="line"><span>Опыт</span><b id="pExp"></b></div><div class="line"><span>Статус</span><b id="pStatus"></b></div></div></div><div class="panel"><h3>Цели</h3><div id="pGoals"></div></div><div class="actions"><button class="btn primary" onclick="empAction('task')">Поставить задачу</button><button class="btn" onclick="empAction('kpi')">Изменить KPI</button><button class="btn" onclick="empAction('salary')">Изменить зарплату</button><button class="btn" onclick="empAction('promote')">Повысить</button><button class="btn" onclick="empAction('transfer')">Перевести</button><button class="btn" onclick="empAction('warn')">Предупреждение</button><button class="btn danger" onclick="empAction('fire')">Уволить</button></div></div></div>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-<div id="taskModal" class="modal"><div class="box"><div class="mh"><h2>Поставить задачу</h2><button class="close" onclick="closeM('taskModal')">×</button></div><div class="form"><label>Ответственный<select id="tEmp"></select></label><label>Название<input id="tTitle"></label><label>Описание<textarea id="tDesc"></textarea></label><label>Приоритет<select id="tPriority"><option>Высокий</option><option selected>Средний</option><option>Низкий</option></select></label><label>Дедлайн<input id="tDate" type="date"></label></div><div class="actions"><button class="btn primary" onclick="createTask()">Создать</button></div></div></div>
-<div id="dealModal" class="modal"><div class="box"><div class="mh"><h2>Новая сделка</h2><button class="close" onclick="closeM('dealModal')">×</button></div><div class="form"><label>Клиент<input id="dClient"></label><label>Сумма ₸<input id="dValue" type="number"></label><label>Стадия<select id="dStage"><option>Новый</option><option>Квалификация</option><option>Предложение</option><option>Переговоры</option><option>Закрытие</option></select></label><label>Владелец<select id="dOwner"></select></label></div><div class="actions"><button class="btn primary" onclick="createDeal()">Создать</button></div></div></div>
-<div id="projectModal" class="modal"><div class="box"><div class="mh"><h2>Новый проект</h2><button class="close" onclick="closeM('projectModal')">×</button></div><div class="form"><label>Название<input id="prName"></label><label>Клиент<input id="prClient"></label><label>Бюджет ₸<input id="prBudget" type="number"></label><label>Статус<select id="prStatus"><option>Планирование</option><option>В работе</option><option>На паузе</option><option>Завершён</option></select></label></div><div class="actions"><button class="btn primary" onclick="createProject()">Создать</button></div></div></div>
-<div id="candidateModal" class="modal"><div class="box"><div class="mh"><h2>Новый кандидат</h2><button class="close" onclick="closeM('candidateModal')">×</button></div><div class="form"><label>Имя<input id="cName"></label><label>Должность<input id="cRole"></label><label>Опыт<input id="cExp"></label><label>Ожидания ₸<input id="cSalary" type="number"></label></div><div class="actions"><button class="btn primary" onclick="createCandidate()">Добавить</button></div></div></div>
-<div id="addModal" class="modal"><div class="box"><div class="mh"><h2>Новый сотрудник</h2><button class="close" onclick="closeM('addModal')">×</button></div><div class="form"><label>Имя<input id="nName"></label><label>Должность<input id="nRole"></label><label>Отдел<input id="nDept"></label><label>Зарплата ₸<input id="nSalary" type="number"></label></div><div class="actions"><button class="btn primary" onclick="createEmployee()">Создать</button></div></div></div><div id="toast" class="toast"></div>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f1117;
+    color: #f1f5f9;
+}
+
+button {
+    font-family: inherit;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 240px;
+    background: #151821;
+    border-right: 1px solid #272b36;
+    padding: 24px 16px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.logo-sub {
+    color: #8b93a7;
+    font-size: 12px;
+    margin-bottom: 30px;
+}
+
+.menu button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #9ba3b4;
+    text-align: left;
+    padding: 12px 14px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.menu button:hover {
+    background: #202530;
+    color: white;
+}
+
+.menu button.active {
+    background: #283044;
+    color: white;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.page-title {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.ceo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #191d27;
+    border: 1px solid #292e3a;
+    padding: 9px 14px;
+    border-radius: 10px;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #3a465d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.ceo-text strong {
+    display: block;
+    font-size: 13px;
+}
+
+.ceo-text span {
+    color: #8b93a7;
+    font-size: 11px;
+}
+
+/* WELCOME */
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+.welcome p {
+    margin: 0;
+    color: #8b93a7;
+}
+
+/* CARDS */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: #171b24;
+    border: 1px solid #292e3a;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.stat-title {
+    color: #8b93a7;
+    font-size: 12px;
+    margin-bottom: 9px;
+}
+
+.stat-value {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+/* DIRECTORS */
+
+.two-column {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+.employee {
+    background: #1b202a;
+    border: 1px solid #2b313d;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.employee:hover {
+    background: #222936;
+    border-color: #485269;
+    transform: translateY(-1px);
+}
+
+.employee:last-child {
+    margin-bottom: 0;
+}
+
+.employee-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.employee-name {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.employee-role {
+    color: #8b93a7;
+    font-size: 12px;
+}
+
+.online {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #39c27f;
+}
+
+.kpi {
+    margin-top: 13px;
+}
+
+.kpi-label {
+    display: flex;
+    justify-content: space-between;
+    color: #9ba3b4;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.progress {
+    height: 5px;
+    background: #292f3b;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #6379a8;
+}
+
+/* EVENTS */
+
+.event {
+    padding: 13px 0;
+    border-bottom: 1px solid #292e3a;
+}
+
+.event:last-child {
+    border-bottom: 0;
+}
+
+.event strong {
+    font-size: 13px;
+}
+
+.event p {
+    margin: 5px 0 0;
+    color: #8b93a7;
+    font-size: 12px;
+}
+
+/* COMPANY MAP */
+
+.company-map {
+    margin-top: 20px;
+}
+
+.ceo-box {
+    width: 200px;
+    margin: 25px auto 0;
+    padding: 15px;
+    border: 1px solid #46536e;
+    background: #202838;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.ceo-box strong {
+    display: block;
+}
+
+.ceo-box span {
+    display: block;
+    color: #8b93a7;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.connector {
+    height: 25px;
+    width: 2px;
+    background: #3a4355;
+    margin: auto;
+}
+
+.departments {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.department {
+    background: #1b202a;
+    border: 1px solid #292f3b;
+    border-radius: 9px;
+    padding: 15px;
+    text-align: center;
+}
+
+.department strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.department span {
+    color: #8b93a7;
+    font-size: 11px;
+}
+
+/* MODAL */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    width: 700px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #171b24;
+    border: 1px solid #343b4b;
+    border-radius: 14px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+.close {
+    position: absolute;
+    right: 17px;
+    top: 12px;
+    border: 0;
+    background: transparent;
+    color: #8b93a7;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: white;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-right: 35px;
+    margin-bottom: 25px;
+}
+
+.big-avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #39465f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.profile-header h2 {
+    margin: 0 0 5px;
+}
+
+.profile-header p {
+    margin: 0;
+    color: #8b93a7;
+}
+
+.profile-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.info {
+    background: #1d222c;
+    border: 1px solid #2a303c;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.info span {
+    display: block;
+    color: #8b93a7;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.info strong {
+    font-size: 13px;
+}
+
+.profile-section {
+    margin-top: 22px;
+}
+
+.profile-section h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.goal {
+    padding: 10px 12px;
+    background: #1d222c;
+    border-radius: 7px;
+    margin-bottom: 7px;
+    color: #cbd2df;
+    font-size: 13px;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+}
+
+.action {
+    border: 1px solid #353d4d;
+    background: #202631;
+    color: #dbe1eb;
+    padding: 11px;
+    border-radius: 7px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.action:hover {
+    background: #2a3241;
+}
+
+.action.danger {
+    color: #ff8b8b;
+    border-color: #5b3434;
+}
+
+/* SECTIONS */
+
+.section {
+    display: none;
+}
+
+#dashboard {
+    display: block;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .departments {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .main {
+        margin-left: 190px;
+        width: calc(100% - 190px);
+        padding: 20px;
+    }
+
+    .profile-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">Alatau Nexus</div>
+<div class="logo-sub">CEO Control Center</div>
+
+<nav class="menu">
+
+<button class="active" onclick="showSection('dashboard', this)">
+Dashboard
+</button>
+
+<button onclick="showSection('company', this)">
+Компания
+</button>
+
+<button onclick="showSection('employees', this)">
+Сотрудники
+</button>
+
+<button onclick="showSection('departments', this)">
+Отделы
+</button>
+
+<button onclick="showSection('crm', this)">
+CRM
+</button>
+
+<button onclick="showSection('projects', this)">
+Проекты
+</button>
+
+<button onclick="showSection('tasks', this)">
+Задачи
+</button>
+
+<button onclick="showSection('finance', this)">
+Финансы
+</button>
+
+<button onclick="showSection('hr', this)">
+HR
+</button>
+
+<button onclick="showSection('decisions', this)">
+Решения
+</button>
+
+</nav>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="topbar">
+
+<div class="page-title" id="pageTitle">
+CEO Dashboard
+</div>
+
+<div class="ceo">
+
+<div class="avatar">
+OK
+</div>
+
+<div class="ceo-text">
+<strong>Олег Ким</strong>
+<span>Founder & CEO</span>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="section">
+
+<div class="welcome">
+
+<h1>Добро пожаловать, Олег</h1>
+
+<p>
+Центр управления компанией Alatau Nexus.
+</p>
+
+</div>
+
+
+<!-- STATS -->
+
+<div class="grid">
+
+<div class="card">
+
+<div class="stat-title">
+Сотрудники
+</div>
+
+<div class="stat-value">
+36
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Активные сделки
+</div>
+
+<div class="stat-value">
+8
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Pipeline
+</div>
+
+<div class="stat-value">
+₸84.5m
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Проекты
+</div>
+
+<div class="stat-value">
+5
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DIRECTORS + EVENTS -->
+
+<div class="two-column">
+
+<div class="card">
+
+<h3>Руководители</h3>
+
+
+<!-- ALEXEY VOLKOV -->
+
+<div class="employee" onclick="openEmployee('alexey')">
+
+<div class="employee-top">
+
+<div>
+
+<div class="employee-name">
+Алексей Волков
+</div>
+
+<div class="employee-role">
+Sales Director
+</div>
+
+</div>
+
+<div class="online"></div>
+
+</div>
+
+
+<div class="kpi">
+
+<div class="kpi-label">
+
+<span>
+Sales KPI
+</span>
+
+<span>
+82%
+</span>
+
+</div>
+
+<div class="progress">
+
+<div class="progress-bar" style="width:82%"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DMITRY -->
+
+<div class="employee" onclick="openEmployee('dmitry')">
+
+<div class="employee-top">
+
+<div>
+
+<div class="employee-name">
+Дмитрий Соколов
+</div>
+
+<div class="employee-role">
+CTO
+</div>
+
+</div>
+
+<div class="online"></div>
+
+</div>
+
+
+<div class="kpi">
+
+<div class="kpi-label">
+
+<span>
+Tech KPI
+</span>
+
+<span>
+91%
+</span>
+
+</div>
+
+<div class="progress">
+
+<div class="progress-bar" style="width:91%"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ANNA -->
+
+<div class="employee" onclick="openEmployee('anna')">
+
+<div class="employee-top">
+
+<div>
+
+<div class="employee-name">
+Анна Морозова
+</div>
+
+<div class="employee-role">
+CFO
+</div>
+
+</div>
+
+<div class="online"></div>
+
+</div>
+
+
+<div class="kpi">
+
+<div class="kpi-label">
+
+<span>
+Finance KPI
+</span>
+
+<span>
+76%
+</span>
+
+</div>
+
+<div class="progress">
+
+<div class="progress-bar" style="width:76%"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ELENA -->
+
+<div class="employee" onclick="openEmployee('elena')">
+
+<div class="employee-top">
+
+<div>
+
+<div class="employee-name">
+Елена Орлова
+</div>
+
+<div class="employee-role">
+HR Director
+</div>
+
+</div>
+
+<div class="online"></div>
+
+</div>
+
+
+<div class="kpi">
+
+<div class="kpi-label">
+
+<span>
+HR KPI
+</span>
+
+<span>
+88%
+</span>
+
+</div>
+
+<div class="progress">
+
+<div class="progress-bar" style="width:88%"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MAXIM -->
+
+<div class="employee" onclick="openEmployee('maxim')">
+
+<div class="employee-top">
+
+<div>
+
+<div class="employee-name">
+Максим Петров
+</div>
+
+<div class="employee-role">
+COO
+</div>
+
+</div>
+
+<div class="online"></div>
+
+</div>
+
+
+<div class="kpi">
+
+<div class="kpi-label">
+
+<span>
+Operations KPI
+</span>
+
+<span>
+84%
+</span>
+
+</div>
+
+<div class="progress">
+
+<div class="progress-bar" style="width:84%"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- EVENTS -->
+
+<div class="card">
+
+<h3>
+Последние события
+</h3>
+
+
+<div class="event">
+
+<strong>
+Новая сделка
+</strong>
+
+<p>
+Sales зарегистрировал нового клиента на ₸12.4 млн.
+</p>
+
+</div>
+
+
+<div class="event">
+
+<strong>
+Проект требует решения
+</strong>
+
+<p>
+CTO запросил дополнительный бюджет.
+</p>
+
+</div>
+
+
+<div class="event">
+
+<strong>
+HR
+</strong>
+
+<p>
+Получено 3 новых резюме.
+</p>
+
+</div>
+
+
+<div class="event">
+
+<strong>
+Финансы
+</strong>
+
+<p>
+Ожидается согласование платежа ₸2.1 млн.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- COMPANY MAP -->
+
+<div class="company-map">
+
+<div class="card">
+
+<h3>
+Организационная структура
+</h3>
+
+
+<div class="ceo-box">
+
+<strong>
+Олег Ким
+</strong>
+
+<span>
+Founder & CEO
+</span>
+
+</div>
+
+
+<div class="connector"></div>
+
+
+<div class="departments">
+
+<div class="department">
+
+<strong>
+Sales
+</strong>
+
+<span>
+8 сотрудников
+</span>
+
+</div>
+
+
+<div class="department">
+
+<strong>
+Technology
+</strong>
+
+<span>
+9 сотрудников
+</span>
+
+</div>
+
+
+<div class="department">
+
+<strong>
+Finance
+</strong>
+
+<span>
+4 сотрудника
+</span>
+
+</div>
+
+
+<div class="department">
+
+<strong>
+HR
+</strong>
+
+<span>
+5 сотрудников
+</span>
+
+</div>
+
+
+<div class="department">
+
+<strong>
+Operations
+</strong>
+
+<span>
+10 сотрудников
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- COMPANY -->
+
+<section id="company" class="section">
+
+<div class="welcome">
+
+<h1>
+Компания
+</h1>
+
+<p>
+Организационная структура Alatau Nexus.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- EMPLOYEES -->
+
+<section id="employees" class="section">
+
+<div class="welcome">
+
+<h1>
+Сотрудники
+</h1>
+
+<p>
+36 сотрудников компании.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- DEPARTMENTS -->
+
+<section id="departments" class="section">
+
+<div class="welcome">
+
+<h1>
+Отделы
+</h1>
+
+<p>
+10 подразделений Alatau Nexus.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- CRM -->
+
+<section id="crm" class="section">
+
+<div class="welcome">
+
+<h1>
+CRM
+</h1>
+
+<p>
+Клиенты, сделки и воронка продаж.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- PROJECTS -->
+
+<section id="projects" class="section">
+
+<div class="welcome">
+
+<h1>
+Проекты
+</h1>
+
+<p>
+Текущие проекты компании.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- TASKS -->
+
+<section id="tasks" class="section">
+
+<div class="welcome">
+
+<h1>
+Задачи
+</h1>
+
+<p>
+Задачи сотрудников и руководителей.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- FINANCE -->
+
+<section id="finance" class="section">
+
+<div class="welcome">
+
+<h1>
+Финансы
+</h1>
+
+<p>
+Бюджет, расходы, доходы и платежи.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- HR -->
+
+<section id="hr" class="section">
+
+<div class="welcome">
+
+<h1>
+HR
+</h1>
+
+<p>
+Кандидаты, найм и кадровые решения.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- DECISIONS -->
+
+<section id="decisions" class="section">
+
+<div class="welcome">
+
+<h1>
+Центр решений
+</h1>
+
+<p>
+Решения, ожидающие внимания CEO.
+</p>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- EMPLOYEE MODAL -->
+
+<div class="modal" id="employeeModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeEmployee()">
+×
+</button>
+
+
+<div class="profile-header">
+
+<div class="big-avatar" id="profileAvatar">
+AV
+</div>
+
+<div>
+
+<h2 id="profileName"></h2>
+
+<p id="profileRole"></p>
+
+</div>
+
+</div>
+
+
+<div class="profile-info">
+
+<div class="info">
+
+<span>
+Отдел
+</span>
+
+<strong id="profileDepartment"></strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+Зарплата
+</span>
+
+<strong id="profileSalary"></strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+KPI
+</span>
+
+<strong id="profileKpi"></strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+Загрузка
+</span>
+
+<strong id="profileWorkload"></strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+Стаж
+</span>
+
+<strong id="profileExperience"></strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+Статус
+</span>
+
+<strong>
+Активен
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="profile-section">
+
+<h3>
+Цели
+</h3>
+
+<div id="profileGoals"></div>
+
+</div>
+
+
+<div class="profile-section">
+
+<h3>
+Действия CEO
+</h3>
+
+
+<div class="actions">
+
+<button class="action"
+onclick="employeeAction('Написать сотруднику')">
+
+💬 Написать
+
+</button>
+
+
+<button class="action"
+onclick="employeeAction('Поставить задачу')">
+
+✓ Поставить задачу
+
+</button>
+
+
+<button class="action"
+onclick="employeeAction('Изменить KPI')">
+
+📊 Изменить KPI
+
+</button>
+
+
+<button class="action"
+onclick="employeeAction('Изменить зарплату')">
+
+₸ Изменить зарплату
+
+</button>
+
+
+<button class="action"
+onclick="employeeAction('Повысить')">
+
+↑ Повысить
+
+</button>
+
+
+<button class="action"
+onclick="employeeAction('Перевести')">
+
+↔ Перевести
+
+</button>
+
+
+<button class="action"
+onclick="employeeAction('Понизить')">
+
+↓ Понизить
+
+</button>
+
+
+<button class="action danger"
+onclick="employeeAction('Уволить')">
+
+✕ Уволить
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
 <script>
-const seed={employees:{alexey:{name:'Алексей Волков',role:'Sales Director',department:'Sales',salary:850000,kpi:82,workload:76,experience:'4 года',status:'Активен',avatar:'AV',goals:['Выручка отдела — 82%','Новые клиенты — 74%','Конверсия продаж — 68%']},dmitry:{name:'Дмитрий Соколов',role:'CTO',department:'Technology',salary:1100000,kpi:91,workload:88,experience:'6 лет',status:'Активен',avatar:'DS',goals:['Стабильность платформы — 97%','Сроки разработки — 91%']},anna:{name:'Анна Морозова',role:'CFO',department:'Finance',salary:950000,kpi:76,workload:69,experience:'5 лет',status:'Активен',avatar:'AM',goals:['Cash Flow — положительный','Контроль расходов — 88%']},elena:{name:'Елена Орлова',role:'HR Director',department:'HR',salary:800000,kpi:88,workload:73,experience:'4 года',status:'Активен',avatar:'EO',goals:['Закрытие вакансий — 91%','Текучесть — ниже 8%']},maxim:{name:'Максим Петров',role:'COO',department:'Operations',salary:900000,kpi:84,workload:81,experience:'5 лет',status:'Активен',avatar:'MP',goals:['Эффективность процессов — 84%','SLA — 94%']}},departments:[['Sales','Алексей Волков',7],['Technology','Дмитрий Соколов',9],['Finance','Анна Морозова',4],['HR','Елена Орлова',4],['Operations','Максим Петров',6]],deals:[['Qazaq Digital',18500000,'Переговоры','Алексей Волков'],['Nomad Retail',12000000,'Предложение','Алексей Волков'],['Arman Group',9800000,'Квалификация','Алексей Волков'],['Steppe Logistics',7600000,'Переговоры','Алексей Волков'],['Almaty Hub',6900000,'Предложение','Алексей Волков'],['Orda Bank',11000000,'Новый','Алексей Волков'],['Skyline',5300000,'Квалификация','Алексей Волков'],['Vector',3400000,'Новый','Алексей Волков']],projects:[['Nexus CRM','Qazaq Digital',24000000,'В работе'],['Retail Analytics','Nomad Retail',14500000,'В работе'],['Cloud Migration','Arman Group',19000000,'Планирование'],['Internal ERP','Alatau Nexus',12000000,'В работе'],['AI Pilot','Steppe Logistics',8500000,'Планирование']],tasks:[['Подготовить КП для Qazaq Digital','Алексей Волков','Высокий','2026-09-23','Открыта'],['Проверить SLA платформы','Дмитрий Соколов','Высокий','2026-09-24','В работе'],['Обновить cash-flow forecast','Анна Морозова','Средний','2026-09-25','Открыта']],candidates:[['Илья Смирнов','Sales Director','8 лет',1200000,'На интервью'],['Мария Ким','HRBP','5 лет',750000,'Новый']],activity:[]};
-let S=JSON.parse(localStorage.getItem('alatauNexus')||'null')||seed,current=null;function save(){localStorage.setItem('alatauNexus',JSON.stringify(S))}function money(n){return new Intl.NumberFormat('ru-RU').format(n)+' ₸'}function toast(x){let t=document.getElementById('toast');t.textContent=x;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1800)}function log(a,d){S.activity.unshift([new Date().toLocaleString('ru-RU'),a,d]);S.activity=S.activity.slice(0,100);save()}function section(id,b){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.menu button').forEach(x=>x.classList.remove('active'));b.classList.add('active');let t={dashboard:'CEO Dashboard',company:'Компания',employees:'Сотрудники',departments:'Отделы',crm:'CRM',projects:'Проекты',tasks:'Задачи',finance:'Финансы',hr:'HR',decisions:'Центр решений',history:'История'};document.getElementById('title').textContent=t[id];renderAll()}function openM(id){document.getElementById(id).classList.add('on')}function closeM(id){document.getElementById(id).classList.remove('on')}document.querySelectorAll('.modal').forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.remove('on')});document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal').forEach(m=>m.classList.remove('on'))});
-function active(){return Object.entries(S.employees).filter(x=>x[1].status!=='Уволен')}function empCard(id,e){return `<div class="employee" onclick="openEmp('${id}')"><div class="eh"><div class="avatar">${e.avatar}</div><div><h3>${e.name}</h3><div class="muted">${e.role}</div></div></div><div class="line"><span>KPI</span><b>${e.kpi}%</b></div><div class="bar"><div class="fill" style="width:${e.kpi}%"></div></div></div>`}function openEmp(id){current=id;let e=S.employees[id];['pName','pRole','pDept','pSalary','pKpi','pWork','pExp','pStatus'].forEach((x,i)=>{});pName.textContent=e.name;pRole.textContent=e.role;pDept.textContent=e.department;pSalary.textContent=money(e.salary);pKpi.textContent=e.kpi+'%';pWork.textContent=e.workload+'%';pExp.textContent=e.experience;pStatus.textContent=e.status;pGoals.innerHTML=e.goals.map(x=>`<div class="line">• ${x}</div>`).join('');openM('employeeModal')}
-function empAction(a){let e=S.employees[current];if(!e)return;if(a==='kpi'){let n=Number(prompt('Новый KPI 0–100',e.kpi));if(!Number.isFinite(n)||n<0||n>100)return alert('Введите число от 0 до 100');e.kpi=Math.round(n);log('Изменён KPI',e.name+' → '+e.kpi+'%');openEmp(current);renderAll();toast('KPI изменён')}else if(a==='salary'){let n=Number(prompt('Новая зарплата ₸',e.salary));if(!Number.isFinite(n)||n<0)return;e.salary=Math.round(n);log('Изменена зарплата',e.name+' → '+money(e.salary));openEmp(current);renderAll();toast('Зарплата изменена')}else if(a==='promote'){let r=prompt('Новая должность',e.role);if(!r)return;e.role=r;e.kpi=Math.min(100,e.kpi+3);log('Повышение',e.name+' → '+r);openEmp(current);renderAll();toast('Сотрудник повышен')}else if(a==='transfer'){let d=prompt('Новый отдел',e.department);if(!d)return;e.department=d;log('Перевод',e.name+' → '+d);openEmp(current);renderAll();toast('Сотрудник переведён')}else if(a==='warn'){log('Предупреждение',e.name);toast('Предупреждение записано')}else if(a==='fire'){if(!confirm('Уволить '+e.name+'?'))return;e.status='Уволен';log('Увольнение',e.name);closeM('employeeModal');renderAll();toast('Сотрудник уволен')}else if(a==='task'){openTask(current)}}
-function fillSelect(id,selected){let el=document.getElementById(id);el.innerHTML=active().map(x=>`<option value="${x[0]}" ${x[0]===selected?'selected':''}>${x[1].name} — ${x[1].role}</option>`).join('')}function openTask(emp){fillSelect('tEmp',emp);openM('taskModal')}function createTask(){let key=tEmp.value,e=S.employees[key],title=tTitle.value.trim();if(!title)return alert('Введите название задачи');S.tasks.unshift([title,e.name,tPriority.value,tDate.value||'Без дедлайна','Открыта']);log('Поставлена задача',title+' → '+e.name);closeM('taskModal');renderAll();toast('Задача создана')}function finishTask(i){S.tasks[i][4]='Завершена';log('Задача завершена',S.tasks[i][0]);renderAll();toast('Задача завершена')}
-function openDeal(){fillSelect('dOwner');openM('dealModal')}function createDeal(){let c=dClient.value.trim(),v=Number(dValue.value);if(!c||!v)return alert('Заполните клиента и сумму');S.deals.unshift([c,v,dStage.value,S.employees[dOwner.value].name]);log('Создана сделка',c+' — '+money(v));closeM('dealModal');renderAll();toast('Сделка создана')}function openProject(){openM('projectModal')}function createProject(){if(!prName.value.trim())return alert('Введите название');S.projects.unshift([prName.value.trim(),prClient.value,Number(prBudget.value)||0,prStatus.value]);log('Создан проект',prName.value);closeM('projectModal');renderAll();toast('Проект создан')}function openCandidate(){openM('candidateModal')}function createCandidate(){if(!cName.value.trim())return alert('Введите имя');S.candidates.unshift([cName.value,cRole.value,cExp.value,Number(cSalary.value)||0,'Новый']);log('Добавлен кандидат',cName.value);closeM('candidateModal');renderAll();toast('Кандидат добавлен')}function openAddEmployee(){openM('addModal')}function createEmployee(){if(!nName.value.trim()||!nRole.value.trim())return alert('Введите имя и должность');let id='e'+Date.now(),name=nName.value.trim();S.employees[id]={name,role:nRole.value,department:nDept.value||'General',salary:Number(nSalary.value)||0,kpi:50,workload:0,experience:'0 лет',status:'Активен',avatar:name.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase(),goals:['Цель не задана']};log('Добавлен сотрудник',name);closeM('addModal');renderAll();toast('Сотрудник добавлен')}
-function renderAll(){renderDash();renderEmployees();renderCompany();renderDeps();renderCRM();renderProjects();renderTasks();renderFinance();renderHR();renderDecisions();renderHistory();save()}function renderDash(){let a=active(),pipe=S.deals.reduce((s,x)=>s+x[1],0),open=S.tasks.filter(x=>x[4]!=='Завершена').length;metrics.innerHTML=[['Сотрудники',a.length],['Pipeline',money(pipe)],['Проекты',S.projects.filter(x=>x[3]!=='Завершён').length],['Задачи',open]].map(x=>`<div class="card"><div class="label">${x[0]}</div><div class="metric">${x[1]}</div></div>`).join('');directors.innerHTML=a.filter(x=>['Sales Director','CTO','CFO','HR Director','COO'].includes(x[1].role)).map(x=>empCard(x[0],x[1])).join('');let hi=S.tasks.filter(x=>x[2]==='Высокий'&&x[4]!=='Завершена').length,avg=Math.round(a.reduce((s,x)=>s+x[1].kpi,0)/Math.max(1,a.length));brief.innerHTML=`<div class="line"><span>Высоких задач</span><b class="${hi?'red':'green'}">${hi}</b></div><div class="line"><span>Средний KPI</span><b>${avg}%</b></div><div class="line"><span>Активных сделок</span><b>${S.deals.length}</b></div>`;recent.innerHTML=S.activity.slice(0,6).map(x=>`<div class="line"><span>${x[1]}<br><small class="muted">${x[2]}</small></span><small class="muted">${x[0]}</small></div>`).join('')||'<div class="empty">История пока пуста</div>'}
-function renderEmployees(){let q=(search?.value||'').toLowerCase(),r=Object.entries(S.employees).filter(x=>(x[1].name+x[1].role+x[1].department).toLowerCase().includes(q));employeesTable.innerHTML=`<table class="table"><tr><th>Сотрудник</th><th>Должность</th><th>Отдел</th><th>KPI</th><th>Зарплата</th><th>Статус</th><th></th></tr>${r.map(x=>`<tr><td>${x[1].name}</td><td>${x[1].role}</td><td>${x[1].department}</td><td>${x[1].kpi}%</td><td>${money(x[1].salary)}</td><td>${x[1].status}</td><td><button class="btn small" onclick="openEmp('${x[0]}')">Открыть</button></td></tr>`).join('')}</table>`}function renderCompany(){companyStats.innerHTML=[['Компания','Alatau Nexus'],['CEO','Олег Ким'],['Локация','Алматы, Казахстан'],['Модель','B2B IT'],['Сотрудники',active().length],['Стадия','Growth']].map(x=>`<div class="card"><div class="label">${x[0]}</div><div class="metric" style="font-size:18px">${x[1]}</div></div>`).join('');org.innerHTML=S.departments.map(x=>`<div class="line"><span><b>${x[0]}</b><br><small class="muted">${x[1]}</small></span><b>${x[2]} чел.</b></div>`).join('')}function renderDeps(){deps.innerHTML=S.departments.map(x=>`<div class="card" style="margin-bottom:10px"><b>${x[0]}</b><div class="muted">Head: ${x[1]}</div><p>${x[2]} сотрудников</p></div>`).join('')}function renderCRM(){crmTable.innerHTML=`<table class="table"><tr><th>Клиент</th><th>Сумма</th><th>Стадия</th><th>Владелец</th></tr>${S.deals.map(x=>`<tr><td><b>${x[0]}</b></td><td>${money(x[1])}</td><td>${x[2]}</td><td>${x[3]}</td></tr>`).join('')}</table>`}function renderProjects(){projectsTable.innerHTML=`<table class="table"><tr><th>Проект</th><th>Клиент</th><th>Бюджет</th><th>Статус</th></tr>${S.projects.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${money(x[2])}</td><td>${x[3]}</td></tr>`).join('')}</table>`}function renderTasks(){tasksTable.innerHTML=`<table class="table"><tr><th>Задача</th><th>Ответственный</th><th>Приоритет</th><th>Дедлайн</th><th>Статус</th><th></th></tr>${S.tasks.map((x,i)=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${x[3]}</td><td>${x[4]}</td><td>${x[4]!=='Завершена'?`<button class="btn small" onclick="finishTask(${i})">Завершить</button>`:''}</td></tr>`).join('')}</table>`}function renderFinance(){let p=S.deals.reduce((s,x)=>s+x[1],0);financeStats.innerHTML=[['Pipeline',money(p)],['Операционные расходы',money(12500000)],['Payroll',money(4800000)],['Net Pipeline',money(p-17300000)]].map(x=>`<div class="card"><div class="label">${x[0]}</div><div class="metric">${x[1]}</div></div>`).join('');financeTable.innerHTML='<div class="line"><span>Финансовая модель</span><b>Revenue − Expenses = Result</b></div><div class="line"><span>Данные</span><span class="muted">Демо-состояние компании</span></div>'}function renderHR(){hrTable.innerHTML=`<table class="table"><tr><th>Кандидат</th><th>Роль</th><th>Опыт</th><th>Ожидания</th><th>Статус</th></tr>${S.candidates.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td><td>${money(x[3])}</td><td>${x[4]}</td></tr>`).join('')}</table>`}function renderDecisions(){let h=S.tasks.filter(x=>x[2]==='Высокий'&&x[4]!=='Завершена'),low=active().filter(x=>x[1].kpi<70);decisionsList.innerHTML=`<div class="card"><b>Высокий приоритет: ${h.length}</b><p class="muted">${h.map(x=>x[0]).join('<br>')||'Нет критичных задач'}</p></div><div class="card" style="margin-top:12px"><b>KPI ниже 70%: ${low.length}</b><p class="muted">${low.map(x=>x[1].name).join(', ')||'Нет сотрудников'}</p></div>`}function renderHistory(){historyTable.innerHTML=S.activity.length?`<table class="table"><tr><th>Время</th><th>Действие</th><th>Детали</th></tr>${S.activity.map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${x[2]}</td></tr>`).join('')}</table>`:'<div class="empty">История пуста</div>'}renderAll();
-</script></body></html>
+
+/* =========================
+   EMPLOYEES DATABASE
+========================= */
+
+const employees = {
+
+alexey: {
+
+name: "Алексей Волков",
+
+role: "Sales Director",
+
+department: "Sales",
+
+salary: "850 000 ₸",
+
+kpi: "82%",
+
+workload: "76%",
+
+experience: "4 года",
+
+avatar: "AV",
+
+goals: [
+
+"Выручка отдела — 82%",
+
+"Новые клиенты — 74%",
+
+"Конверсия продаж — 68%"
+
+]
+
+},
+
+
+dmitry: {
+
+name: "Дмитрий Соколов",
+
+role: "CTO",
+
+department: "Technology",
+
+salary: "1 100 000 ₸",
+
+kpi: "91%",
+
+workload: "88%",
+
+experience: "6 лет",
+
+avatar: "DS",
+
+goals: [
+
+"Стабильность платформы — 97%",
+
+"Сроки разработки — 91%",
+
+"Технический долг — под контролем"
+
+]
+
+},
+
+
+anna: {
+
+name: "Анна Морозова",
+
+role: "CFO",
+
+department: "Finance",
+
+salary: "950 000 ₸",
+
+kpi: "76%",
+
+workload: "69%",
+
+experience: "5 лет",
+
+avatar: "AM",
+
+goals: [
+
+"Cash Flow — положительный",
+
+"Контроль расходов — 88%",
+
+"Дебиторская задолженность — снижение"
+
+]
+
+},
+
+
+elena: {
+
+name: "Елена Орлова",
+
+role: "HR Director",
+
+department: "HR",
+
+salary: "800 000 ₸",
+
+kpi: "88%",
+
+workload: "73%",
+
+experience: "4 года",
+
+avatar: "EO",
+
+goals: [
+
+"Закрытие вакансий — 91%",
+
+"Текучесть — ниже 8%",
+
+"Employee satisfaction — 86%"
+
+]
+
+},
+
+
+maxim: {
+
+name: "Максим Петров",
+
+role: "COO",
+
+department: "Operations",
+
+salary: "900 000 ₸",
+
+kpi: "84%",
+
+workload: "81%",
+
+experience: "5 лет",
+
+avatar: "MP",
+
+goals: [
+
+"Эффективность процессов — 84%",
+
+"SLA — 94%",
+
+"Операционные расходы — в бюджете"
+
+]
+
+}
+
+};
+
+
+/* =========================
+   OPEN EMPLOYEE
+========================= */
+
+function openEmployee(id) {
+
+const employee = employees[id];
+
+if (!employee) {
+
+console.error("Employee not found:", id);
+
+return;
+
+}
+
+
+document.getElementById("profileName").textContent =
+employee.name;
+
+
+document.getElementById("profileRole").textContent =
+employee.role;
+
+
+document.getElementById("profileDepartment").textContent =
+employee.department;
+
+
+document.getElementById("profileSalary").textContent =
+employee.salary;
+
+
+document.getElementById("profileKpi").textContent =
+employee.kpi;
+
+
+document.getElementById("profileWorkload").textContent =
+employee.workload;
+
+
+document.getElementById("profileExperience").textContent =
+employee.experience;
+
+
+document.getElementById("profileAvatar").textContent =
+employee.avatar;
+
+
+const goals =
+document.getElementById("profileGoals");
+
+
+goals.innerHTML = "";
+
+
+employee.goals.forEach(function(goal) {
+
+const element =
+document.createElement("div");
+
+
+element.className = "goal";
+
+
+element.textContent =
+"• " + goal;
+
+
+goals.appendChild(element);
+
+});
+
+
+document
+.getElementById("employeeModal")
+.classList.add("active");
+
+}
+
+
+/* =========================
+   CLOSE EMPLOYEE
+========================= */
+
+function closeEmployee() {
+
+document
+.getElementById("employeeModal")
+.classList.remove("active");
+
+}
+
+
+/* =========================
+   CEO ACTIONS
+========================= */
+
+function employeeAction(action) {
+function updateEmployeeCard(employeeId) {
+
+    const cards = document.querySelectorAll(".employee");
+
+    cards.forEach(function(card) {
+
+        const onclickValue = card.getAttribute("onclick");
+
+        if (onclickValue === "openEmployee('" + employeeId + "')") {
+
+            const employee = employees[employeeId];
+
+            const percentage =
+                parseInt(employee.kpi);
+
+            const numbers =
+                card.querySelectorAll(".kpi-label span");
+
+            if (numbers.length >= 2) {
+                numbers[1].textContent =
+                    employee.kpi;
+            }
+
+            const progress =
+                card.querySelector(".progress-bar");
+
+            if (progress) {
+                progress.style.width =
+                    percentage + "%";
+            }
+
+        }
+
+    });
+
+}
+    if (action === "Изменить KPI") {
+
+        const currentEmployee =
+            document.getElementById("profileName").textContent;
+
+        let employeeId = null;
+
+        for (const id in employees) {
+
+            if (employees[id].name === currentEmployee) {
+                employeeId = id;
+                break;
+            }
+
+        }
+
+        if (!employeeId) {
+            alert("Сотрудник не найден");
+            return;
+        }
+
+        const employee = employees[employeeId];
+
+        const newKpi = prompt(
+            "Изменить KPI сотрудника " +
+            employee.name +
+            "\n\nТекущий KPI: " +
+            employee.kpi +
+            "\n\nВведите новый KPI от 0 до 100:",
+            parseInt(employee.kpi)
+        );
+
+        if (newKpi === null) {
+            return;
+        }
+
+        const value = Number(newKpi);
+
+        if (isNaN(value) || value < 0 || value > 100) {
+
+            alert("Введите число от 0 до 100.");
+
+            return;
+        }
+
+        employee.kpi = value + "%";
+
+        document.getElementById("profileKpi").textContent =
+            employee.kpi;
+
+        updateEmployeeCard(employeeId);
+
+        return;
+    }
+
+    alert(
+        "CEO: " + action +
+        "\n\nЭта функция пока не подключена."
+    );
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showSection(sectionId, button) {
+
+document
+.querySelectorAll(".section")
+.forEach(function(section) {
+
+section.style.display = "none";
+
+});
+
+
+document
+.getElementById(sectionId)
+.style.display = "block";
+
+
+document
+.querySelectorAll(".menu button")
+.forEach(function(btn) {
+
+btn.classList.remove("active");
+
+});
+
+
+button.classList.add("active");
+
+
+const titles = {
+
+dashboard: "CEO Dashboard",
+
+company: "Компания",
+
+employees: "Сотрудники",
+
+departments: "Отделы",
+
+crm: "CRM",
+
+projects: "Проекты",
+
+tasks: "Задачи",
+
+finance: "Финансы",
+
+hr: "HR",
+
+decisions: "Центр решений"
+
+};
+
+
+document
+.getElementById("pageTitle")
+.textContent =
+titles[sectionId];
+
+}
+
+
+/* =========================
+   CLOSE MODAL BY BACKGROUND
+========================= */
+
+document
+.getElementById("employeeModal")
+.addEventListener("click", function(event) {
+
+if (event.target === this) {
+
+closeEmployee();
+
+}
+
+});
+
+
+/* =========================
+   ESC CLOSE
+========================= */
+
+document.addEventListener("keydown", function(event) {
+
+if (event.key === "Escape") {
+
+closeEmployee();
+
+}
+
+});
+
+</script>
+
+</body><script>
+
+const employees = {
+
+    alexey: {
+        name: "Алексей Волков",
+        role: "Sales Director",
+        department: "Sales",
+        salary: "850 000 ₸",
+        kpi: "82%",
+        workload: "76%",
+        experience: "4 года",
+        avatar: "AV",
+        goals: [
+            "Выручка отдела — 82%",
+            "Новые клиенты — 74%",
+            "Конверсия продаж — 68%"
+        ]
+    },
+
+    dmitry: {
+        name: "Дмитрий Соколов",
+        role: "CTO",
+        department: "Technology",
+        salary: "1 100 000 ₸",
+        kpi: "91%",
+        workload: "88%",
+        experience: "6 лет",
+        avatar: "DS",
+        goals: [
+            "Стабильность платформы — 97%",
+            "Сроки разработки — 91%",
+            "Технический долг — под контролем"
+        ]
+    },
+
+    anna: {
+        name: "Анна Морозова",
+        role: "CFO",
+        department: "Finance",
+        salary: "950 000 ₸",
+        kpi: "76%",
+        workload: "69%",
+        experience: "5 лет",
+        avatar: "AM",
+        goals: [
+            "Cash Flow — положительный",
+            "Контроль расходов — 88%",
+            "Дебиторская задолженность — снижение"
+        ]
+    },
+
+    elena: {
+        name: "Елена Орлова",
+        role: "HR Director",
+        department: "HR",
+        salary: "800 000 ₸",
+        kpi: "88%",
+        workload: "73%",
+        experience: "4 года",
+        avatar: "EO",
+        goals: [
+            "Закрытие вакансий — 91%",
+            "Текучесть — ниже 8%",
+            "Employee satisfaction — 86%"
+        ]
+    },
+
+    maxim: {
+        name: "Максим Петров",
+        role: "COO",
+        department: "Operations",
+        salary: "900 000 ₸",
+        kpi: "84%",
+        workload: "81%",
+        experience: "5 лет",
+        avatar: "MP",
+        goals: [
+            "Эффективность процессов — 84%",
+            "SLA — 94%",
+            "Операционные расходы — в бюджете"
+        ]
+    }
+
+};
+
+
+function openEmployee(id) {
+
+    const employee = employees[id];
+
+    if (!employee) {
+        alert("Сотрудник не найден");
+        return;
+    }
+
+    document.getElementById("profileName").textContent = employee.name;
+    document.getElementById("profileRole").textContent = employee.role;
+    document.getElementById("profileDepartment").textContent = employee.department;
+    document.getElementById("profileSalary").textContent = employee.salary;
+    document.getElementById("profileKpi").textContent = employee.kpi;
+    document.getElementById("profileWorkload").textContent = employee.workload;
+    document.getElementById("profileExperience").textContent = employee.experience;
+    document.getElementById("profileAvatar").textContent = employee.avatar;
+
+    const goals = document.getElementById("profileGoals");
+
+    goals.innerHTML = "";
+
+    employee.goals.forEach(function(goal) {
+
+        const element = document.createElement("div");
+
+        element.className = "goal";
+
+        element.textContent = "• " + goal;
+
+        goals.appendChild(element);
+
+    });
+
+    document.getElementById("employeeModal").classList.add("active");
+
+}
+
+
+function closeEmployee() {
+
+    document.getElementById("employeeModal").classList.remove("active");
+
+}
+
+
+function employeeAction(action) {
+
+    alert(
+        "CEO: " + action +
+        "\n\nФункция будет подключена на следующем этапе."
+    );
+
+}
+
+
+document.getElementById("employeeModal").addEventListener("click", function(event) {
+
+    if (event.target === this) {
+        closeEmployee();
+    }
+
+});
+
+</script>
+</html>
