@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,13 +12,13 @@
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #0b1120;
-    color: #e5e7eb;
+    font-family: Arial, sans-serif;
+    background: #0f1117;
+    color: #f1f5f9;
 }
 
 button {
-    font: inherit;
+    font-family: inherit;
 }
 
 .app {
@@ -31,54 +30,47 @@ button {
 
 .sidebar {
     width: 240px;
-    min-height: 100vh;
-    background: #111827;
-    border-right: 1px solid #263244;
-    padding: 24px 14px;
+    background: #151821;
+    border-right: 1px solid #272b36;
+    padding: 24px 16px;
     position: fixed;
     left: 0;
     top: 0;
+    bottom: 0;
 }
 
 .logo {
-    padding: 0 12px 28px;
-}
-
-.logo h1 {
-    margin: 0;
     font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
-.logo p {
-    margin: 5px 0 0;
-    color: #64748b;
+.logo-sub {
+    color: #8b93a7;
     font-size: 12px;
-}
-
-.menu-title {
-    padding: 0 12px;
-    margin: 15px 0 8px;
-    color: #64748b;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    margin-bottom: 30px;
 }
 
 .menu button {
     width: 100%;
     border: 0;
     background: transparent;
-    color: #94a3b8;
-    padding: 11px 12px;
-    margin: 2px 0;
-    border-radius: 8px;
+    color: #9ba3b4;
     text-align: left;
+    padding: 12px 14px;
+    margin-bottom: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
 }
 
-.menu button:hover,
+.menu button:hover {
+    background: #202530;
+    color: white;
+}
+
 .menu button.active {
-    background: #1e293b;
+    background: #283044;
     color: white;
 }
 
@@ -87,270 +79,266 @@ button {
 .main {
     margin-left: 240px;
     width: calc(100% - 240px);
+    padding: 30px;
 }
 
 .topbar {
-    height: 76px;
-    border-bottom: 1px solid #263244;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 32px;
-    background: #0f172a;
+    margin-bottom: 28px;
 }
 
-.topbar h2 {
-    margin: 0;
-    font-size: 20px;
+.page-title {
+    font-size: 25px;
+    font-weight: 700;
 }
 
-.ceo-profile {
+.ceo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    background: #191d27;
+    border: 1px solid #292e3a;
+    padding: 9px 14px;
+    border-radius: 10px;
 }
 
 .avatar {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: #334155;
+    background: #3a465d;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 12px;
     font-weight: bold;
 }
 
-.ceo-profile small {
-    color: #64748b;
+.ceo-text strong {
+    display: block;
+    font-size: 13px;
 }
 
-/* CONTENT */
-
-.content {
-    padding: 32px;
+.ceo-text span {
+    color: #8b93a7;
+    font-size: 11px;
 }
+
+/* WELCOME */
 
 .welcome {
-    margin-bottom: 28px;
+    margin-bottom: 25px;
 }
 
 .welcome h1 {
-    margin: 0;
-    font-size: 30px;
+    margin: 0 0 8px;
+    font-size: 28px;
 }
 
 .welcome p {
-    color: #64748b;
-    margin-top: 8px;
+    margin: 0;
+    color: #8b93a7;
 }
 
-/* STATS */
+/* CARDS */
 
-.stats {
+.grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-bottom: 28px;
+    margin-bottom: 25px;
 }
 
-.stat {
-    background: #111827;
-    border: 1px solid #263244;
+.card {
+    background: #171b24;
+    border: 1px solid #292e3a;
     border-radius: 12px;
     padding: 20px;
 }
 
 .stat-title {
-    color: #64748b;
-    font-size: 13px;
+    color: #8b93a7;
+    font-size: 12px;
+    margin-bottom: 9px;
 }
 
 .stat-value {
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 9px;
-}
-
-.stat-change {
-    color: #22c55e;
-    font-size: 12px;
-    margin-top: 6px;
-}
-
-/* CARDS */
-
-.card {
-    background: #111827;
-    border: 1px solid #263244;
-    border-radius: 12px;
-    padding: 22px;
-}
-
-.card h3 {
-    margin: 0 0 20px;
-}
-
-/* GRID */
-
-.grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
+    font-size: 25px;
+    font-weight: 700;
 }
 
 /* DIRECTORS */
 
-.directors {
+.two-column {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: 2fr 1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 16px;
 }
 
 .employee {
-    border: 1px solid #263244;
+    background: #1b202a;
+    border: 1px solid #2b313d;
     border-radius: 10px;
     padding: 15px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: 0.15s;
 }
 
 .employee:hover {
-    border-color: #64748b;
-    background: #162033;
+    background: #222936;
+    border-color: #485269;
+    transform: translateY(-1px);
+}
+
+.employee:last-child {
+    margin-bottom: 0;
 }
 
 .employee-top {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .employee-name {
-    font-weight: bold;
+    font-weight: 700;
+    margin-bottom: 4px;
 }
 
 .employee-role {
-    color: #64748b;
+    color: #8b93a7;
     font-size: 12px;
-    margin-top: 4px;
 }
 
 .online {
     width: 8px;
     height: 8px;
-    background: #22c55e;
     border-radius: 50%;
+    background: #39c27f;
 }
 
 .kpi {
-    margin-top: 14px;
+    margin-top: 13px;
 }
 
 .kpi-label {
     display: flex;
     justify-content: space-between;
-    color: #64748b;
+    color: #9ba3b4;
     font-size: 11px;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
 .progress {
-    height: 6px;
-    background: #1e293b;
-    border-radius: 10px;
+    height: 5px;
+    background: #292f3b;
+    border-radius: 5px;
     overflow: hidden;
 }
 
 .progress-bar {
     height: 100%;
-    background: #38bdf8;
+    background: #6379a8;
 }
 
 /* EVENTS */
 
 .event {
     padding: 13px 0;
-    border-bottom: 1px solid #263244;
+    border-bottom: 1px solid #292e3a;
 }
 
 .event:last-child {
     border-bottom: 0;
 }
 
+.event strong {
+    font-size: 13px;
+}
+
 .event p {
-    color: #64748b;
+    margin: 5px 0 0;
+    color: #8b93a7;
     font-size: 12px;
 }
 
-/* COMPANY */
+/* COMPANY MAP */
 
 .company-map {
     margin-top: 20px;
 }
 
 .ceo-box {
-    width: 260px;
-    margin: 0 auto 30px;
+    width: 200px;
+    margin: 25px auto 0;
+    padding: 15px;
+    border: 1px solid #46536e;
+    background: #202838;
+    border-radius: 10px;
     text-align: center;
-    padding: 20px;
-    border: 1px solid #475569;
-    border-radius: 12px;
-    background: #172033;
 }
 
 .ceo-box strong {
     display: block;
-    font-size: 18px;
 }
 
 .ceo-box span {
-    color: #64748b;
-    font-size: 12px;
+    display: block;
+    color: #8b93a7;
+    font-size: 11px;
+    margin-top: 4px;
 }
 
 .connector {
-    width: 2px;
     height: 25px;
-    background: #334155;
-    margin: -30px auto 5px;
+    width: 2px;
+    background: #3a4355;
+    margin: auto;
 }
 
 .departments {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
+    gap: 10px;
 }
 
 .department {
-    padding: 17px;
-    background: #111827;
-    border: 1px solid #263244;
-    border-radius: 10px;
+    background: #1b202a;
+    border: 1px solid #292f3b;
+    border-radius: 9px;
+    padding: 15px;
     text-align: center;
 }
 
 .department strong {
     display: block;
-    font-size: 13px;
+    margin-bottom: 5px;
 }
 
 .department span {
-    display: block;
-    color: #64748b;
+    color: #8b93a7;
     font-size: 11px;
-    margin-top: 6px;
 }
 
 /* MODAL */
 
 .modal {
-    display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.72);
-    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
     padding: 20px;
 }
 
@@ -359,83 +347,89 @@ button {
 }
 
 .modal-box {
-    width: 620px;
+    width: 700px;
     max-width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    background: #111827;
-    border: 1px solid #334155;
-    border-radius: 16px;
-    padding: 28px;
+    background: #171b24;
+    border: 1px solid #343b4b;
+    border-radius: 14px;
+    padding: 25px;
     position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
 }
 
 .close {
     position: absolute;
-    right: 18px;
-    top: 14px;
-    background: transparent;
+    right: 17px;
+    top: 12px;
     border: 0;
-    color: #94a3b8;
-    font-size: 26px;
+    background: transparent;
+    color: #8b93a7;
+    font-size: 28px;
     cursor: pointer;
+}
+
+.close:hover {
+    color: white;
 }
 
 .profile-header {
     display: flex;
-    gap: 18px;
     align-items: center;
-    border-bottom: 1px solid #263244;
-    padding-bottom: 20px;
+    gap: 15px;
+    padding-right: 35px;
+    margin-bottom: 25px;
 }
 
 .big-avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 14px;
-    background: #334155;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: #39465f;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
     font-weight: bold;
+    font-size: 18px;
 }
 
 .profile-header h2 {
-    margin: 0;
+    margin: 0 0 5px;
 }
 
 .profile-header p {
-    color: #64748b;
-    margin: 6px 0 0;
+    margin: 0;
+    color: #8b93a7;
 }
 
 .profile-info {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 .info {
-    background: #0f172a;
-    padding: 14px;
-    border-radius: 9px;
+    background: #1d222c;
+    border: 1px solid #2a303c;
+    border-radius: 8px;
+    padding: 12px;
 }
 
 .info span {
     display: block;
-    color: #64748b;
+    color: #8b93a7;
     font-size: 11px;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
 .info strong {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .profile-section {
-    margin-top: 24px;
+    margin-top: 22px;
 }
 
 .profile-section h3 {
@@ -444,49 +438,66 @@ button {
 }
 
 .goal {
-    padding: 11px;
-    background: #0f172a;
-    border-radius: 8px;
+    padding: 10px 12px;
+    background: #1d222c;
+    border-radius: 7px;
     margin-bottom: 7px;
+    color: #cbd2df;
     font-size: 13px;
 }
 
 .actions {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 9px;
 }
 
 .action {
-    border: 1px solid #334155;
-    background: #172033;
-    color: #e5e7eb;
+    border: 1px solid #353d4d;
+    background: #202631;
+    color: #dbe1eb;
     padding: 11px;
-    border-radius: 8px;
+    border-radius: 7px;
     cursor: pointer;
+    text-align: left;
 }
 
 .action:hover {
-    background: #263244;
+    background: #2a3241;
 }
 
 .action.danger {
-    color: #fca5a5;
+    color: #ff8b8b;
+    border-color: #5b3434;
+}
+
+/* SECTIONS */
+
+.section {
+    display: none;
+}
+
+#dashboard {
+    display: block;
 }
 
 /* RESPONSIVE */
 
-@media(max-width:1100px) {
-    .stats {
-        grid-template-columns: repeat(2,1fr);
+@media (max-width: 1000px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
     }
 
     .departments {
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media(max-width:800px) {
+@media (max-width: 700px) {
     .sidebar {
         width: 190px;
     }
@@ -494,13 +505,14 @@ button {
     .main {
         margin-left: 190px;
         width: calc(100% - 190px);
+        padding: 20px;
+    }
+
+    .profile-info {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .grid {
-        grid-template-columns: 1fr;
-    }
-
-    .directors {
         grid-template-columns: 1fr;
     }
 }
@@ -511,245 +523,400 @@ button {
 
 <div class="app">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
-<div class="logo">
-<h1>ALATAU NEXUS</h1>
-<p>CEO CONTROL CENTER</p>
-</div>
+<div class="logo">Alatau Nexus</div>
+<div class="logo-sub">CEO Control Center</div>
 
-<div class="menu-title">Управление</div>
+<nav class="menu">
 
-<div class="menu">
-<button class="active" onclick="showSection('dashboard',this)">▣ Dashboard</button>
-<button onclick="showSection('company',this)">◈ Компания</button>
-<button onclick="showSection('employees',this)">♙ Сотрудники</button>
-<button onclick="showSection('departments',this)">▦ Отделы</button>
-</div>
+<button class="active" onclick="showSection('dashboard', this)">
+Dashboard
+</button>
 
-<div class="menu-title">Бизнес</div>
+<button onclick="showSection('company', this)">
+Компания
+</button>
 
-<div class="menu">
-<button onclick="showSection('crm',this)">◎ CRM</button>
-<button onclick="showSection('projects',this)">◇ Проекты</button>
-<button onclick="showSection('tasks',this)">✓ Задачи</button>
-<button onclick="showSection('finance',this)">₸ Финансы</button>
-</div>
+<button onclick="showSection('employees', this)">
+Сотрудники
+</button>
 
-<div class="menu-title">Люди</div>
+<button onclick="showSection('departments', this)">
+Отделы
+</button>
 
-<div class="menu">
-<button onclick="showSection('hr',this)">♙ HR</button>
-<button onclick="showSection('decisions',this)">⚖ Решения</button>
-</div>
+<button onclick="showSection('crm', this)">
+CRM
+</button>
+
+<button onclick="showSection('projects', this)">
+Проекты
+</button>
+
+<button onclick="showSection('tasks', this)">
+Задачи
+</button>
+
+<button onclick="showSection('finance', this)">
+Финансы
+</button>
+
+<button onclick="showSection('hr', this)">
+HR
+</button>
+
+<button onclick="showSection('decisions', this)">
+Решения
+</button>
+
+</nav>
 
 </aside>
 
 
+<!-- MAIN -->
+
 <main class="main">
 
-<header class="topbar">
+<div class="topbar">
 
-<h2 id="pageTitle">CEO Dashboard</h2>
-
-<div class="ceo-profile">
-<div>
-<strong>Олег Ким</strong><br>
-<small>Founder & CEO</small>
+<div class="page-title" id="pageTitle">
+CEO Dashboard
 </div>
 
-<div class="avatar">OK</div>
+<div class="ceo">
+
+<div class="avatar">
+OK
 </div>
 
-</header>
+<div class="ceo-text">
+<strong>Олег Ким</strong>
+<span>Founder & CEO</span>
+</div>
+
+</div>
+
+</div>
 
 
-<section class="content">
+<!-- DASHBOARD -->
 
-<div id="dashboard" class="section">
+<section id="dashboard" class="section">
 
 <div class="welcome">
-<h1>Добрый вечер, Олег</h1>
-<p>Текущее состояние Alatau Nexus</p>
-</div>
 
+<h1>Добро пожаловать, Олег</h1>
 
-<div class="stats">
-
-<div class="stat">
-<div class="stat-title">Сотрудники</div>
-<div class="stat-value">36</div>
-<div class="stat-change">34 активны</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">Активные сделки</div>
-<div class="stat-value">8</div>
-<div class="stat-change">₸ 84.5 млн pipeline</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">Проекты</div>
-<div class="stat-value">5</div>
-<div class="stat-change">3 в работе</div>
-</div>
-
-<div class="stat">
-<div class="stat-title">Задачи</div>
-<div class="stat-value">20</div>
-<div class="stat-change">6 требуют внимания</div>
-</div>
+<p>
+Центр управления компанией Alatau Nexus.
+</p>
 
 </div>
 
+
+<!-- STATS -->
 
 <div class="grid">
 
 <div class="card">
 
+<div class="stat-title">
+Сотрудники
+</div>
+
+<div class="stat-value">
+36
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Активные сделки
+</div>
+
+<div class="stat-value">
+8
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Pipeline
+</div>
+
+<div class="stat-value">
+₸84.5m
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Проекты
+</div>
+
+<div class="stat-value">
+5
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DIRECTORS + EVENTS -->
+
+<div class="two-column">
+
+<div class="card">
+
 <h3>Руководители</h3>
 
-<div class="directors">
+
+<!-- ALEXEY VOLKOV -->
 
 <div class="employee" onclick="openEmployee('alexey')">
 
 <div class="employee-top">
 
 <div>
-<div class="employee-name">Алексей Волков</div>
-<div class="employee-role">Sales Director</div>
+
+<div class="employee-name">
+Алексей Волков
+</div>
+
+<div class="employee-role">
+Sales Director
+</div>
+
 </div>
 
 <div class="online"></div>
 
 </div>
 
+
 <div class="kpi">
 
 <div class="kpi-label">
-<span>Sales KPI</span>
-<span>82%</span>
+
+<span>
+Sales KPI
+</span>
+
+<span>
+82%
+</span>
+
 </div>
 
 <div class="progress">
+
 <div class="progress-bar" style="width:82%"></div>
-</div>
 
 </div>
 
 </div>
 
+</div>
+
+
+<!-- DMITRY -->
 
 <div class="employee" onclick="openEmployee('dmitry')">
 
 <div class="employee-top">
 
 <div>
-<div class="employee-name">Дмитрий Соколов</div>
-<div class="employee-role">CTO</div>
+
+<div class="employee-name">
+Дмитрий Соколов
+</div>
+
+<div class="employee-role">
+CTO
+</div>
+
 </div>
 
 <div class="online"></div>
 
 </div>
 
+
 <div class="kpi">
 
 <div class="kpi-label">
-<span>Tech KPI</span>
-<span>91%</span>
+
+<span>
+Tech KPI
+</span>
+
+<span>
+91%
+</span>
+
 </div>
 
 <div class="progress">
+
 <div class="progress-bar" style="width:91%"></div>
-</div>
 
 </div>
 
 </div>
 
+</div>
+
+
+<!-- ANNA -->
 
 <div class="employee" onclick="openEmployee('anna')">
 
 <div class="employee-top">
 
 <div>
-<div class="employee-name">Анна Морозова</div>
-<div class="employee-role">CFO</div>
+
+<div class="employee-name">
+Анна Морозова
+</div>
+
+<div class="employee-role">
+CFO
+</div>
+
 </div>
 
 <div class="online"></div>
 
 </div>
 
+
 <div class="kpi">
 
 <div class="kpi-label">
-<span>Finance KPI</span>
-<span>76%</span>
+
+<span>
+Finance KPI
+</span>
+
+<span>
+76%
+</span>
+
 </div>
 
 <div class="progress">
+
 <div class="progress-bar" style="width:76%"></div>
-</div>
 
 </div>
 
 </div>
 
+</div>
+
+
+<!-- ELENA -->
 
 <div class="employee" onclick="openEmployee('elena')">
 
 <div class="employee-top">
 
 <div>
-<div class="employee-name">Елена Орлова</div>
-<div class="employee-role">HR Director</div>
+
+<div class="employee-name">
+Елена Орлова
+</div>
+
+<div class="employee-role">
+HR Director
+</div>
+
 </div>
 
 <div class="online"></div>
 
 </div>
 
+
 <div class="kpi">
 
 <div class="kpi-label">
-<span>HR KPI</span>
-<span>88%</span>
+
+<span>
+HR KPI
+</span>
+
+<span>
+88%
+</span>
+
 </div>
 
 <div class="progress">
+
 <div class="progress-bar" style="width:88%"></div>
-</div>
 
 </div>
 
 </div>
 
+</div>
+
+
+<!-- MAXIM -->
 
 <div class="employee" onclick="openEmployee('maxim')">
 
 <div class="employee-top">
 
 <div>
-<div class="employee-name">Максим Петров</div>
-<div class="employee-role">COO</div>
+
+<div class="employee-name">
+Максим Петров
+</div>
+
+<div class="employee-role">
+COO
+</div>
+
 </div>
 
 <div class="online"></div>
 
 </div>
 
+
 <div class="kpi">
 
 <div class="kpi-label">
-<span>Operations KPI</span>
-<span>84%</span>
+
+<span>
+Operations KPI
+</span>
+
+<span>
+84%
+</span>
+
 </div>
 
 <div class="progress">
+
 <div class="progress-bar" style="width:84%"></div>
-</div>
 
 </div>
 
@@ -759,75 +926,162 @@ button {
 
 </div>
 
+
+<!-- EVENTS -->
 
 <div class="card">
 
-<h3>Последние события</h3>
+<h3>
+Последние события
+</h3>
+
 
 <div class="event">
-<strong>Новая сделка</strong>
-<p>Sales зарегистрировал нового клиента на ₸ 12.4 млн.</p>
+
+<strong>
+Новая сделка
+</strong>
+
+<p>
+Sales зарегистрировал нового клиента на ₸12.4 млн.
+</p>
+
 </div>
+
 
 <div class="event">
-<strong>Проект требует решения</strong>
-<p>CTO запросил дополнительный бюджет.</p>
+
+<strong>
+Проект требует решения
+</strong>
+
+<p>
+CTO запросил дополнительный бюджет.
+</p>
+
 </div>
+
 
 <div class="event">
-<strong>HR</strong>
-<p>Получено 3 новых резюме.</p>
+
+<strong>
+HR
+</strong>
+
+<p>
+Получено 3 новых резюме.
+</p>
+
 </div>
+
 
 <div class="event">
-<strong>Финансы</strong>
-<p>Ожидается согласование платежа ₸ 2.1 млн.</p>
-</div>
+
+<strong>
+Финансы
+</strong>
+
+<p>
+Ожидается согласование платежа ₸2.1 млн.
+</p>
 
 </div>
 
 </div>
 
+</div>
+
+
+<!-- COMPANY MAP -->
 
 <div class="company-map">
 
 <div class="card">
 
-<h3>Организационная структура</h3>
+<h3>
+Организационная структура
+</h3>
+
 
 <div class="ceo-box">
-<strong>Олег Ким</strong>
-<span>Founder & CEO</span>
+
+<strong>
+Олег Ким
+</strong>
+
+<span>
+Founder & CEO
+</span>
+
 </div>
 
+
 <div class="connector"></div>
+
 
 <div class="departments">
 
 <div class="department">
-<strong>Sales</strong>
-<span>8 сотрудников</span>
+
+<strong>
+Sales
+</strong>
+
+<span>
+8 сотрудников
+</span>
+
 </div>
+
 
 <div class="department">
-<strong>Technology</strong>
-<span>9 сотрудников</span>
+
+<strong>
+Technology
+</strong>
+
+<span>
+9 сотрудников
+</span>
+
 </div>
+
 
 <div class="department">
-<strong>Finance</strong>
-<span>4 сотрудника</span>
+
+<strong>
+Finance
+</strong>
+
+<span>
+4 сотрудника
+</span>
+
 </div>
+
 
 <div class="department">
-<strong>HR</strong>
-<span>5 сотрудников</span>
+
+<strong>
+HR
+</strong>
+
+<span>
+5 сотрудников
+</span>
+
 </div>
+
 
 <div class="department">
-<strong>Operations</strong>
-<span>10 сотрудников</span>
-</div>
+
+<strong>
+Operations
+</strong>
+
+<span>
+10 сотрудников
+</span>
 
 </div>
 
@@ -837,76 +1091,175 @@ button {
 
 </div>
 
+</section>
 
-<div id="company" class="section" style="display:none">
+
+<!-- COMPANY -->
+
+<section id="company" class="section">
+
 <div class="welcome">
-<h1>Компания</h1>
-<p>Организационная структура Alatau Nexus.</p>
-</div>
+
+<h1>
+Компания
+</h1>
+
+<p>
+Организационная структура Alatau Nexus.
+</p>
+
 </div>
 
+</section>
 
-<div id="employees" class="section" style="display:none">
+
+<!-- EMPLOYEES -->
+
+<section id="employees" class="section">
+
 <div class="welcome">
-<h1>Сотрудники</h1>
-<p>36 сотрудников компании.</p>
-</div>
+
+<h1>
+Сотрудники
+</h1>
+
+<p>
+36 сотрудников компании.
+</p>
+
 </div>
 
+</section>
 
-<div id="departments" class="section" style="display:none">
+
+<!-- DEPARTMENTS -->
+
+<section id="departments" class="section">
+
 <div class="welcome">
-<h1>Отделы</h1>
-<p>10 подразделений Alatau Nexus.</p>
-</div>
+
+<h1>
+Отделы
+</h1>
+
+<p>
+10 подразделений Alatau Nexus.
+</p>
+
 </div>
 
+</section>
 
-<div id="crm" class="section" style="display:none">
+
+<!-- CRM -->
+
+<section id="crm" class="section">
+
 <div class="welcome">
-<h1>CRM</h1>
-<p>Клиенты, сделки и воронка продаж.</p>
-</div>
+
+<h1>
+CRM
+</h1>
+
+<p>
+Клиенты, сделки и воронка продаж.
+</p>
+
 </div>
 
+</section>
 
-<div id="projects" class="section" style="display:none">
+
+<!-- PROJECTS -->
+
+<section id="projects" class="section">
+
 <div class="welcome">
-<h1>Проекты</h1>
-<p>Текущие проекты компании.</p>
-</div>
+
+<h1>
+Проекты
+</h1>
+
+<p>
+Текущие проекты компании.
+</p>
+
 </div>
 
+</section>
 
-<div id="tasks" class="section" style="display:none">
+
+<!-- TASKS -->
+
+<section id="tasks" class="section">
+
 <div class="welcome">
-<h1>Задачи</h1>
-<p>Задачи сотрудников и руководителей.</p>
-</div>
+
+<h1>
+Задачи
+</h1>
+
+<p>
+Задачи сотрудников и руководителей.
+</p>
+
 </div>
 
+</section>
 
-<div id="finance" class="section" style="display:none">
+
+<!-- FINANCE -->
+
+<section id="finance" class="section">
+
 <div class="welcome">
-<h1>Финансы</h1>
-<p>Бюджет, расходы, доходы и платежи.</p>
-</div>
+
+<h1>
+Финансы
+</h1>
+
+<p>
+Бюджет, расходы, доходы и платежи.
+</p>
+
 </div>
 
+</section>
 
-<div id="hr" class="section" style="display:none">
+
+<!-- HR -->
+
+<section id="hr" class="section">
+
 <div class="welcome">
-<h1>HR</h1>
-<p>Кандидаты, найм и кадровые решения.</p>
-</div>
+
+<h1>
+HR
+</h1>
+
+<p>
+Кандидаты, найм и кадровые решения.
+</p>
+
 </div>
 
+</section>
 
-<div id="decisions" class="section" style="display:none">
+
+<!-- DECISIONS -->
+
+<section id="decisions" class="section">
+
 <div class="welcome">
-<h1>Центр решений</h1>
-<p>Решения, ожидающие внимания CEO.</p>
-</div>
+
+<h1>
+Центр решений
+</h1>
+
+<p>
+Решения, ожидающие внимания CEO.
+</p>
+
 </div>
 
 </section>
@@ -922,15 +1275,23 @@ button {
 
 <div class="modal-box">
 
-<button class="close" onclick="closeEmployee()">×</button>
+<button class="close" onclick="closeEmployee()">
+×
+</button>
+
 
 <div class="profile-header">
 
-<div class="big-avatar" id="profileAvatar">AV</div>
+<div class="big-avatar" id="profileAvatar">
+AV
+</div>
 
 <div>
+
 <h2 id="profileName"></h2>
+
 <p id="profileRole"></p>
+
 </div>
 
 </div>
@@ -939,33 +1300,70 @@ button {
 <div class="profile-info">
 
 <div class="info">
-<span>Отдел</span>
+
+<span>
+Отдел
+</span>
+
 <strong id="profileDepartment"></strong>
+
 </div>
 
+
 <div class="info">
-<span>Зарплата</span>
+
+<span>
+Зарплата
+</span>
+
 <strong id="profileSalary"></strong>
+
 </div>
 
+
 <div class="info">
-<span>KPI</span>
+
+<span>
+KPI
+</span>
+
 <strong id="profileKpi"></strong>
+
 </div>
 
+
 <div class="info">
-<span>Загрузка</span>
+
+<span>
+Загрузка
+</span>
+
 <strong id="profileWorkload"></strong>
+
 </div>
 
+
 <div class="info">
-<span>Стаж</span>
+
+<span>
+Стаж
+</span>
+
 <strong id="profileExperience"></strong>
+
 </div>
 
+
 <div class="info">
-<span>Статус</span>
-<strong>Активен</strong>
+
+<span>
+Статус
+</span>
+
+<strong>
+Активен
+</strong>
+
 </div>
 
 </div>
@@ -973,7 +1371,9 @@ button {
 
 <div class="profile-section">
 
-<h3>Цели</h3>
+<h3>
+Цели
+</h3>
 
 <div id="profileGoals"></div>
 
@@ -982,40 +1382,74 @@ button {
 
 <div class="profile-section">
 
-<h3>Действия CEO</h3>
+<h3>
+Действия CEO
+</h3>
+
 
 <div class="actions">
 
-<button class="action" onclick="employeeAction('Написать сотруднику')">
+<button class="action"
+onclick="employeeAction('Написать сотруднику')">
+
 💬 Написать
+
 </button>
 
-<button class="action" onclick="employeeAction('Поставить задачу')">
+
+<button class="action"
+onclick="employeeAction('Поставить задачу')">
+
 ✓ Поставить задачу
+
 </button>
 
-<button class="action" onclick="employeeAction('Изменить KPI')">
+
+<button class="action"
+onclick="employeeAction('Изменить KPI')">
+
 📊 Изменить KPI
+
 </button>
 
-<button class="action" onclick="employeeAction('Изменить зарплату')">
+
+<button class="action"
+onclick="employeeAction('Изменить зарплату')">
+
 ₸ Изменить зарплату
+
 </button>
 
-<button class="action" onclick="employeeAction('Повысить')">
+
+<button class="action"
+onclick="employeeAction('Повысить')">
+
 ↑ Повысить
+
 </button>
 
-<button class="action" onclick="employeeAction('Перевести')">
+
+<button class="action"
+onclick="employeeAction('Перевести')">
+
 ↔ Перевести
+
 </button>
 
-<button class="action" onclick="employeeAction('Понизить')">
+
+<button class="action"
+onclick="employeeAction('Понизить')">
+
 ↓ Понизить
+
 </button>
 
-<button class="action danger" onclick="employeeAction('Уволить')">
+
+<button class="action danger"
+onclick="employeeAction('Уволить')">
+
 ✕ Уволить
+
 </button>
 
 </div>
@@ -1029,179 +1463,370 @@ button {
 
 <script>
 
+/* =========================
+   EMPLOYEES DATABASE
+========================= */
+
 const employees = {
 
 alexey: {
+
 name: "Алексей Волков",
+
 role: "Sales Director",
+
 department: "Sales",
+
 salary: "850 000 ₸",
+
 kpi: "82%",
+
 workload: "76%",
+
 experience: "4 года",
+
 avatar: "AV",
+
 goals: [
+
 "Выручка отдела — 82%",
+
 "Новые клиенты — 74%",
+
 "Конверсия продаж — 68%"
+
 ]
+
 },
+
 
 dmitry: {
+
 name: "Дмитрий Соколов",
+
 role: "CTO",
+
 department: "Technology",
+
 salary: "1 100 000 ₸",
+
 kpi: "91%",
+
 workload: "88%",
+
 experience: "6 лет",
+
 avatar: "DS",
+
 goals: [
+
 "Стабильность платформы — 97%",
+
 "Сроки разработки — 91%",
+
 "Технический долг — под контролем"
+
 ]
+
 },
+
 
 anna: {
+
 name: "Анна Морозова",
+
 role: "CFO",
+
 department: "Finance",
+
 salary: "950 000 ₸",
+
 kpi: "76%",
+
 workload: "69%",
+
 experience: "5 лет",
+
 avatar: "AM",
+
 goals: [
+
 "Cash Flow — положительный",
+
 "Контроль расходов — 88%",
+
 "Дебиторская задолженность — снижение"
+
 ]
+
 },
+
 
 elena: {
+
 name: "Елена Орлова",
+
 role: "HR Director",
+
 department: "HR",
+
 salary: "800 000 ₸",
+
 kpi: "88%",
+
 workload: "73%",
+
 experience: "4 года",
+
 avatar: "EO",
+
 goals: [
+
 "Закрытие вакансий — 91%",
+
 "Текучесть — ниже 8%",
+
 "Employee satisfaction — 86%"
+
 ]
+
 },
 
+
 maxim: {
+
 name: "Максим Петров",
+
 role: "COO",
+
 department: "Operations",
+
 salary: "900 000 ₸",
+
 kpi: "84%",
+
 workload: "81%",
+
 experience: "5 лет",
+
 avatar: "MP",
+
 goals: [
+
 "Эффективность процессов — 84%",
+
 "SLA — 94%",
+
 "Операционные расходы — в бюджете"
+
 ]
+
 }
 
 };
 
 
+/* =========================
+   OPEN EMPLOYEE
+========================= */
+
 function openEmployee(id) {
 
 const employee = employees[id];
 
-document.getElementById("profileName").textContent = employee.name;
-document.getElementById("profileRole").textContent = employee.role;
-document.getElementById("profileDepartment").textContent = employee.department;
-document.getElementById("profileSalary").textContent = employee.salary;
-document.getElementById("profileKpi").textContent = employee.kpi;
-document.getElementById("profileWorkload").textContent = employee.workload;
-document.getElementById("profileExperience").textContent = employee.experience;
-document.getElementById("profileAvatar").textContent = employee.avatar;
+if (!employee) {
 
-const goals = document.getElementById("profileGoals");
+console.error("Employee not found:", id);
+
+return;
+
+}
+
+
+document.getElementById("profileName").textContent =
+employee.name;
+
+
+document.getElementById("profileRole").textContent =
+employee.role;
+
+
+document.getElementById("profileDepartment").textContent =
+employee.department;
+
+
+document.getElementById("profileSalary").textContent =
+employee.salary;
+
+
+document.getElementById("profileKpi").textContent =
+employee.kpi;
+
+
+document.getElementById("profileWorkload").textContent =
+employee.workload;
+
+
+document.getElementById("profileExperience").textContent =
+employee.experience;
+
+
+document.getElementById("profileAvatar").textContent =
+employee.avatar;
+
+
+const goals =
+document.getElementById("profileGoals");
+
 
 goals.innerHTML = "";
 
-employee.goals.forEach(goal => {
 
-const element = document.createElement("div");
+employee.goals.forEach(function(goal) {
+
+const element =
+document.createElement("div");
+
 
 element.className = "goal";
-element.textContent = "• " + goal;
+
+
+element.textContent =
+"• " + goal;
+
 
 goals.appendChild(element);
 
 });
 
-document.getElementById("employeeModal").classList.add("active");
+
+document
+.getElementById("employeeModal")
+.classList.add("active");
 
 }
 
+
+/* =========================
+   CLOSE EMPLOYEE
+========================= */
 
 function closeEmployee() {
 
-document.getElementById("employeeModal").classList.remove("active");
+document
+.getElementById("employeeModal")
+.classList.remove("active");
 
 }
 
+
+/* =========================
+   CEO ACTIONS
+========================= */
 
 function employeeAction(action) {
 
 alert(
-"CEO: " + action +
+"CEO: " +
+action +
 "\n\nФункция будет подключена на следующем этапе."
 );
 
 }
 
 
+/* =========================
+   NAVIGATION
+========================= */
+
 function showSection(sectionId, button) {
 
-document.querySelectorAll(".section").forEach(section => {
+document
+.querySelectorAll(".section")
+.forEach(function(section) {
+
 section.style.display = "none";
+
 });
 
-document.getElementById(sectionId).style.display = "block";
 
-document.querySelectorAll(".menu button").forEach(btn => {
+document
+.getElementById(sectionId)
+.style.display = "block";
+
+
+document
+.querySelectorAll(".menu button")
+.forEach(function(btn) {
+
 btn.classList.remove("active");
+
 });
+
 
 button.classList.add("active");
+
 
 const titles = {
 
 dashboard: "CEO Dashboard",
+
 company: "Компания",
+
 employees: "Сотрудники",
+
 departments: "Отделы",
+
 crm: "CRM",
+
 projects: "Проекты",
+
 tasks: "Задачи",
+
 finance: "Финансы",
+
 hr: "HR",
+
 decisions: "Центр решений"
 
 };
 
-document.getElementById("pageTitle").textContent = titles[sectionId];
+
+document
+.getElementById("pageTitle")
+.textContent =
+titles[sectionId];
 
 }
 
 
-document.getElementById("employeeModal").addEventListener("click", function(event) {
+/* =========================
+   CLOSE MODAL BY BACKGROUND
+========================= */
 
-if(event.target === this) {
+document
+.getElementById("employeeModal")
+.addEventListener("click", function(event) {
+
+if (event.target === this) {
+
 closeEmployee();
+
+}
+
+});
+
+
+/* =========================
+   ESC CLOSE
+========================= */
+
+document.addEventListener("keydown", function(event) {
+
+if (event.key === "Escape") {
+
+closeEmployee();
+
 }
 
 });
@@ -1210,4 +1835,3 @@ closeEmployee();
 
 </body>
 </html>
-```
