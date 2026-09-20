@@ -1833,5 +1833,156 @@ closeEmployee();
 
 </script>
 
-</body>
+</body><script>
+
+const employees = {
+
+    alexey: {
+        name: "Алексей Волков",
+        role: "Sales Director",
+        department: "Sales",
+        salary: "850 000 ₸",
+        kpi: "82%",
+        workload: "76%",
+        experience: "4 года",
+        avatar: "AV",
+        goals: [
+            "Выручка отдела — 82%",
+            "Новые клиенты — 74%",
+            "Конверсия продаж — 68%"
+        ]
+    },
+
+    dmitry: {
+        name: "Дмитрий Соколов",
+        role: "CTO",
+        department: "Technology",
+        salary: "1 100 000 ₸",
+        kpi: "91%",
+        workload: "88%",
+        experience: "6 лет",
+        avatar: "DS",
+        goals: [
+            "Стабильность платформы — 97%",
+            "Сроки разработки — 91%",
+            "Технический долг — под контролем"
+        ]
+    },
+
+    anna: {
+        name: "Анна Морозова",
+        role: "CFO",
+        department: "Finance",
+        salary: "950 000 ₸",
+        kpi: "76%",
+        workload: "69%",
+        experience: "5 лет",
+        avatar: "AM",
+        goals: [
+            "Cash Flow — положительный",
+            "Контроль расходов — 88%",
+            "Дебиторская задолженность — снижение"
+        ]
+    },
+
+    elena: {
+        name: "Елена Орлова",
+        role: "HR Director",
+        department: "HR",
+        salary: "800 000 ₸",
+        kpi: "88%",
+        workload: "73%",
+        experience: "4 года",
+        avatar: "EO",
+        goals: [
+            "Закрытие вакансий — 91%",
+            "Текучесть — ниже 8%",
+            "Employee satisfaction — 86%"
+        ]
+    },
+
+    maxim: {
+        name: "Максим Петров",
+        role: "COO",
+        department: "Operations",
+        salary: "900 000 ₸",
+        kpi: "84%",
+        workload: "81%",
+        experience: "5 лет",
+        avatar: "MP",
+        goals: [
+            "Эффективность процессов — 84%",
+            "SLA — 94%",
+            "Операционные расходы — в бюджете"
+        ]
+    }
+
+};
+
+
+function openEmployee(id) {
+
+    const employee = employees[id];
+
+    if (!employee) {
+        alert("Сотрудник не найден");
+        return;
+    }
+
+    document.getElementById("profileName").textContent = employee.name;
+    document.getElementById("profileRole").textContent = employee.role;
+    document.getElementById("profileDepartment").textContent = employee.department;
+    document.getElementById("profileSalary").textContent = employee.salary;
+    document.getElementById("profileKpi").textContent = employee.kpi;
+    document.getElementById("profileWorkload").textContent = employee.workload;
+    document.getElementById("profileExperience").textContent = employee.experience;
+    document.getElementById("profileAvatar").textContent = employee.avatar;
+
+    const goals = document.getElementById("profileGoals");
+
+    goals.innerHTML = "";
+
+    employee.goals.forEach(function(goal) {
+
+        const element = document.createElement("div");
+
+        element.className = "goal";
+
+        element.textContent = "• " + goal;
+
+        goals.appendChild(element);
+
+    });
+
+    document.getElementById("employeeModal").classList.add("active");
+
+}
+
+
+function closeEmployee() {
+
+    document.getElementById("employeeModal").classList.remove("active");
+
+}
+
+
+function employeeAction(action) {
+
+    alert(
+        "CEO: " + action +
+        "\n\nФункция будет подключена на следующем этапе."
+    );
+
+}
+
+
+document.getElementById("employeeModal").addEventListener("click", function(event) {
+
+    if (event.target === this) {
+        closeEmployee();
+    }
+
+});
+
+</script>
 </html>
