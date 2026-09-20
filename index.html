@@ -417,5 +417,1426 @@ function openProjectRisk(id){projectRiskAction(id)}
 navRender();render();
 window.addEventListener('beforeunload',save);
 </script>
+  <script>
+(function () {
+  'use strict';
+
+  if (window.__alatauAIHotfixLoaded) return;
+  window.__alatauAIHotfixLoaded = true;
+
+  const DEFAULT_AI = {
+    aiEndpoint: '',
+    aiModel: 'gpt-5.6-luna',
+    aiEnabled: false,
+    aiAutonomy: false
+  };
+
+  function ensureAISettings() {
+    state.settings = Object.assign({}, DEFAULT_AI, state.settings || {});
+    save();
+  }
+
+  ensureAISettings();
+
+  renderSettings = window.renderSettings = function () {
+    const s = state.settings;
+    const status =
+      s.aiEnabled && s.aiEndpoint
+        ? 'ИИ включён'
+        : 'ИИ не подключён';
+
+    return `
+      <div class="grid split">
+
+        <div class="card">
+          <div class="section-title" style="margin:0">
+            Управление симуляцией
+          </div>
+
+          <p class="small muted">
+            Компания живёт по игровому времени.
+            Изменения сохраняются автоматически.
+          </p>
+
+          <div class="actions">
+            <button
+              class="btn ${state.company.running ? 'warn' : 'success'}"
+              onclick="state.company.running ? stopTimer() : startTimer()"
+            >
+              ${state.company.running ? 'Пауза' : 'Запустить'} симуляцию
+            </button>
+
+            <button
+              class="btn"
+              onclick="advanceDayManual()"
+            >
+              Следующий день
+            </button>
+          </div>
+
+          <div class="section-title">
+            Скорость
+          </div>
+
+          <div class="actions">
+            <button
+              class="btn ${speed === 1 ? 'primary' : ''}"
+              onclick="setSpeed(1)"
+            >
+              ×1
+            </button>
+
+            <button
+              class="btn ${speed === 2 ? 'primary' : ''}"
+              onclick="setSpeed(2)"
+            >
+              ×2
+            </button>
+
+            <button
+              class="btn ${speed === 5 ? 'primary' : ''}"
+              onclick="setSpeed(5)"
+            >
+              ×5
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title" style="margin:0">
+            ИИ сотрудников
+          </div>
+
+          <div class="notice">
+            <b>${status}</b>
+            <br>
+            <span class="small muted">
+              ИИ работает через защищённый Cloudflare Worker.
+              API-ключ хранится только в Worker и не попадает в GitHub.
+            </span>
+          </div>
+
+          <div class="field" style="margin-top:10px">
+            <label>Адрес AI Worker</label>
+
+            <input
+              id="aiEndpoint"
+              value="${esc(s.aiEndpoint)}"
+              placeholder="https://ваш-worker.workers.dev"
+            >
+          </div>
+
+          <div class="field" style="margin-top:8px">
+            <label>Модель</label>
+
+            <input
+              id="aiModel"
+              value="${esc(s.aiModel)}"
+              placeholder="gpt-5.6-luna"
+            >
+          </div>
+
+          <label
+            style="
+              display:flex;
+              gap:7px;
+              align-items:center;
+              margin-top:10px;
+              font-size:10px;
+              color:#a7b9cf
+            "
+          >
+            <input
+              type="checkbox"
+              id="aiAutonomy"
+              ${s.aiAutonomy ? 'checked' : ''}
+            >
+
+            Директора могут самостоятельно работать через ИИ
+          </label>
+
+          <div
+            class="actions"
+            style="margin-top:10px"
+          >
+
+            <button
+              class="btn primary"
+              onclick="saveAISettings()"
+            >
+              Сохранить
+            </button>
+
+            <button
+              class="btn success"
+              onclick="toggleAI()"
+            >
+              ${s.aiEnabled ? 'Отключить ИИ' : 'Включить ИИ'}
+            </button>
+
+            <button
+              class="btn"
+              onclick="testAIConnection()"
+            >
+              Проверить связь
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div
+        class="grid split"
+        style="margin-top:12px"
+      >
+
+        <div class="card">
+
+          <div class="section-title" style="margin:0">
+            Данные и безопасность
+          </div>
+
+          <div class="notice">
+            36 сотрудников ·
+            10 отделов ·
+            10 клиентов ·
+            8 сделок ·
+            5 проектов ·
+            20 задач
+          </div>
+
+          <div
+            class="small muted"
+            style="margin-top:8px"
+          >
+            Последнее сохранение:
+            ${new Date(
+              state.settings.lastSaved || Date.now()
+            ).toLocaleTimeString('ru-RU')}
+          </div>
+
+          <div
+            class="actions"
+            style="margin-top:10px"
+          >
+
+            <button
+              class="btn"
+              onclick="exportState()"
+            >
+              Экспорт JSON
+            </button>
+
+            <button
+              class="btn danger"
+              onclick="resetCompany()"
+            >
+              Сбросить компанию
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div
+            class="section-title"
+            style="margin:0"
+          >
+            Как работает ИИ
+          </div>
+
+          <div class="notice">
+            У каждого AI-сотрудника есть должность,
+            полномочия, характер, память, задачи и
+            текущий контекст компании.
+
+            <br><br>
+
+            В личном чате ИИ отвечает от лица выбранного
+            сотрудника.
+
+            <br><br>
+
+            В автономном режиме директора могут
+            самостоятельно анализировать компанию,
+            создавать задачи, обновлять CRM,
+            предлагать решения и отправлять сообщения.
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  };
+
+  window.saveAISettings = function () {
+    const endpoint = document.getElementById('aiEndpoint');
+    const model = document.getElementById('aiModel');
+    const autonomy = document.getElementById('aiAutonomy');
+
+    state.settings.aiEndpoint =
+      (endpoint?.value || '')
+        .trim()
+        .replace(/\/$/, '');
+
+    state.settings.aiModel =
+      (model?.value || '')
+        .trim() ||
+      DEFAULT_AI.aiModel;
+
+    state.settings.aiAutonomy =
+      !!autonomy?.checked;
+
+    save();
+
+    toast(
+      'Настройки ИИ сохранены',
+      'good'
+    );
+
+    renderPage();
+  };
+
+  window.toggleAI = function () {
+    const endpoint =
+      document.getElementById('aiEndpoint');
+
+    const model =
+      document.getElementById('aiModel');
+
+    const autonomy =
+      document.getElementById('aiAutonomy');
+
+    state.settings.aiEndpoint =
+      (endpoint?.value ||
+        state.settings.aiEndpoint ||
+        '')
+        .trim()
+        .replace(/\/$/, '');
+
+    state.settings.aiModel =
+      (model?.value ||
+        state.settings.aiModel ||
+        DEFAULT_AI.aiModel)
+        .trim();
+
+    state.settings.aiAutonomy =
+      !!autonomy?.checked;
+
+    if (
+      !state.settings.aiEnabled &&
+      !state.settings.aiEndpoint
+    ) {
+      save();
+
+      toast(
+        'Сначала укажи адрес AI Worker',
+        'warn'
+      );
+
+      return;
+    }
+
+    state.settings.aiEnabled =
+      !state.settings.aiEnabled;
+
+    save();
+    renderPage();
+
+    toast(
+      state.settings.aiEnabled
+        ? 'ИИ сотрудников включён'
+        : 'ИИ сотрудников отключён',
+      state.settings.aiEnabled
+        ? 'good'
+        : 'warn'
+    );
+  };
+
+  function recentChatMessages(
+    chat,
+    limit = 12
+  ) {
+    return (
+      chat?.messages || []
+    )
+      .slice(-limit)
+      .map(m => ({
+        author:
+          m.author === 'ceo'
+            ? 'Олег Ким'
+            : (
+              employee(m.author)?.name ||
+              m.author
+            ),
+
+        text:
+          String(m.text || ''),
+
+        day: m.day,
+        time: m.time
+      }));
+  }
+
+  function buildCompanyContext(
+    e,
+    chat
+  ) {
+    return {
+      day:
+        state.company.day,
+
+      time:
+        timeLabel(),
+
+      health:
+        state.company.health,
+
+      reputation:
+        state.company.reputation,
+
+      cash:
+        state.finance.cash,
+
+      revenue:
+        state.finance.revenue,
+
+      profit:
+        state.finance.profit,
+
+      employees:
+        activeEmployees()
+          .map(x => ({
+            id: x.id,
+            name: x.name,
+            role: x.role,
+            type: x.type,
+            department: x.department,
+            kpi: x.kpi,
+            motivation: x.motivation,
+            workload: x.workload,
+            energy: x.energy
+          })),
+
+      tasks:
+        state.tasks
+          .filter(t => t.ownerId === e.id)
+          .slice(0, 12),
+
+      deals:
+        state.deals
+          .filter(
+            d =>
+              d.ownerId === e.id ||
+              e.type === 'director'
+          )
+          .slice(0, 10),
+
+      projects:
+        state.projects
+          .filter(
+            p =>
+              p.managerId === e.id ||
+              e.type === 'director'
+          )
+          .slice(0, 8),
+
+      events:
+        state.events.slice(0, 12),
+
+      chat:
+        chat
+          ? {
+              id: chat.id,
+              name: chat.name,
+              type: chat.type,
+
+              participants:
+                chat.participants
+                  .map(employee)
+                  .filter(Boolean)
+                  .map(x => x.name),
+
+              messages:
+                recentChatMessages(chat)
+            }
+          : null
+    };
+  }
+
+  async function askAIInternal({
+    mode,
+    employeeId,
+    message,
+    chatId
+  }) {
+    const endpoint =
+      String(
+        state.settings.aiEndpoint || ''
+      ).replace(/\/$/, '');
+
+    if (
+      !endpoint ||
+      !state.settings.aiEnabled
+    ) {
+      return null;
+    }
+
+    const e =
+      employee(employeeId);
+
+    if (!e) {
+      throw new Error(
+        'Сотрудник не найден'
+      );
+    }
+
+    const chat =
+      chatId
+        ? state.chats.find(
+            x => x.id === chatId
+          )
+        : null;
+
+    const payload = {
+      mode:
+        mode || 'chat',
+
+      message:
+        String(message || '')
+          .slice(0, 2200),
+
+      employee: {
+        id: e.id,
+        name: e.name,
+        role: e.role,
+        type: e.type,
+        department: e.department,
+
+        manager:
+          e.managerId
+            ? employee(
+                e.managerId
+              )?.name
+            : 'CEO',
+
+        kpi: e.kpi,
+        motivation: e.motivation,
+        workload: e.workload,
+        energy: e.energy,
+
+        authority:
+          e.authority,
+
+        skills:
+          e.skills,
+
+        personality:
+          e.personality,
+
+        personal:
+          e.personal,
+
+        memory:
+          e.memory.slice(0, 12),
+
+        responsibilities:
+          e.responsibilities
+      },
+
+      company:
+        buildCompanyContext(
+          e,
+          chat
+        ),
+
+      context: {
+        chat:
+          chat
+            ? recentChatMessages(
+                chat
+              )
+            : []
+      }
+    };
+
+    const response =
+      await fetch(
+        endpoint,
+        {
+          method: 'POST',
+
+          headers: {
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+        }
+      );
+
+    let data;
+
+    try {
+      data =
+        await response.json();
+    } catch {
+      throw new Error(
+        'Worker вернул некорректный ответ'
+      );
+    }
+
+    if (
+      !response.ok ||
+      data?.ok === false
+    ) {
+      throw new Error(
+        data?.error ||
+        `Worker: HTTP ${response.status}`
+      );
+    }
+
+    return data;
+  }
+
+  window.testAIConnection =
+    async function () {
+
+      saveAISettings();
+
+      if (
+        !state.settings.aiEndpoint
+      ) {
+        toast(
+          'Сначала укажи адрес AI Worker',
+          'warn'
+        );
+
+        return;
+      }
+
+      const oldEnabled =
+        state.settings.aiEnabled;
+
+      state.settings.aiEnabled =
+        true;
+
+      try {
+
+        const result =
+          await askAIInternal({
+            mode: 'chat',
+            employeeId: 'd1',
+            chatId: 'chat_d1',
+
+            message:
+              'Поздоровайся с Олегом одной естественной фразой и скажи, что связь с ИИ работает.'
+          });
+
+        toast(
+          result?.reply
+            ? 'Связь с ИИ работает'
+            : 'Worker отвечает без текста',
+          'good'
+        );
+
+      } catch (error) {
+
+        state.settings.aiEnabled =
+          oldEnabled;
+
+        save();
+
+        toast(
+          'Ошибка ИИ: ' +
+          error.message,
+          'danger'
+        );
+      }
+    };
+
+  function applyAIAction(
+    action,
+    actorId,
+    originChatId
+  ) {
+
+    if (
+      !action ||
+      typeof action !== 'object'
+    ) {
+      return;
+    }
+
+    const actor =
+      employee(actorId);
+
+    if (
+      action.type ===
+      'remember'
+    ) {
+
+      const target =
+        employee(
+          action.employeeId
+        ) || actor;
+
+      if (
+        target &&
+        action.text
+      ) {
+
+        remember(
+          target,
+          String(
+            action.text
+          ).slice(0, 500)
+        );
+      }
+
+      return;
+    }
+
+    if (
+      action.type ===
+      'send_message'
+    ) {
+
+      const chat =
+        state.chats.find(
+          x =>
+            x.id ===
+            action.chatId
+        ) ||
+        state.chats.find(
+          x =>
+            x.id ===
+            originChatId
+        );
+
+      if (
+        chat &&
+        action.text
+      ) {
+
+        pushMessage(
+          chat.id,
+          actorId,
+          String(
+            action.text
+          ).slice(0, 1200),
+          'employee'
+        );
+      }
+
+      return;
+    }
+
+    if (
+      action.type ===
+      'create_task'
+    ) {
+
+      const owner =
+        employee(
+          action.ownerId
+        ) || actor;
+
+      if (
+        !owner ||
+        actor?.type ===
+          'employee'
+      ) {
+        return;
+      }
+
+      const task =
+        {
+          id:
+            'ai_task_' +
+            state.company.nextId++,
+
+          title:
+            String(
+              action.title ||
+              'Задача от ИИ'
+            ).slice(0, 160),
+
+          ownerId:
+            owner.id,
+
+          dealId:
+            action.dealId ||
+            null,
+
+          projectId:
+            action.projectId ||
+            null,
+
+          priority:
+            action.priority ===
+            'High'
+              ? 'High'
+              : 'Normal',
+
+          status:
+            'Open',
+
+          due:
+            Math.max(
+              1,
+              Number(
+                action.dueDays
+              ) || 1
+            ),
+
+          createdDay:
+            state.company.day
+        };
+
+      state.tasks.push(
+        task
+      );
+
+      owner.workload =
+        Math.min(
+          100,
+          owner.workload + 6
+        );
+
+      remember(
+        owner,
+        'Мне назначили задачу: ' +
+        task.title
+      );
+
+      addEvent(
+        '🤖',
+        'ИИ создал задачу',
+        `${actor.name}: ${task.title}`,
+        'employee',
+        actor.name,
+        'info'
+      );
+
+      return;
+    }
+
+    if (
+      action.type ===
+      'update_deal'
+    ) {
+
+      const d =
+        deal(
+          action.dealId
+        );
+
+      if (
+        !d ||
+        !actor
+      ) {
+        return;
+      }
+
+      if (
+        ![
+          'director',
+          'manager'
+        ].includes(
+          actor.type
+        ) &&
+        d.ownerId !==
+          actor.id
+      ) {
+        return;
+      }
+
+      if (
+        stages.includes(
+          action.stage
+        )
+      ) {
+        d.stage =
+          action.stage;
+      }
+
+      const probability =
+        Number(
+          action.prob
+        );
+
+      if (
+        Number.isFinite(
+          probability
+        )
+      ) {
+
+        d.prob =
+          Math.max(
+            0,
+            Math.min(
+              100,
+              probability
+            )
+          );
+      }
+
+      d.history.push({
+        day:
+          state.company.day,
+
+        text:
+          `ИИ ${actor.name} обновил сделку: ${
+            stageNames[d.stage]
+          } · ${d.prob}%`
+      });
+
+      addEvent(
+        '⌁',
+        'ИИ обновил CRM',
+        `${actor.name}: ${d.name} → ${stageNames[d.stage]}, ${d.prob}%`,
+        'crm',
+        actor.name,
+        'info'
+      );
+
+      return;
+    }
+
+    if (
+      action.type ===
+      'create_decision'
+    ) {
+
+      if (
+        !actor ||
+        actor.type !==
+          'director'
+      ) {
+        return;
+      }
+
+      const title =
+        String(
+          action.title ||
+          'Решение директора'
+        );
+
+      const duplicate =
+        state.decisions.some(
+          d =>
+            d.status ===
+              'pending' &&
+            d.title ===
+              title
+        );
+
+      if (duplicate) {
+        return;
+      }
+
+      state.decisions.unshift({
+        id:
+          'ai_decision_' +
+          state.company.nextId++,
+
+        title:
+          title.slice(0, 180),
+
+        source:
+          actor.name,
+
+        summary:
+          String(
+            action.summary ||
+            'AI-директор предлагает управленческое решение.'
+          ).slice(0, 700),
+
+        options:
+          Array.isArray(
+            action.options
+          ) &&
+          action.options.length
+            ? action.options
+            : [
+                [
+                  'approve',
+                  'Одобрить',
+                  0
+                ],
+                [
+                  'hold',
+                  'Отложить',
+                  0
+                ]
+              ],
+
+        status:
+          'pending'
+      });
+
+      addEvent(
+        '⚖',
+        'ИИ предложил решение',
+        `${actor.name}: ${title}`,
+        'decision',
+        actor.name,
+        'warn'
+      );
+
+      return;
+    }
+
+    if (
+      action.type ===
+      'create_event'
+    ) {
+
+      addEvent(
+        '🤖',
+        String(
+          action.title ||
+          'Событие ИИ'
+        ).slice(0, 120),
+
+        String(
+          action.text ||
+          ''
+        ).slice(0, 500),
+
+        action.category ||
+          'system',
+
+        actor?.name ||
+          'ИИ',
+
+        action.severity ||
+          'info'
+      );
+    }
+  }
+
+  sendChat =
+    window.sendChat =
+      async function () {
+
+        const input =
+          document.getElementById(
+            'chatText'
+          );
+
+        if (!input) {
+          return;
+        }
+
+        const text =
+          input.value.trim();
+
+        if (!text) {
+          return;
+        }
+
+        const chat =
+          state.chats.find(
+            x =>
+              x.id ===
+              selectedChat
+          );
+
+        if (!chat) {
+          return;
+        }
+
+        chatDraft = '';
+        input.value = '';
+
+        pushMessage(
+          chat.id,
+          'ceo',
+          text,
+          'ceo'
+        );
+
+        save();
+        refreshChatMessages();
+
+        requestAnimationFrame(
+          () =>
+            document
+              .getElementById(
+                'chatText'
+              )
+              ?.focus()
+        );
+
+        const primaryId =
+          chat.participants.find(
+            id =>
+              id !==
+              'ceo'
+          );
+
+        const primary =
+          primaryId
+            ? employee(primaryId)
+            : null;
+
+        if (!primary) {
+          return;
+        }
+
+        if (
+          state.settings.aiEnabled &&
+          state.settings.aiEndpoint
+        ) {
+
+          toast(
+            primary.name +
+            ' формирует ответ…'
+          );
+
+          try {
+
+            const result =
+              await askAIInternal({
+                mode: 'chat',
+                employeeId:
+                  primary.id,
+                message:
+                  text,
+                chatId:
+                  chat.id
+              });
+
+            if (
+              result?.reply
+            ) {
+
+              pushMessage(
+                chat.id,
+                primary.id,
+                String(
+                  result.reply
+                ).slice(
+                  0,
+                  1600
+                ),
+                'employee'
+              );
+
+              remember(
+                primary,
+                'Олег спросил: ' +
+                text.slice(
+                  0,
+                  100
+                ) +
+                ' Ответ: ' +
+                String(
+                  result.reply
+                ).slice(
+                  0,
+                  140
+                )
+              );
+            }
+
+            if (
+              Array.isArray(
+                result?.actions
+              )
+            ) {
+
+              result.actions
+                .slice(0, 4)
+                .forEach(
+                  action =>
+                    applyAIAction(
+                      action,
+                      primary.id,
+                      chat.id
+                    )
+                );
+            }
+
+            save();
+            refreshChatMessages();
+
+            requestAnimationFrame(
+              () =>
+                document
+                  .getElementById(
+                    'chatText'
+                  )
+                  ?.focus()
+            );
+
+          } catch (error) {
+
+            toast(
+              'ИИ недоступен: ' +
+              error.message,
+              'warn'
+            );
+
+            const fallback =
+              generateChatResponses(
+                chat,
+                text
+              );
+
+            fallback.forEach(
+              (r, i) => {
+
+                setTimeout(
+                  () => {
+
+                    pushMessage(
+                      chat.id,
+                      r.author,
+                      r.text,
+                      'employee'
+                    );
+
+                    const e =
+                      employee(
+                        r.author
+                      );
+
+                    if (e) {
+                      remember(
+                        e,
+                        'CEO написал: ' +
+                        text.slice(
+                          0,
+                          100
+                        )
+                      );
+                    }
+
+                    save();
+                    refreshChatMessages();
+                  },
+                  450 *
+                    (i + 1)
+                );
+              }
+            );
+          }
+
+          return;
+        }
+
+        const reactions =
+          generateChatResponses(
+            chat,
+            text
+          );
+
+        reactions.forEach(
+          (r, i) => {
+
+            setTimeout(
+              () => {
+
+                pushMessage(
+                  chat.id,
+                  r.author,
+                  r.text,
+                  'employee'
+                );
+
+                const e =
+                  employee(
+                    r.author
+                  );
+
+                if (e) {
+                  remember(
+                    e,
+                    'CEO написал: ' +
+                    text.slice(
+                      0,
+                      100
+                    )
+                  );
+                }
+
+                save();
+                refreshChatMessages();
+
+              },
+              450 *
+                (i + 1)
+            );
+          }
+        );
+      };
+
+  window.runAutonomousAI =
+    async function () {
+
+      if (
+        !state.settings.aiEnabled ||
+        !state.settings.aiAutonomy ||
+        !state.settings.aiEndpoint
+      ) {
+        return;
+      }
+
+      const directors =
+        activeEmployees().filter(
+          e =>
+            e.type ===
+            'director'
+        );
+
+      for (
+        const director of directors
+      ) {
+
+        try {
+
+          const result =
+            await askAIInternal({
+              mode: 'agent',
+
+              employeeId:
+                director.id,
+
+              chatId:
+                'board',
+
+              message:
+                'Проанализируй текущее состояние компании. Действуй только в пределах своей роли. Не создавай активность без причины. Если нужно действие — предложи максимум 3 конкретных действия.'
+            });
+
+          if (
+            Array.isArray(
+              result?.actions
+            )
+          ) {
+
+            result.actions
+              .slice(0, 4)
+              .forEach(
+                action =>
+                  applyAIAction(
+                    action,
+                    director.id,
+                    'board'
+                  )
+              );
+          }
+
+          if (
+            result?.reply &&
+            result?.actions?.length
+          ) {
+
+            pushMessage(
+              'board',
+              director.id,
+              String(
+                result.reply
+              ).slice(
+                0,
+                1200
+              ),
+              'employee'
+            );
+          }
+
+          remember(
+            director,
+            'Автономный AI-анализ: ' +
+            String(
+              result?.reply ||
+              'Новых действий нет.'
+            ).slice(
+              0,
+              180
+            )
+          );
+
+        } catch (error) {
+
+          addEvent(
+            '⚠',
+            'Ошибка AI-директора',
+            `${director.name}: ${error.message}`,
+            'system',
+            director.name,
+            'warn'
+          );
+        }
+      }
+
+      save();
+
+      if (
+        currentPage ===
+          'messenger' ||
+        currentPage ===
+          'dashboard' ||
+        currentPage ===
+          'observer' ||
+        currentPage ===
+          'decisions'
+      ) {
+        renderPage();
+      }
+    };
+
+  let aiLastHourKey = '';
+
+  setInterval(
+    () => {
+
+      if (
+        !state.company.running ||
+        !state.settings.aiEnabled ||
+        !state.settings.aiAutonomy ||
+        !state.settings.aiEndpoint
+      ) {
+        return;
+      }
+
+      const key =
+        state.company.day +
+        '-' +
+        state.company.hour;
+
+      if (
+        state.company.hour %
+          6 === 0 &&
+        key !==
+          aiLastHourKey
+      ) {
+
+        aiLastHourKey = key;
+        runAutonomousAI();
+      }
+
+    },
+    4000
+  );
+
+  /*
+    Фикс Messenger:
+    AI-ответ не перерисовывает всю страницу,
+    поэтому поле ввода не исчезает и введённый
+    пользователем текст не теряется.
+  */
+
+})();
+</script>
 </body>
 </html>
