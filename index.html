@@ -2,161 +2,797 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alatau Nexus</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alatau Nexus — CEO Control Center</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: white;
-        }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0b1120;
+    color: #e5e7eb;
+}
 
-        header {
-            padding: 24px 40px;
-            border-bottom: 1px solid #334155;
-            background: #111827;
-        }
+button {
+    font: inherit;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
+.app {
+    display: flex;
+    min-height: 100vh;
+}
 
-        header p {
-            margin: 6px 0 0;
-            color: #94a3b8;
-        }
+/* SIDEBAR */
 
-        .company {
-            padding: 40px;
-        }
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: #111827;
+    border-right: 1px solid #263244;
+    padding: 24px 14px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
 
-        .ceo {
-            width: 280px;
-            margin: 0 auto 50px;
-            padding: 24px;
-            text-align: center;
-            background: #1e293b;
-            border: 1px solid #475569;
-            border-radius: 16px;
-        }
+.logo {
+    padding: 0 12px 28px;
+}
 
-        .ceo h2 {
-            margin: 0 0 8px;
-        }
+.logo h1 {
+    margin: 0;
+    font-size: 21px;
+    color: #fff;
+}
 
-        .ceo p {
-            margin: 0;
-            color: #94a3b8;
-        }
+.logo p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 12px;
+}
 
-        .directors {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-        }
+.menu-title {
+    padding: 0 12px;
+    margin: 15px 0 8px;
+    color: #64748b;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-        .director {
-            padding: 22px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 14px;
-        }
+.menu button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #94a3b8;
+    padding: 11px 12px;
+    margin: 2px 0;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+}
 
-        .director h3 {
-            margin-top: 0;
-        }
+.menu button:hover,
+.menu button.active {
+    background: #1e293b;
+    color: #fff;
+}
 
-        .director p {
-            color: #94a3b8;
-            font-size: 14px;
-        }
+/* MAIN */
 
-        .status {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 5px 9px;
-            border-radius: 8px;
-            background: #14532d;
-            color: #bbf7d0;
-            font-size: 12px;
-        }
+.main {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+}
 
-        @media (max-width: 1000px) {
-            .directors {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+.topbar {
+    height: 76px;
+    border-bottom: 1px solid #263244;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    background: #0f172a;
+}
 
-        @media (max-width: 600px) {
-            .directors {
-                grid-template-columns: 1fr;
-            }
+.topbar h2 {
+    margin: 0;
+    font-size: 20px;
+}
 
-            .company {
-                padding: 20px;
-            }
-        }
-    </style>
+.ceo-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.ceo-profile small {
+    color: #64748b;
+}
+
+/* CONTENT */
+
+.content {
+    padding: 32px;
+}
+
+.welcome {
+    margin-bottom: 28px;
+}
+
+.welcome h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.welcome p {
+    color: #64748b;
+    margin-top: 8px;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.stat {
+    background: #111827;
+    border: 1px solid #263244;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.stat-title {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 9px;
+}
+
+.stat-change {
+    color: #22c55e;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+/* GRID */
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: #111827;
+    border: 1px solid #263244;
+    border-radius: 12px;
+    padding: 22px;
+}
+
+.card h3 {
+    margin: 0 0 20px;
+    font-size: 17px;
+}
+
+/* DIRECTORS */
+
+.directors {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.employee {
+    border: 1px solid #263244;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.employee:hover {
+    border-color: #64748b;
+    background: #162033;
+}
+
+.employee-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.employee-name {
+    font-weight: bold;
+}
+
+.employee-role {
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.online {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+}
+
+.kpi {
+    margin-top: 14px;
+}
+
+.kpi-label {
+    display: flex;
+    justify-content: space-between;
+    color: #64748b;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.progress {
+    height: 6px;
+    background: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #38bdf8;
+    border-radius: 10px;
+}
+
+/* EVENTS */
+
+.event {
+    padding: 13px 0;
+    border-bottom: 1px solid #263244;
+}
+
+.event:last-child {
+    border-bottom: 0;
+}
+
+.event strong {
+    font-size: 13px;
+}
+
+.event p {
+    color: #64748b;
+    font-size: 12px;
+    margin: 5px 0 0;
+}
+
+/* COMPANY */
+
+.company-map {
+    margin-top: 28px;
+}
+
+.ceo-box {
+    width: 260px;
+    margin: 0 auto 30px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #475569;
+    border-radius: 12px;
+    background: #172033;
+}
+
+.ceo-box strong {
+    display: block;
+    font-size: 18px;
+}
+
+.ceo-box span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.connector {
+    width: 2px;
+    height: 25px;
+    background: #334155;
+    margin: -30px auto 5px;
+}
+
+.departments {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+.department {
+    padding: 17px;
+    background: #111827;
+    border: 1px solid #263244;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.department strong {
+    display: block;
+    font-size: 13px;
+}
+
+.department span {
+    display: block;
+    color: #64748b;
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 1100px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .departments {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 800px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .main {
+        margin-left: 190px;
+        width: calc(100% - 190px);
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .directors {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <h1>Alatau Nexus</h1>
-    <p>CEO Control Center · Алматы, Казахстан</p>
-</header>
+<div class="app">
 
-<main class="company">
+    <aside class="sidebar">
 
-    <section class="ceo">
-        <h2>Олег Ким</h2>
-        <p>Founder & CEO</p>
-        <span class="status">Компания работает</span>
-    </section>
-
-    <section class="directors">
-
-        <div class="director">
-            <h3>Алексей Волков</h3>
-            <p>Sales Director</p>
-            <span class="status">Online</span>
+        <div class="logo">
+            <h1>ALATAU NEXUS</h1>
+            <p>CEO CONTROL CENTER</p>
         </div>
 
-        <div class="director">
-            <h3>Дмитрий Соколов</h3>
-            <p>CTO</p>
-            <span class="status">Online</span>
+        <div class="menu-title">Управление</div>
+
+        <div class="menu">
+            <button class="active" onclick="showSection('dashboard', this)">▣ Dashboard</button>
+            <button onclick="showSection('company', this)">◈ Компания</button>
+            <button onclick="showSection('employees', this)">♙ Сотрудники</button>
+            <button onclick="showSection('departments', this)">▦ Отделы</button>
         </div>
 
-        <div class="director">
-            <h3>Анна Морозова</h3>
-            <p>CFO</p>
-            <span class="status">Online</span>
+        <div class="menu-title">Бизнес</div>
+
+        <div class="menu">
+            <button onclick="showSection('crm', this)">◎ CRM</button>
+            <button onclick="showSection('projects', this)">◇ Проекты</button>
+            <button onclick="showSection('tasks', this)">✓ Задачи</button>
+            <button onclick="showSection('finance', this)">₸ Финансы</button>
         </div>
 
-        <div class="director">
-            <h3>Елена Орлова</h3>
-            <p>HR Director</p>
-            <span class="status">Online</span>
+        <div class="menu-title">Люди</div>
+
+        <div class="menu">
+            <button onclick="showSection('hr', this)">♙ HR</button>
+            <button onclick="showSection('decisions', this)">⚖ Решения</button>
         </div>
 
-        <div class="director">
-            <h3>Максим Петров</h3>
-            <p>COO</p>
-            <span class="status">Online</span>
-        </div>
+    </aside>
 
-    </section>
 
-</main>
+    <main class="main">
+
+        <header class="topbar">
+            <h2 id="pageTitle">CEO Dashboard</h2>
+
+            <div class="ceo-profile">
+                <div>
+                    <strong>Олег Ким</strong><br>
+                    <small>Founder & CEO</small>
+                </div>
+
+                <div class="avatar">OK</div>
+            </div>
+        </header>
+
+
+        <section class="content">
+
+            <!-- DASHBOARD -->
+
+            <div id="dashboard" class="section">
+
+                <div class="welcome">
+                    <h1>Добрый вечер, Олег</h1>
+                    <p>Текущее состояние Alatau Nexus</p>
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <div class="stat-title">Сотрудники</div>
+                        <div class="stat-value">36</div>
+                        <div class="stat-change">34 активны</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-title">Активные сделки</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-change">₸ 84.5 млн pipeline</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-title">Проекты</div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-change">3 в работе</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-title">Задачи</div>
+                        <div class="stat-value">20</div>
+                        <div class="stat-change">6 требуют внимания</div>
+                    </div>
+
+                </div>
+
+
+                <div class="grid">
+
+                    <div class="card">
+
+                        <h3>Руководители</h3>
+
+                        <div class="directors">
+
+                            <div class="employee">
+                                <div class="employee-top">
+                                    <div>
+                                        <div class="employee-name">Алексей Волков</div>
+                                        <div class="employee-role">Sales Director</div>
+                                    </div>
+                                    <div class="online"></div>
+                                </div>
+
+                                <div class="kpi">
+                                    <div class="kpi-label">
+                                        <span>Sales KPI</span>
+                                        <span>82%</span>
+                                    </div>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width:82%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="employee">
+                                <div class="employee-top">
+                                    <div>
+                                        <div class="employee-name">Дмитрий Соколов</div>
+                                        <div class="employee-role">CTO</div>
+                                    </div>
+                                    <div class="online"></div>
+                                </div>
+
+                                <div class="kpi">
+                                    <div class="kpi-label">
+                                        <span>Tech KPI</span>
+                                        <span>91%</span>
+                                    </div>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width:91%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="employee">
+                                <div class="employee-top">
+                                    <div>
+                                        <div class="employee-name">Анна Морозова</div>
+                                        <div class="employee-role">CFO</div>
+                                    </div>
+                                    <div class="online"></div>
+                                </div>
+
+                                <div class="kpi">
+                                    <div class="kpi-label">
+                                        <span>Finance KPI</span>
+                                        <span>76%</span>
+                                    </div>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width:76%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="employee">
+                                <div class="employee-top">
+                                    <div>
+                                        <div class="employee-name">Елена Орлова</div>
+                                        <div class="employee-role">HR Director</div>
+                                    </div>
+                                    <div class="online"></div>
+                                </div>
+
+                                <div class="kpi">
+                                    <div class="kpi-label">
+                                        <span>HR KPI</span>
+                                        <span>88%</span>
+                                    </div>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width:88%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="employee">
+                                <div class="employee-top">
+                                    <div>
+                                        <div class="employee-name">Максим Петров</div>
+                                        <div class="employee-role">COO</div>
+                                    </div>
+                                    <div class="online"></div>
+                                </div>
+
+                                <div class="kpi">
+                                    <div class="kpi-label">
+                                        <span>Operations KPI</span>
+                                        <span>84%</span>
+                                    </div>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width:84%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>Последние события</h3>
+
+                        <div class="event">
+                            <strong>Новая сделка</strong>
+                            <p>Sales зарегистрировал нового клиента на ₸ 12.4 млн.</p>
+                        </div>
+
+                        <div class="event">
+                            <strong>Проект требует решения</strong>
+                            <p>CTO запросил дополнительный бюджет.</p>
+                        </div>
+
+                        <div class="event">
+                            <strong>HR</strong>
+                            <p>Получено 3 новых резюме на позицию менеджера.</p>
+                        </div>
+
+                        <div class="event">
+                            <strong>Финансы</strong>
+                            <p>Ожидается согласование платежа ₸ 2.1 млн.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="company-map">
+
+                    <div class="card">
+
+                        <h3>Организационная структура</h3>
+
+                        <div class="ceo-box">
+                            <strong>Олег Ким</strong>
+                            <span>Founder & CEO</span>
+                        </div>
+
+                        <div class="connector"></div>
+
+                        <div class="departments">
+
+                            <div class="department">
+                                <strong>Sales</strong>
+                                <span>8 сотрудников</span>
+                            </div>
+
+                            <div class="department">
+                                <strong>Technology</strong>
+                                <span>9 сотрудников</span>
+                            </div>
+
+                            <div class="department">
+                                <strong>Finance</strong>
+                                <span>4 сотрудника</span>
+                            </div>
+
+                            <div class="department">
+                                <strong>HR</strong>
+                                <span>5 сотрудников</span>
+                            </div>
+
+                            <div class="department">
+                                <strong>Operations</strong>
+                                <span>10 сотрудников</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- OTHER SECTIONS -->
+
+            <div id="company" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>Компания</h1>
+                    <p>Организационная структура Alatau Nexus.</p>
+                </div>
+            </div>
+
+
+            <div id="employees" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>Сотрудники</h1>
+                    <p>36 сотрудников компании.</p>
+                </div>
+            </div>
+
+
+            <div id="departments" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>Отделы</h1>
+                    <p>10 подразделений Alatau Nexus.</p>
+                </div>
+            </div>
+
+
+            <div id="crm" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>CRM</h1>
+                    <p>Клиенты, сделки и воронка продаж.</p>
+                </div>
+            </div>
+
+
+            <div id="projects" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>Проекты</h1>
+                    <p>Текущие проекты компании.</p>
+                </div>
+            </div>
+
+
+            <div id="tasks" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>Задачи</h1>
+                    <p>Задачи сотрудников и руководителей.</p>
+                </div>
+            </div>
+
+
+            <div id="finance" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>Финансы</h1>
+                    <p>Бюджет, расходы, доходы и платежи.</p>
+                </div>
+            </div>
+
+
+            <div id="hr" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>HR</h1>
+                    <p>Кандидаты, найм и кадровые решения.</p>
+                </div>
+            </div>
+
+
+            <div id="decisions" class="section" style="display:none">
+                <div class="welcome">
+                    <h1>Центр решений</h1>
+                    <p>Решения, ожидающие внимания CEO.</p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+function showSection(sectionId, button) {
+
+    const sections = document.querySelectorAll('.section');
+
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+
+    document.getElementById(sectionId).style.display = 'block';
+
+    const buttons = document.querySelectorAll('.menu button');
+
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    button.classList.add('active');
+
+    const titles = {
+        dashboard: 'CEO Dashboard',
+        company: 'Компания',
+        employees: 'Сотрудники',
+        departments: 'Отделы',
+        crm: 'CRM',
+        projects: 'Проекты',
+        tasks: 'Задачи',
+        finance: 'Финансы',
+        hr: 'HR',
+        decisions: 'Центр решений'
+    };
+
+    document.getElementById('pageTitle').textContent = titles[sectionId];
+}
+
+</script>
 
 </body>
 </html>
