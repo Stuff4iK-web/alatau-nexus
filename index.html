@@ -3,706 +3,912 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alatau Nexus — CEO Control Center</title>
+<title>Alatau Nexus — Company OS</title>
 
 <style>
-* {
-    box-sizing: border-box;
+:root{
+    --bg:#07101d;
+    --panel:#0d1828;
+    --panel2:#111f32;
+    --panel3:#16263b;
+    --border:#22344b;
+    --text:#edf4ff;
+    --muted:#8fa3bd;
+    --blue:#4f9cff;
+    --green:#35d399;
+    --yellow:#f6c85f;
+    --red:#ff6874;
+    --purple:#9b7cff;
+    --cyan:#42d9ff;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0f1117;
-    color: #f1f5f9;
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    overflow:hidden;
 }
 
-button,
-input,
-select,
-textarea {
-    font-family: inherit;
+button,input,textarea,select{
+    font:inherit;
 }
 
-button {
-    cursor: pointer;
+button{
+    cursor:pointer;
 }
 
-.app {
-    display: flex;
-    min-height: 100vh;
+.app{
+    display:flex;
+    height:100vh;
 }
 
 /* SIDEBAR */
 
-.sidebar {
-    width: 240px;
-    background: #151821;
-    border-right: 1px solid #272b36;
-    padding: 24px 16px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
+.sidebar{
+    width:235px;
+    background:#08121f;
+    border-right:1px solid var(--border);
+    padding:18px 12px;
+    display:flex;
+    flex-direction:column;
+    flex-shrink:0;
 }
 
-.logo {
-    font-size: 21px;
-    font-weight: 700;
+.logo{
+    font-size:19px;
+    font-weight:800;
+    padding:8px 12px 4px;
+    letter-spacing:.5px;
 }
 
-.logo-sub {
-    color: #8b93a7;
-    font-size: 12px;
-    margin-top: 4px;
-    margin-bottom: 30px;
+.logo span{
+    color:var(--blue);
 }
 
-.menu button {
-    width: 100%;
-    border: 0;
-    background: transparent;
-    color: #9ba3b4;
-    text-align: left;
-    padding: 12px 14px;
-    margin-bottom: 5px;
-    border-radius: 8px;
-    font-size: 14px;
+.logo-sub{
+    color:var(--muted);
+    font-size:11px;
+    padding:0 12px 20px;
 }
 
-.menu button:hover,
-.menu button.active {
-    background: #283044;
-    color: white;
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.nav button{
+    border:0;
+    background:transparent;
+    color:#9fb0c6;
+    text-align:left;
+    padding:11px 13px;
+    border-radius:9px;
+    transition:.15s;
+}
+
+.nav button:hover{
+    background:#122136;
+    color:white;
+}
+
+.nav button.active{
+    background:#173152;
+    color:white;
+}
+
+.sidebar-bottom{
+    margin-top:auto;
+    padding:10px;
+    border-top:1px solid var(--border);
+}
+
+.ceo-mini{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#1c3554;
+    font-weight:800;
+    color:white;
+}
+
+.ceo-mini-name{
+    font-size:13px;
+    font-weight:700;
+}
+
+.ceo-mini-role{
+    color:var(--muted);
+    font-size:11px;
 }
 
 /* MAIN */
 
-.main {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    padding: 30px;
+.main{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
 }
 
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
+.topbar{
+    height:64px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    background:#091522;
 }
 
-.page-title {
-    font-size: 25px;
-    font-weight: 700;
+.page-title{
+    font-size:18px;
+    font-weight:700;
 }
 
-.ceo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #191d27;
-    border: 1px solid #292e3a;
-    padding: 9px 14px;
-    border-radius: 10px;
+.top-right{
+    display:flex;
+    gap:10px;
+    align-items:center;
 }
 
-.avatar,
-.big-avatar {
-    border-radius: 50%;
-    background: #3a465d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+.day-pill{
+    border:1px solid var(--border);
+    background:#101d2e;
+    padding:8px 12px;
+    border-radius:8px;
+    color:#cbd9eb;
+    font-size:12px;
 }
 
-.avatar {
-    width: 34px;
-    height: 34px;
-    font-size: 12px;
+.run-btn{
+    border:0;
+    border-radius:8px;
+    padding:8px 14px;
+    background:var(--green);
+    color:#06140f;
+    font-weight:800;
 }
 
-.ceo-text strong {
-    display: block;
-    font-size: 13px;
+.run-btn.paused{
+    background:var(--yellow);
 }
 
-.ceo-text span {
-    color: #8b93a7;
-    font-size: 11px;
+.content{
+    flex:1;
+    overflow:auto;
+    padding:22px;
 }
 
 /* COMMON */
 
-.welcome {
-    margin-bottom: 25px;
+.grid{
+    display:grid;
+    gap:14px;
 }
 
-.welcome h1 {
-    margin: 0 0 8px;
-    font-size: 28px;
+.stats{
+    grid-template-columns:repeat(6,1fr);
 }
 
-.welcome p {
-    margin: 0;
-    color: #8b93a7;
+.card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 25px;
+.stat-title{
+    color:var(--muted);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.7px;
 }
 
-.card {
-    background: #171b24;
-    border: 1px solid #292e3a;
-    border-radius: 12px;
-    padding: 20px;
+.stat-value{
+    margin-top:7px;
+    font-size:23px;
+    font-weight:800;
 }
 
-.stat-title {
-    color: #8b93a7;
-    font-size: 12px;
-    margin-bottom: 9px;
+.stat-sub{
+    color:var(--muted);
+    margin-top:4px;
+    font-size:11px;
 }
 
-.stat-value {
-    font-size: 25px;
-    font-weight: 700;
+.section-title{
+    margin:24px 0 10px;
+    font-size:14px;
+    font-weight:800;
 }
 
-.two-column {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 18px;
-    margin-bottom: 20px;
+.two{
+    grid-template-columns:1.35fr .85fr;
 }
 
-.card h3 {
-    margin-top: 0;
-    font-size: 16px;
+.three{
+    grid-template-columns:repeat(3,1fr);
 }
 
-/* EMPLOYEE */
-
-.employee {
-    background: #1b202a;
-    border: 1px solid #2b313d;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
+.list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
 }
 
-.employee:hover {
-    background: #222936;
-    border-color: #485269;
+.list-row{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:11px 12px;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
 }
 
-.employee-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.muted{
+    color:var(--muted);
 }
 
-.employee-name {
-    font-weight: 700;
-    margin-bottom: 4px;
+.small{
+    font-size:11px;
 }
 
-.employee-role {
-    color: #8b93a7;
-    font-size: 12px;
+.badge{
+    display:inline-flex;
+    align-items:center;
+    padding:4px 8px;
+    border-radius:20px;
+    background:#17283d;
+    color:#c9d8eb;
+    font-size:10px;
+    font-weight:700;
 }
 
-.online {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #39c27f;
+.badge.green{
+    background:#12352c;
+    color:#5be4ae;
 }
 
-.kpi {
-    margin-top: 13px;
+.badge.red{
+    background:#3c1820;
+    color:#ff8b94;
 }
 
-.kpi-label {
-    display: flex;
-    justify-content: space-between;
-    color: #9ba3b4;
-    font-size: 11px;
-    margin-bottom: 6px;
+.badge.yellow{
+    background:#3b3017;
+    color:#f8d77e;
 }
 
-.progress {
-    height: 5px;
-    background: #292f3b;
-    border-radius: 5px;
-    overflow: hidden;
+.badge.blue{
+    background:#142d4c;
+    color:#72b3ff;
 }
 
-.progress-bar {
-    height: 100%;
-    background: #6379a8;
+.btn{
+    border:1px solid var(--border);
+    background:#142238;
+    color:white;
+    padding:8px 11px;
+    border-radius:7px;
 }
 
-/* EVENTS */
-
-.event {
-    padding: 13px 0;
-    border-bottom: 1px solid #292e3a;
+.btn:hover{
+    background:#1b304c;
 }
 
-.event:last-child {
-    border-bottom: 0;
+.btn.primary{
+    background:var(--blue);
+    color:#06101d;
+    border-color:var(--blue);
+    font-weight:700;
 }
 
-.event strong {
-    font-size: 13px;
+.btn.danger{
+    background:#481d27;
+    border-color:#672a37;
+    color:#ff9ba3;
 }
 
-.event p {
-    margin: 5px 0 0;
-    color: #8b93a7;
-    font-size: 12px;
+.btn.success{
+    background:#12392e;
+    border-color:#1e5b49;
+    color:#61e3b2;
 }
 
-/* COMPANY */
-
-.company-map {
-    margin-top: 20px;
+.progress{
+    height:6px;
+    background:#1a293c;
+    border-radius:10px;
+    overflow:hidden;
 }
 
-.ceo-box {
-    width: 200px;
-    margin: 25px auto 0;
-    padding: 15px;
-    border: 1px solid #46536e;
-    background: #202838;
-    border-radius: 10px;
-    text-align: center;
+.progress > div{
+    height:100%;
+    background:var(--blue);
 }
 
-.ceo-box strong {
-    display: block;
+/* DASHBOARD */
+
+.briefing{
+    background:linear-gradient(135deg,#11253d,#0d1828);
+    border:1px solid #284767;
 }
 
-.ceo-box span {
-    display: block;
-    color: #8b93a7;
-    font-size: 11px;
-    margin-top: 4px;
+.briefing h2{
+    margin:0 0 7px;
+    font-size:16px;
 }
 
-.connector {
-    height: 25px;
-    width: 2px;
-    background: #3a4355;
-    margin: auto;
+.briefing p{
+    margin:4px 0;
+    color:#b6c6da;
+    font-size:13px;
 }
 
-.departments {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:15px;
 }
 
-.department {
-    background: #1b202a;
-    border: 1px solid #292f3b;
-    border-radius: 9px;
-    padding: 15px;
-    text-align: center;
+.kpi-box{
+    background:#0b1726;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:11px;
 }
 
-.department strong {
-    display: block;
-    margin-bottom: 5px;
+.kpi-box strong{
+    display:block;
+    margin-top:5px;
+    font-size:17px;
 }
 
-.department span {
-    color: #8b93a7;
-    font-size: 11px;
+/* FEED */
+
+.feed{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    max-height:390px;
+    overflow:auto;
 }
 
-/* SECTIONS */
-
-.section {
-    display: none;
+.feed-item{
+    display:flex;
+    gap:10px;
+    padding:10px;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:9px;
 }
 
-.section.active {
-    display: block;
+.feed-icon{
+    width:28px;
+    height:28px;
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#182a41;
+    flex-shrink:0;
 }
 
-/* TOOLBAR */
-
-.toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
+.feed-main{
+    flex:1;
 }
 
-.toolbar-left,
-.toolbar-right {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+.feed-title{
+    font-size:12px;
+    font-weight:700;
 }
 
-/* BUTTONS */
-
-.btn {
-    border: 1px solid #353d4d;
-    background: #202631;
-    color: #dbe1eb;
-    padding: 10px 13px;
-    border-radius: 8px;
+.feed-text{
+    margin-top:3px;
+    color:#9fb0c4;
+    font-size:11px;
 }
 
-.btn:hover {
-    background: #2a3241;
+.feed-time{
+    color:#667c98;
+    font-size:10px;
 }
 
-.btn.primary {
-    background: #33415f;
-    border-color: #4a5e89;
+/* EMPLOYEES */
+
+.employee-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
 }
 
-.btn.danger {
-    color: #ff9b9b;
-    border-color: #5b3434;
+.employee-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:11px;
+    padding:14px;
+}
+
+.employee-head{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.employee-name{
+    font-size:13px;
+    font-weight:800;
+}
+
+.employee-role{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:2px;
+}
+
+.employee-meta{
+    margin-top:12px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+}
+
+.meta-box{
+    background:#101d2d;
+    padding:7px;
+    border-radius:7px;
+}
+
+.meta-box span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+}
+
+.meta-box strong{
+    font-size:12px;
+}
+
+.employee-actions{
+    margin-top:12px;
+    display:flex;
+    gap:6px;
+}
+
+/* CRM */
+
+.crm-board{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    overflow-x:auto;
+}
+
+.crm-column{
+    min-width:220px;
+    background:#0b1725;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px;
+}
+
+.crm-column-title{
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:9px;
+}
+
+.deal{
+    background:#121f31;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:10px;
+    margin-bottom:8px;
+    cursor:pointer;
+}
+
+.deal:hover{
+    border-color:#3b5d83;
+}
+
+.deal-name{
+    font-weight:700;
+    font-size:12px;
+}
+
+.deal-client{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+}
+
+.deal-value{
+    font-size:13px;
+    font-weight:800;
+    margin-top:9px;
+}
+
+.deal-owner{
+    color:#8fbfff;
+    font-size:10px;
+    margin-top:4px;
+}
+
+/* MESSENGER */
+
+.messenger{
+    height:calc(100vh - 108px);
+    display:grid;
+    grid-template-columns:250px 1fr 280px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    background:var(--panel);
+}
+
+.chat-list{
+    border-right:1px solid var(--border);
+    background:#0a1523;
+    overflow:auto;
+}
+
+.chat-list-header{
+    padding:14px;
+    border-bottom:1px solid var(--border);
+    font-weight:800;
+}
+
+.chat-item{
+    padding:11px 13px;
+    border-bottom:1px solid #162438;
+    cursor:pointer;
+}
+
+.chat-item:hover,
+.chat-item.active{
+    background:#13243a;
+}
+
+.chat-item-name{
+    font-size:12px;
+    font-weight:700;
+}
+
+.chat-item-last{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.chat-window{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+}
+
+.chat-header{
+    height:58px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 14px;
+}
+
+.chat-header-name{
+    font-weight:800;
+    font-size:13px;
+}
+
+.chat-header-sub{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.messages{
+    flex:1;
+    overflow:auto;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    background:#091521;
+}
+
+.message{
+    max-width:75%;
+    align-self:flex-start;
+}
+
+.message.mine{
+    align-self:flex-end;
+}
+
+.message-author{
+    color:#79aef0;
+    font-size:9px;
+    margin:0 0 3px 4px;
+}
+
+.message-bubble{
+    background:#132238;
+    border:1px solid #1d324b;
+    padding:8px 10px;
+    border-radius:9px;
+    font-size:12px;
+    line-height:1.4;
+}
+
+.message.mine .message-bubble{
+    background:#163957;
+    border-color:#20537b;
+}
+
+.message-time{
+    color:#627995;
+    font-size:8px;
+    margin-top:2px;
+    text-align:right;
+}
+
+.chat-input{
+    border-top:1px solid var(--border);
+    padding:10px;
+    display:flex;
+    gap:8px;
+}
+
+.chat-input input{
+    flex:1;
+    background:#0b1725;
+    border:1px solid var(--border);
+    color:white;
+    border-radius:8px;
+    padding:10px;
+    outline:none;
+}
+
+.chat-context{
+    border-left:1px solid var(--border);
+    background:#0a1523;
+    overflow:auto;
+    padding:14px;
+}
+
+.context-title{
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.context-block{
+    border-bottom:1px solid var(--border);
+    padding:10px 0;
+}
+
+.context-label{
+    color:var(--muted);
+    font-size:9px;
+}
+
+.context-value{
+    font-size:12px;
+    margin-top:3px;
 }
 
 /* TABLE */
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
+.table{
+    width:100%;
+    border-collapse:collapse;
 }
 
 .table th,
-.table td {
-    text-align: left;
-    padding: 12px 10px;
-    border-bottom: 1px solid #292e3a;
-    font-size: 13px;
+.table td{
+    padding:10px;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+    font-size:11px;
 }
 
-.table th {
-    color: #8b93a7;
-    font-size: 11px;
-    text-transform: uppercase;
+.table th{
+    color:var(--muted);
+    font-weight:600;
 }
 
-.table tr.clickable {
-    cursor: pointer;
+/* ORG */
+
+.org{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
 }
 
-.table tr.clickable:hover {
-    background: #1d222c;
+.org-ceo{
+    background:#153356;
+    border:1px solid #376694;
+    padding:14px 24px;
+    border-radius:10px;
+    text-align:center;
 }
 
-.badge {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 12px;
-    background: #273044;
-    color: #cbd6eb;
-    font-size: 11px;
+.org-line{
+    width:2px;
+    height:20px;
+    background:#29425f;
 }
 
-/* MINI CARDS */
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+.directors{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    width:100%;
 }
 
-.mini {
-    background: #1b202a;
-    border: 1px solid #2b313d;
-    border-radius: 10px;
-    padding: 15px;
+.director{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px;
+    text-align:center;
+    cursor:pointer;
 }
 
-.mini h4 {
-    margin: 0 0 7px;
+.director:hover{
+    border-color:#4775a7;
 }
 
-.muted {
-    color: #8b93a7;
-    font-size: 12px;
+.dept-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
 }
 
-.money {
-    font-weight: 700;
-    font-size: 18px;
+.dept-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:12px;
+}
+
+.dept-title{
+    font-weight:800;
+    font-size:12px;
+}
+
+.dept-head{
+    color:#83b7f3;
+    font-size:10px;
+    margin-top:4px;
 }
 
 /* MODAL */
 
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.7);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 20px;
+.modal-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
 }
 
-.modal.active {
-    display: flex;
+.modal-backdrop.open{
+    display:flex;
 }
 
-.modal-box {
-    width: 760px;
-    max-width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    background: #171b24;
-    border: 1px solid #343b4b;
-    border-radius: 14px;
-    padding: 25px;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+.modal{
+    width:min(720px,92vw);
+    max-height:88vh;
+    overflow:auto;
+    background:#0d1928;
+    border:1px solid #29405b;
+    border-radius:13px;
+    box-shadow:0 25px 80px rgba(0,0,0,.55);
 }
 
-.close {
-    position: absolute;
-    right: 17px;
-    top: 12px;
-    border: 0;
-    background: transparent;
-    color: #8b93a7;
-    font-size: 28px;
+.modal-header{
+    padding:15px 17px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.close:hover {
-    color: white;
+.modal-title{
+    font-weight:800;
 }
 
-.profile-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding-right: 35px;
-    margin-bottom: 25px;
+.modal-body{
+    padding:17px;
 }
 
-.big-avatar {
-    width: 65px;
-    height: 65px;
-    font-size: 18px;
+.close{
+    border:0;
+    background:transparent;
+    color:#9aacc2;
+    font-size:20px;
 }
 
-.profile-header h2 {
-    margin: 0 0 5px;
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
-.profile-header p {
-    margin: 0;
-    color: #8b93a7;
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
 }
 
-.profile-info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
-.info {
-    background: #1d222c;
-    border: 1px solid #2a303c;
-    border-radius: 8px;
-    padding: 12px;
-}
-
-.info span {
-    display: block;
-    color: #8b93a7;
-    font-size: 11px;
-    margin-bottom: 6px;
-}
-
-.info strong {
-    font-size: 13px;
-}
-
-.profile-section {
-    margin-top: 22px;
-}
-
-.profile-section h3 {
-    font-size: 15px;
-    margin-bottom: 12px;
-}
-
-.goal {
-    padding: 10px 12px;
-    background: #1d222c;
-    border-radius: 7px;
-    margin-bottom: 7px;
-    color: #cbd2df;
-    font-size: 13px;
-}
-
-.actions {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 9px;
-}
-
-.action {
-    border: 1px solid #353d4d;
-    background: #202631;
-    color: #dbe1eb;
-    padding: 11px;
-    border-radius: 7px;
-    text-align: left;
-}
-
-.action:hover {
-    background: #2a3241;
-}
-
-.action.danger {
-    color: #ff8b8b;
-    border-color: #5b3434;
-}
-
-/* FORMS */
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-.field label {
-    display: block;
-    color: #8b93a7;
-    font-size: 11px;
-    margin-bottom: 6px;
+.field label{
+    color:var(--muted);
+    font-size:10px;
 }
 
 .field input,
-.field select,
-.field textarea {
-    width: 100%;
-    background: #11151d;
-    border: 1px solid #353d4d;
-    color: #f1f5f9;
-    border-radius: 7px;
-    padding: 10px;
+.field textarea,
+.field select{
+    background:#0a1523;
+    border:1px solid var(--border);
+    color:white;
+    padding:9px;
+    border-radius:7px;
+    outline:none;
 }
 
-.field textarea {
-    min-height: 90px;
-    resize: vertical;
+.field textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
-.full {
-    grid-column: 1 / -1;
-}
-
-/* CHAT */
-
-.chat {
-    background: #11151d;
-    border: 1px solid #2b313d;
-    border-radius: 10px;
-    padding: 12px;
-    max-height: 260px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-}
-
-.msg {
-    padding: 9px 11px;
-    border-radius: 8px;
-    margin-bottom: 7px;
-    background: #1d222c;
-}
-
-.msg.ceo-msg {
-    background: #26324a;
-}
-
-.msg strong {
-    font-size: 11px;
-}
-
-.msg p {
-    margin: 4px 0 0;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.notice {
-    padding: 12px;
-    border: 1px solid #343d50;
-    background: #1a2030;
-    border-radius: 8px;
-    color: #cbd2df;
-    margin-bottom: 12px;
-}
-
-.empty {
-    color: #8b93a7;
-    padding: 20px 0;
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:7px;
+    margin-top:15px;
 }
 
 /* RESPONSIVE */
 
-@media (max-width: 1100px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .two-column {
-        grid-template-columns: 1fr;
-    }
-
-    .departments {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
+@media(max-width:1200px){
+    .stats{grid-template-columns:repeat(3,1fr)}
+    .messenger{grid-template-columns:210px 1fr}
+    .chat-context{display:none}
 }
 
-@media (max-width: 700px) {
-    .sidebar {
-        width: 190px;
-    }
-
-    .main {
-        margin-left: 190px;
-        width: calc(100% - 190px);
-        padding: 20px;
-    }
-
-    .profile-info,
-    .form-grid,
-    .cards,
-    .actions {
-        grid-template-columns: 1fr;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-    }
+@media(max-width:850px){
+    .sidebar{width:65px}
+    .logo,.logo-sub,.sidebar-bottom{display:none}
+    .nav button{font-size:0;text-align:center}
+    .nav button::first-letter{font-size:18px}
+    .employee-grid{grid-template-columns:1fr}
+    .directors{grid-template-columns:1fr 1fr}
+    .two,.three{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -712,3766 +918,3153 @@ button {
 <div class="app">
 
 <aside class="sidebar">
+    <div class="logo">ALATAU <span>NEXUS</span></div>
+    <div class="logo-sub">Virtual Company OS</div>
 
-<div class="logo">Alatau Nexus</div>
-<div class="logo-sub">CEO Control Center</div>
+    <nav class="nav">
+        <button data-page="dashboard" class="active">📊 Dashboard</button>
+        <button data-page="messenger">💬 Messenger</button>
+        <button data-page="company">🏢 Компания</button>
+        <button data-page="employees">👥 Сотрудники</button>
+        <button data-page="crm">🎯 CRM</button>
+        <button data-page="projects">📁 Проекты</button>
+        <button data-page="tasks">✅ Задачи</button>
+        <button data-page="finance">💰 Финансы</button>
+        <button data-page="hr">🧑‍💼 HR</button>
+        <button data-page="decisions">⚖️ Решения</button>
+    </nav>
 
-<nav class="menu" id="menu">
-
-<button class="active" data-section="dashboard">
-Dashboard
-</button>
-
-<button data-section="company">
-Компания
-</button>
-
-<button data-section="employees">
-Сотрудники
-</button>
-
-<button data-section="departments">
-Отделы
-</button>
-
-<button data-section="crm">
-CRM
-</button>
-
-<button data-section="projects">
-Проекты
-</button>
-
-<button data-section="tasks">
-Задачи
-</button>
-
-<button data-section="finance">
-Финансы
-</button>
-
-<button data-section="hr">
-HR
-</button>
-
-<button data-section="decisions">
-Решения
-</button>
-
-</nav>
-
+    <div class="sidebar-bottom">
+        <div class="ceo-mini">
+            <div class="avatar">OK</div>
+            <div>
+                <div class="ceo-mini-name">Олег Ким</div>
+                <div class="ceo-mini-role">Founder & CEO</div>
+            </div>
+        </div>
+    </div>
 </aside>
 
 <main class="main">
 
-<div class="topbar">
-
-<div class="page-title" id="pageTitle">
-CEO Dashboard
-</div>
-
-<div class="ceo">
-
-<div class="avatar">
-OK
-</div>
-
-<div class="ceo-text">
-<strong>Олег Ким</strong>
-<span>Founder & CEO</span>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- DASHBOARD -->
-
-<section id="dashboard" class="section active">
-
-<div class="welcome">
-
-<h1>
-Добро пожаловать, Олег
-</h1>
-
-<p>
-Центр управления компанией Alatau Nexus.
-</p>
-
-</div>
-
-
-<div class="grid">
-
-<div class="card">
-
-<div class="stat-title">
-Сотрудники
-</div>
-
-<div class="stat-value" id="statEmployees">
-36
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="stat-title">
-Активные сделки
-</div>
-
-<div class="stat-value" id="statDeals">
-8
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="stat-title">
-Pipeline
-</div>
-
-<div class="stat-value" id="statPipeline">
-₸84.5m
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="stat-title">
-Проекты
-</div>
-
-<div class="stat-value" id="statProjects">
-5
-</div>
-
-</div>
-
-</div>
-
-
-<div class="two-column">
-
-<div class="card">
-
-<h3>
-Руководители
-</h3>
-
-<div id="directorList"></div>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-Последние события
-</h3>
-
-<div id="eventList"></div>
-
-</div>
-
-</div>
-
-
-<div class="company-map">
-
-<div class="card">
-
-<h3>
-Организационная структура
-</h3>
-
-<div class="ceo-box">
-
-<strong>
-Олег Ким
-</strong>
-
-<span>
-Founder & CEO
-</span>
-
-</div>
-
-<div class="connector"></div>
-
-<div class="departments" id="deptMap"></div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- COMPANY -->
-
-<section id="company" class="section">
-
-<div class="welcome">
-
-<h1>
-Компания
-</h1>
-
-<p>
-Общее состояние Alatau Nexus.
-</p>
-
-</div>
-
-<div class="cards" id="companyCards"></div>
-
-</section>
-
-
-<!-- EMPLOYEES -->
-
-<section id="employees" class="section">
-
-<div class="welcome">
-
-<h1>
-Сотрудники
-</h1>
-
-<p>
-Управление командой и KPI.
-</p>
-
-</div>
-
-<div class="toolbar">
-
-<div class="toolbar-left">
-
-<button class="btn primary" onclick="openEmployeeForm()">
-+ Добавить сотрудника
-</button>
-
-</div>
-
-<div class="toolbar-right">
-
-<input
-id="employeeSearch"
-class="btn"
-placeholder="Поиск сотрудника..."
-oninput="renderEmployees()"
->
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div id="employeeTable"></div>
-
-</div>
-
-</section>
-
-
-<!-- DEPARTMENTS -->
-
-<section id="departments" class="section">
-
-<div class="welcome">
-
-<h1>
-Отделы
-</h1>
-
-<p>
-Структура и состояние подразделений.
-</p>
-
-</div>
-
-<div class="cards" id="departmentCards"></div>
-
-</section>
-
-
-<!-- CRM -->
-
-<section id="crm" class="section">
-
-<div class="welcome">
-
-<h1>
-CRM
-</h1>
-
-<p>
-Клиенты, сделки и воронка продаж.
-</p>
-
-</div>
-
-<div class="toolbar">
-
-<button class="btn primary" onclick="openDealForm()">
-+ Новая сделка
-</button>
-
-</div>
-
-<div class="card">
-
-<div id="crmTable"></div>
-
-</div>
-
-</section>
-
-
-<!-- PROJECTS -->
-
-<section id="projects" class="section">
-
-<div class="welcome">
-
-<h1>
-Проекты
-</h1>
-
-<p>
-Текущие проекты компании.
-</p>
-
-</div>
-
-<div class="cards" id="projectCards"></div>
-
-</section>
-
-
-<!-- TASKS -->
-
-<section id="tasks" class="section">
-
-<div class="welcome">
-
-<h1>
-Задачи
-</h1>
-
-<p>
-Задачи сотрудников и руководителей.
-</p>
-
-</div>
-
-<div class="toolbar">
-
-<button class="btn primary" onclick="openTaskForm()">
-+ Поставить задачу
-</button>
-
-</div>
-
-<div class="card">
-
-<div id="taskTable"></div>
-
-</div>
-
-</section>
-
-
-<!-- FINANCE -->
-
-<section id="finance" class="section">
-
-<div class="welcome">
-
-<h1>
-Финансы
-</h1>
-
-<p>
-Доходы, расходы и денежные средства.
-</p>
-
-</div>
-
-<div class="grid" id="financeStats"></div>
-
-<div class="card">
-
-<h3>
-Последние операции
-</h3>
-
-<div id="financeTable"></div>
-
-</div>
-
-</section>
-
-
-<!-- HR -->
-
-<section id="hr" class="section">
-
-<div class="welcome">
-
-<h1>
-HR
-</h1>
-
-<p>
-Кандидаты и кадровые решения.
-</p>
-
-</div>
-
-<div class="cards" id="candidateCards"></div>
-
-</section>
-
-
-<!-- DECISIONS -->
-
-<section id="decisions" class="section">
-
-<div class="welcome">
-
-<h1>
-Центр решений
-</h1>
-
-<p>
-Вопросы, ожидающие решения CEO.
-</p>
-
-</div>
-
-<div id="decisionList"></div>
-
-</section>
+<header class="topbar">
+    <div class="page-title" id="pageTitle">Dashboard</div>
+
+    <div class="top-right">
+        <div class="day-pill" id="dayPill">DAY 1 • 09:00</div>
+        <button class="run-btn" id="runBtn" onclick="toggleSimulation()">▶ RUN</button>
+        <button class="btn" onclick="nextDay()">Next Day</button>
+    </div>
+</header>
+
+<div class="content" id="content"></div>
 
 </main>
-
 </div>
 
-
-<!-- MODAL -->
-
-<div class="modal" id="modal">
-
-<div class="modal-box">
-
-<button class="close" onclick="closeModal()">
-×
-</button>
-
-<div id="modalContent"></div>
-
+<div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title" id="modalTitle"></div>
+            <button class="close" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+    </div>
 </div>
-
-</div>
-
 
 <script>
-
 /* =========================================================
-   INITIAL DATA
+   ALATAU NEXUS
+   SINGLE SOURCE OF TRUTH
 ========================================================= */
 
-const seedEmployees = {
+const STORAGE_KEY = "alatauNexusState_v3";
 
-alexey: {
-id: "alexey",
-name: "Алексей Волков",
-role: "Sales Director",
-department: "Sales",
-salary: 850000,
-kpi: 82,
-workload: 76,
-experience: "4 года",
-avatar: "AV",
-goals: [
-"Выручка отдела — 82%",
-"Новые клиенты — 74%",
-"Конверсия продаж — 68%"
-]
-},
+const departments = [
+    {id:"sales", name:"Sales", director:"e5"},
+    {id:"accounts", name:"Key Accounts", director:"e5"},
+    {id:"development", name:"Development", director:"e6"},
+    {id:"qa", name:"QA & Engineering", director:"e6"},
+    {id:"finance", name:"Finance", director:"e7"},
+    {id:"hr", name:"Human Resources", director:"e8"},
+    {id:"operations", name:"Operations", director:"e9"},
+    {id:"customer", name:"Customer Success", director:"e9"},
+    {id:"marketing", name:"Marketing", director:"e5"},
+    {id:"product", name:"Product", director:"e6"}
+];
 
-dmitry: {
-id: "dmitry",
-name: "Дмитрий Соколов",
-role: "CTO",
-department: "Technology",
-salary: 1100000,
-kpi: 91,
-workload: 88,
-experience: "6 лет",
-avatar: "DS",
-goals: [
-"Стабильность платформы — 97%",
-"Сроки разработки — 91%",
-"Технический долг — под контролем"
-]
-},
+const directorSeed = [
+    ["e5","Александр Волков","Sales Director","sales",92],
+    ["e6","Дмитрий Соколов","CTO","development",89],
+    ["e7","Анна Морозова","CFO","finance",91],
+    ["e8","Мария Орлова","HR Director","hr",87],
+    ["e9","Сергей Ковалёв","COO","operations",90]
+];
 
-anna: {
-id: "anna",
-name: "Анна Морозова",
-role: "CFO",
-department: "Finance",
-salary: 950000,
-kpi: 76,
-workload: 69,
-experience: "5 лет",
-avatar: "AM",
-goals: [
-"Cash Flow — положительный",
-"Контроль расходов — 88%",
-"Дебиторская задолженность — снижение"
-]
-},
+const firstNames = [
+    "Иван","Алексей","Максим","Денис","Роман","Артём","Никита","Павел",
+    "Егор","Михаил","Даниил","Кирилл","Виктор","Тимур","Руслан",
+    "Ольга","Елена","Наталья","Дарья","София","Анна","Ирина",
+    "Алина","Марина","Ксения","Полина","Владислав","Станислав",
+    "Глеб","Илья"
+];
 
-elena: {
-id: "elena",
-name: "Елена Орлова",
-role: "HR Director",
-department: "HR",
-salary: 800000,
-kpi: 88,
-workload: 73,
-experience: "4 года",
-avatar: "EO",
-goals: [
-"Закрытие вакансий — 91%",
-"Текучесть — ниже 8%",
-"Employee satisfaction — 86%"
-]
-},
+const lastNames = [
+    "Иванов","Петров","Смирнов","Кузнецов","Попов","Васильев",
+    "Морозов","Новиков","Фёдоров","Михайлов","Соколов","Лебедев",
+    "Козлов","Орлов","Семёнов","Егоров","Павлов","Ковалёв"
+];
 
-maxim: {
-id: "maxim",
-name: "Максим Петров",
-role: "COO",
-department: "Operations",
-salary: 900000,
-kpi: 84,
-workload: 81,
-experience: "5 лет",
-avatar: "MP",
-goals: [
-"Эффективность процессов — 84%",
-"SLA — 94%",
-"Операционные расходы — в бюджете"
-]
-}
+const personalityPool = [
+    "спокойный и рациональный",
+    "амбициозный и инициативный",
+    "осторожный и аналитичный",
+    "общительный и энергичный",
+    "прямолинейный и требовательный",
+    "спокойный командный игрок"
+];
 
-};
+const state = loadState();
 
+let currentPage = "dashboard";
+let currentChatId = "board";
+let simulationTimer = null;
 
 /* =========================================================
-   STATE
+   INITIAL STATE
 ========================================================= */
 
-const defaultState = {
+function createInitialState(){
 
-employees: {
-...seedEmployees,
+    const employees = [
+        {
+            id:"e1",
+            name:"Олег Ким",
+            role:"Founder & CEO",
+            department:"Management",
+            manager:null,
+            salary:0,
+            bonus:0,
+            kpi:96,
+            workload:58,
+            motivation:94,
+            loyalty:99,
+            skills:["Strategy","Leadership","B2B","Negotiation"],
+            personality:"решительный, наблюдательный и ориентированный на результат",
+            responsibilities:["Стратегия","Ключевые решения","Руководство директорами"],
+            memory:[
+                "Основатель Alatau Nexus.",
+                "Предпочитает принимать решения на основе фактов."
+            ],
+            status:"active",
+            authority:100
+        }
+    ];
 
-emp6: {
-id: "emp6",
-name: "Ирина Ковалёва",
-role: "Sales Manager",
-department: "Sales",
-salary: 480000,
-kpi: 79,
-workload: 72,
-experience: "2 года",
-avatar: "ИК",
-goals: [
-"Продажи",
-"Новые клиенты",
-"Развитие клиентской базы"
-]
-},
+    directorSeed.forEach(d=>{
+        employees.push({
+            id:d[0],
+            name:d[1],
+            role:d[2],
+            department:d[3],
+            manager:"e1",
+            salary:850000,
+            bonus:15,
+            kpi:d[4],
+            workload:55 + Math.floor(Math.random()*15),
+            motivation:80 + Math.floor(Math.random()*15),
+            loyalty:85 + Math.floor(Math.random()*12),
+            skills:["Management","Strategy","Communication","Leadership"],
+            personality:personalityPool[Math.floor(Math.random()*personalityPool.length)],
+            responsibilities:["Управление отделом","KPI","Результаты подразделения"],
+            memory:[],
+            status:"active",
+            authority:80
+        });
+    });
 
-emp7: {
-id: "emp7",
-name: "Михаил Орлов",
-role: "Account Manager",
-department: "Sales",
-salary: 430000,
-kpi: 74,
-workload: 81,
-experience: "1 год",
-avatar: "МО",
-goals: [
-"Удержание клиентов",
-"Upsell",
-"Качество сервиса"
-]
-},
+    let idx=0;
 
-emp8: {
-id: "emp8",
-name: "Роман Беляев",
-role: "Frontend Developer",
-department: "Technology",
-salary: 650000,
-kpi: 87,
-workload: 84,
-experience: "3 года",
-avatar: "РБ",
-goals: [
-"Разработка",
-"Качество кода",
-"Соблюдение сроков"
-]
-},
+    departments.forEach((dept,di)=>{
 
-emp9: {
-id: "emp9",
-name: "София Лебедева",
-role: "Backend Developer",
-department: "Technology",
-salary: 720000,
-kpi: 92,
-workload: 91,
-experience: "4 года",
-avatar: "СЛ",
-goals: [
-"Backend",
-"Архитектура",
-"Надёжность"
-]
-},
+        if(["sales","development","finance","hr","operations"].includes(dept.id)){
 
-emp10: {
-id: "emp10",
-name: "Николай Фёдоров",
-role: "Financial Analyst",
-department: "Finance",
-salary: 520000,
-kpi: 81,
-workload: 66,
-experience: "2 года",
-avatar: "НФ",
-goals: [
-"Финансовая аналитика",
-"Контроль расходов",
-"Отчётность"
-]
-},
+            const managerId = "m" + (di+1);
 
-emp11: {
-id: "emp11",
-name: "Мария Волкова",
-role: "HR Manager",
-department: "HR",
-salary: 460000,
-kpi: 86,
-workload: 70,
-experience: "3 года",
-avatar: "МВ",
-goals: [
-"Подбор",
-"Адаптация",
-"Employee experience"
-]
-},
+            employees.push({
+                id:managerId,
+                name:firstNames[idx%firstNames.length]+" "+lastNames[(idx+di)%lastNames.length],
+                role:"Department Manager",
+                department:dept.id,
+                manager:dept.director,
+                salary:550000,
+                bonus:10,
+                kpi:70+Math.floor(Math.random()*20),
+                workload:60+Math.floor(Math.random()*20),
+                motivation:70+Math.floor(Math.random()*25),
+                loyalty:75+Math.floor(Math.random()*20),
+                skills:["Management","Planning","Communication"],
+                personality:personalityPool[(idx+2)%personalityPool.length],
+                responsibilities:["Команда","Задачи отдела","Отчётность руководителю"],
+                memory:[],
+                status:"active",
+                authority:55
+            });
 
-emp12: {
-id: "emp12",
-name: "Артём Сидоров",
-role: "Operations Manager",
-department: "Operations",
-salary: 500000,
-kpi: 83,
-workload: 79,
-experience: "3 года",
-avatar: "АС",
-goals: [
-"Процессы",
-"SLA",
-"Операционная эффективность"
-]
+            idx++;
+
+            for(let j=0;j<2;j++){
+                employees.push({
+                    id:"s"+(di+1)+"_"+j,
+                    name:firstNames[idx%firstNames.length]+" "+lastNames[(idx+j+di)%lastNames.length],
+                    role:dept.id==="sales" || dept.id==="accounts" ? "Sales Manager" : "Specialist",
+                    department:dept.id,
+                    manager:managerId,
+                    salary:300000+Math.floor(Math.random()*100000),
+                    bonus:5+Math.floor(Math.random()*8),
+                    kpi:65+Math.floor(Math.random()*30),
+                    workload:45+Math.floor(Math.random()*45),
+                    motivation:60+Math.floor(Math.random()*35),
+                    loyalty:65+Math.floor(Math.random()*30),
+                    skills:["Execution","Communication","Problem Solving"],
+                    personality:personalityPool[(idx+j)%personalityPool.length],
+                    responsibilities:["Выполнение задач","Работа с клиентами/командой"],
+                    memory:[],
+                    status:"active",
+                    authority:25
+                });
+                idx++;
+            }
+        }
+    });
+
+    /* Ensure exactly 36 people */
+    while(employees.length<36){
+        const n=employees.length;
+        employees.push({
+            id:"x"+n,
+            name:firstNames[n%firstNames.length]+" "+lastNames[n%lastNames.length],
+            role:"Specialist",
+            department:departments[n%departments.length].id,
+            manager:departments[n%departments.length].director,
+            salary:320000,
+            bonus:5,
+            kpi:72,
+            workload:55,
+            motivation:78,
+            loyalty:80,
+            skills:["Execution","Analysis"],
+            personality:personalityPool[n%personalityPool.length],
+            responsibilities:["Выполнение задач отдела"],
+            memory:[],
+            status:"active",
+            authority:20
+        });
+    }
+
+    const clients = [
+        {id:"c1",name:"NovaTech",industry:"Technology",value:42000000,health:74,owner:"s1_0"},
+        {id:"c2",name:"Kaspi Tech",industry:"Fintech",value:68000000,health:82,owner:"s2_0"},
+        {id:"c3",name:"Qazaq Energy",industry:"Energy",value:51000000,health:68,owner:"s1_1"},
+        {id:"c4",name:"Orion Retail",industry:"Retail",value:27000000,health:88,owner:"s1_0"},
+        {id:"c5",name:"Alem Logistics",industry:"Logistics",value:35000000,health:76,owner:"s2_1"},
+        {id:"c6",name:"Vertex Group",industry:"Construction",value:29000000,health:61,owner:"s1_1"},
+        {id:"c7",name:"Digital House",industry:"Media",value:19000000,health:91,owner:"s2_0"},
+        {id:"c8",name:"Atlas Bank",industry:"Finance",value:72000000,health:84,owner:"s1_0"},
+        {id:"c9",name:"MedCore",industry:"Healthcare",value:31000000,health:79,owner:"s1_1"},
+        {id:"c10",name:"Steppe Telecom",industry:"Telecom",value:47000000,health:72,owner:"s2_1"}
+    ];
+
+    const deals = [
+        {id:"d1",name:"NovaTech Enterprise Platform",client:"c1",owner:"s1_0",value:18400000,stage:"Negotiation",prob:67,next:"Final commercial offer"},
+        {id:"d2",name:"Kaspi Integration",client:"c2",owner:"s2_0",value:32000000,stage:"Proposal",prob:54,next:"Technical review"},
+        {id:"d3",name:"Qazaq Energy Automation",client:"c3",owner:"s1_1",value:24000000,stage:"Meeting",prob:41,next:"Client workshop"},
+        {id:"d4",name:"Orion CRM Upgrade",client:"c4",owner:"s1_0",value:12500000,stage:"Proposal",prob:73,next:"Decision maker call"},
+        {id:"d5",name:"Alem Logistics Portal",client:"c5",owner:"s2_1",value:15500000,stage:"Lead",prob:22,next:"Discovery"},
+        {id:"d6",name:"Vertex ERP",client:"c6",owner:"s1_1",value:21000000,stage:"Negotiation",prob:58,next:"Budget discussion"},
+        {id:"d7",name:"Atlas Analytics",client:"c8",owner:"s1_0",value:38000000,stage:"Proposal",prob:63,next:"CFO meeting"},
+        {id:"d8",name:"Steppe Telecom Support",client:"c10",owner:"s2_1",value:17000000,stage:"Contacted",prob:31,next:"Requirements"}
+    ];
+
+    const projects = [
+        {id:"p1",name:"NovaTech Platform",client:"c1",manager:"m1",budget:11000000,progress:62,status:"Active",deadline:8},
+        {id:"p2",name:"Kaspi Integration",client:"c2",manager:"m2",budget:18000000,progress:48,status:"Active",deadline:14},
+        {id:"p3",name:"Atlas Analytics",client:"c8",manager:"m1",budget:9000000,progress:73,status:"Active",deadline:5},
+        {id:"p4",name:"Orion CRM",client:"c4",manager:"m1",budget:6000000,progress:91,status:"Final QA",deadline:2},
+        {id:"p5",name:"Internal Nexus 2.0",client:null,manager:"m2",budget:4500000,progress:37,status:"Active",deadline:18}
+    ];
+
+    const tasks=[];
+
+    for(let i=1;i<=20;i++){
+        const emp=employees[(i+8)%employees.length];
+        tasks.push({
+            id:"t"+i,
+            title:[
+                "Подготовить отчёт по клиенту",
+                "Проверить требования проекта",
+                "Обновить CRM",
+                "Подготовить встречу",
+                "Проверить KPI отдела",
+                "Согласовать коммерческое предложение"
+            ][i%6],
+            owner:emp.id,
+            creator:emp.manager||"e1",
+            project:i%4===0 ? "p"+((i%5)+1) : null,
+            deal:i%3===0 ? "d"+((i%8)+1) : null,
+            priority:i%5===0?"High":"Normal",
+            status:i<7?"In Progress":"Open",
+            due:i%7+1
+        });
+    }
+
+    const decisions=[
+        {
+            id:"dec1",
+            title:"NovaTech: скидка 15%",
+            description:"Клиент просит дополнительную скидку. Sales хочет сохранить сделку, CFO против снижения маржи.",
+            type:"commercial",
+            status:"pending",
+            options:[
+                {label:"Одобрить 15%",effect:"deal_prob_up"},
+                {label:"Ограничить скидку 8%",effect:"balanced"},
+                {label:"Отказать",effect:"deal_prob_down"}
+            ]
+        }
+    ];
+
+    const chats=[
+        {
+            id:"board",
+            name:"Board of Directors",
+            type:"group",
+            members:["e1","e5","e6","e7","e8","e9"],
+            messages:[
+                msg("e5","Коллеги, у нас сегодня два вопроса: NovaTech и загрузка команды.", "09:02"),
+                msg("e7","По NovaTech я бы не давала скидку 15%. Маржа уже под давлением.", "09:04"),
+                msg("e5","Если откажемся, вероятность закрытия снизится.", "09:05"),
+                msg("e6","Со стороны разработки я могу подтвердить техническую часть сегодня.", "09:06")
+            ]
+        },
+        {
+            id:"general",
+            name:"General Company",
+            type:"group",
+            members:employees.map(e=>e.id),
+            messages:[
+                msg("e8","Коллеги, напоминаю: сегодня в 16:00 короткая общая встреча.", "08:40"),
+                msg("e3","Спасибо, Мария.", "08:42")
+            ]
+        }
+    ];
+
+    /* Personal chats for every employee */
+    employees.filter(e=>e.id!=="e1").forEach(e=>{
+        chats.push({
+            id:"chat_"+e.id,
+            name:e.name,
+            type:"direct",
+            members:["e1",e.id],
+            messages:[
+                msg(e.id,
+                    e.role.includes("Director")
+                        ? "Доброе утро, Олег. Как настроение?"
+                        : "Доброе утро. Я сегодня занимаюсь текущими задачами.",
+                    "08:50"
+                )
+            ]
+        });
+    });
+
+    return {
+        version:3,
+        day:1,
+        hour:9,
+        minute:0,
+        running:false,
+        employees,
+        departments,
+        clients,
+        deals,
+        projects,
+        tasks,
+        decisions,
+        chats,
+        events:[
+            {time:"09:00",icon:"🏢",title:"Новый рабочий день",text:"Компания начала Day 1."},
+            {time:"09:02",icon:"💬",title:"Board of Directors",text:"Директора обсуждают текущие приоритеты."}
+        ],
+        finance:{
+            cash:142800000,
+            revenue:367200000,
+            expenses:285800000,
+            payroll:12800000,
+            profit:81400000
+        },
+        candidates:[
+            {id:"cand1",name:"Артур Белов",role:"Sales Manager",experience:"6 лет B2B",score:82,status:"Interview"},
+            {id:"cand2",name:"Екатерина Смирнова",role:"Product Manager",experience:"5 лет IT",score:89,status:"Interview"},
+            {id:"cand3",name:"Михаил Волков",role:"QA Lead",experience:"7 лет QA",score:86,status:"New"}
+        ],
+        hiring:[],
+        companyHealth:84,
+        nextEvent:0
+    };
 }
 
-},
-
-tasks: [
-
-{
-id: 1,
-title: "Закрыть квартальный план продаж",
-assignee: "Алексей Волков",
-priority: "Высокий",
-status: "В работе",
-due: "2026-09-25"
-},
-
-{
-id: 2,
-title: "Подготовить отчёт по инфраструктуре",
-assignee: "Дмитрий Соколов",
-priority: "Средний",
-status: "В работе",
-due: "2026-09-24"
-},
-
-{
-id: 3,
-title: "Согласовать платёж поставщику",
-assignee: "Анна Морозова",
-priority: "Высокий",
-status: "Ожидает",
-due: "2026-09-22"
+function msg(author,text,time){
+    return {
+        id:"m_"+Math.random().toString(36).slice(2),
+        author,
+        text,
+        time,
+        mine:false
+    };
 }
 
-],
+function loadState(){
+    try{
+        const saved=localStorage.getItem(STORAGE_KEY);
+        if(saved){
+            const parsed=JSON.parse(saved);
 
-deals: [
+            if(parsed.version===3 && parsed.employees && parsed.employees.length===36){
+                return parsed;
+            }
+        }
+    }catch(e){}
 
-{
-id: 1,
-client: "Astana Digital",
-title: "Корпоративная платформа",
-amount: 12400000,
-stage: "Переговоры",
-probability: 70,
-owner: "Алексей Волков"
-},
-
-{
-id: 2,
-client: "Nomad Logistics",
-title: "Автоматизация процессов",
-amount: 18500000,
-stage: "Предложение",
-probability: 60,
-owner: "Алексей Волков"
-},
-
-{
-id: 3,
-client: "Qazaq Energy",
-title: "IT-инфраструктура",
-amount: 21600000,
-stage: "Переговоры",
-probability: 55,
-owner: "Алексей Волков"
-},
-
-{
-id: 4,
-client: "Orion Group",
-title: "CRM внедрение",
-amount: 9000000,
-stage: "Квалификация",
-probability: 40,
-owner: "Ирина Ковалёва"
-},
-
-{
-id: 5,
-client: "Steppe Bank",
-title: "Digital Workspace",
-amount: 7400000,
-stage: "Предложение",
-probability: 55,
-owner: "Ирина Ковалёва"
-},
-
-{
-id: 6,
-client: "Khan Group",
-title: "IT Support",
-amount: 5200000,
-stage: "Квалификация",
-probability: 35,
-owner: "Михаил Орлов"
-},
-
-{
-id: 7,
-client: "Arman Retail",
-title: "CRM",
-amount: 11700000,
-stage: "Переговоры",
-probability: 65,
-owner: "Михаил Орлов"
-},
-
-{
-id: 8,
-client: "Nomad Construction",
-title: "ERP Integration",
-amount: 18700000,
-stage: "Предложение",
-probability: 50,
-owner: "Алексей Волков"
+    const fresh=createInitialState();
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(fresh));
+    return fresh;
 }
 
-],
-
-projects: [
-
-{
-name: "Alatau CRM",
-lead: "Дмитрий Соколов",
-status: "В разработке",
-progress: 68
-},
-
-{
-name: "Nexus Portal",
-lead: "Дмитрий Соколов",
-status: "В разработке",
-progress: 45
-},
-
-{
-name: "Sales Expansion",
-lead: "Алексей Волков",
-status: "Активен",
-progress: 72
-},
-
-{
-name: "HR Automation",
-lead: "Елена Орлова",
-status: "Планирование",
-progress: 25
-},
-
-{
-name: "Finance Control",
-lead: "Анна Морозова",
-status: "Активен",
-progress: 61
+function save(){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+    updateTopbar();
 }
-
-],
-
-candidates: [
-
-{
-name: "Данияр Ахметов",
-role: "Sales Manager",
-experience: "4 года B2B",
-status: "Интервью"
-},
-
-{
-name: "Алина Сафина",
-role: "Product Manager",
-experience: "5 лет IT",
-status: "Новый"
-},
-
-{
-name: "Тимур Нурланов",
-role: "Backend Developer",
-experience: "3 года",
-status: "Тех. интервью"
-}
-
-],
-
-finance: {
-
-revenue: 128500000,
-
-expenses: 76400000,
-
-cash: 52100000
-
-},
-
-events: [
-
-{
-title: "Новая сделка",
-text: "Sales зарегистрировал нового клиента на ₸12.4 млн."
-},
-
-{
-title: "Проект требует решения",
-text: "CTO запросил дополнительный бюджет."
-},
-
-{
-title: "HR",
-text: "Получено 3 новых резюме."
-},
-
-{
-title: "Финансы",
-text: "Ожидается согласование платежа ₸2.1 млн."
-}
-
-],
-
-decisions: [
-
-{
-id: 1,
-title: "Дополнительный бюджет для Nexus Portal",
-from: "Дмитрий Соколов",
-amount: 3500000,
-status: "Ожидает решения"
-},
-
-{
-id: 2,
-title: "Увеличение бонусного фонда Sales",
-from: "Алексей Волков",
-amount: 1800000,
-status: "Ожидает решения"
-}
-
-]
-
-};
-
 
 /* =========================================================
-   LOAD / SAVE
+   BASIC HELPERS
 ========================================================= */
 
-let state;
-
-try {
-
-const saved =
-localStorage.getItem("alatauNexusState");
-
-state =
-saved
-? JSON.parse(saved)
-: defaultState;
-
-} catch {
-
-state = defaultState;
-
+function employee(id){
+    return state.employees.find(e=>e.id===id);
 }
 
-
-let sequence =
-Date.now();
-
-
-function saveState() {
-
-localStorage.setItem(
-"alatauNexusState",
-JSON.stringify(state)
-);
-
-renderAll();
-
+function client(id){
+    return state.clients.find(c=>c.id===id);
 }
 
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function employeeArray() {
-
-return Object.values(state.employees);
-
+function deal(id){
+    return state.deals.find(d=>d.id===id);
 }
 
-
-function money(value) {
-
-return new Intl.NumberFormat(
-"ru-RU"
-).format(value) + " ₸";
-
+function project(id){
+    return state.projects.find(p=>p.id===id);
 }
 
-
-function initials(name) {
-
-return name
-.split(" ")
-.map(x => x[0])
-.slice(0,2)
-.join("")
-.toUpperCase();
-
+function department(id){
+    return state.departments.find(d=>d.id===id);
 }
 
-
-function escapeHTML(value) {
-
-return String(value ?? "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
+function money(n){
+    return new Intl.NumberFormat("ru-RU").format(Math.round(n))+" ₸";
 }
 
-
-function addEvent(title,text) {
-
-state.events.unshift({
-title:title,
-text:text
-});
-
-state.events =
-state.events.slice(0,8);
-
+function shortMoney(n){
+    if(n>=1000000000)return (n/1000000000).toFixed(1)+"B";
+    if(n>=1000000)return (n/1000000).toFixed(1)+"M";
+    if(n>=1000)return (n/1000).toFixed(0)+"K";
+    return String(Math.round(n));
 }
 
+function stageClass(stage){
+    if(stage==="Won")return "green";
+    if(stage==="Lost")return "red";
+    if(stage==="Negotiation")return "yellow";
+    return "blue";
+}
+
+function addEvent(icon,title,text){
+    state.events.unshift({
+        time:timeString(),
+        icon,
+        title,
+        text
+    });
+
+    if(state.events.length>100){
+        state.events.length=100;
+    }
+}
+
+function timeString(){
+    return String(state.hour).padStart(2,"0")+":"+String(state.minute).padStart(2,"0");
+}
+
+function getChat(id){
+    return state.chats.find(c=>c.id===id);
+}
+
+function employeeChats(){
+    return state.chats.filter(c=>c.type==="direct");
+}
 
 /* =========================================================
    NAVIGATION
 ========================================================= */
 
-document
-.getElementById("menu")
-.addEventListener("click",function(event){
+document.querySelectorAll(".nav button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        currentPage=btn.dataset.page;
 
-const button =
-event.target.closest("button");
+        document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
 
-if(!button) return;
-
-showSection(
-button.dataset.section,
-button
-);
-
+        render();
+    });
 });
 
+function render(){
+    const titles={
+        dashboard:"Dashboard",
+        messenger:"Messenger",
+        company:"Компания",
+        employees:"Сотрудники",
+        crm:"CRM",
+        projects:"Проекты",
+        tasks:"Задачи",
+        finance:"Финансы",
+        hr:"HR",
+        decisions:"Decision Center"
+    };
 
-function showSection(sectionId,button) {
+    document.getElementById("pageTitle").textContent=titles[currentPage];
+    document.getElementById("content").innerHTML=pages[currentPage]();
 
-document
-.querySelectorAll(".section")
-.forEach(section => {
+    if(currentPage==="messenger"){
+        renderMessages();
+    }
 
-section.classList.remove("active");
-
-});
-
-
-const section =
-document.getElementById(sectionId);
-
-if(section) {
-
-section.classList.add("active");
-
+    updateTopbar();
 }
 
+function updateTopbar(){
+    document.getElementById("dayPill").textContent=
+        "DAY "+state.day+" • "+timeString();
 
-document
-.querySelectorAll(".menu button")
-.forEach(btn => {
+    const btn=document.getElementById("runBtn");
 
-btn.classList.remove("active");
-
-});
-
-
-if(button) {
-
-button.classList.add("active");
-
+    if(state.running){
+        btn.textContent="⏸ PAUSE";
+        btn.classList.add("paused");
+    }else{
+        btn.textContent="▶ RUN";
+        btn.classList.remove("paused");
+    }
 }
-
-
-const titles = {
-
-dashboard:"CEO Dashboard",
-
-company:"Компания",
-
-employees:"Сотрудники",
-
-departments:"Отделы",
-
-crm:"CRM",
-
-projects:"Проекты",
-
-tasks:"Задачи",
-
-finance:"Финансы",
-
-hr:"HR",
-
-decisions:"Центр решений"
-
-};
-
-
-document
-.getElementById("pageTitle")
-.textContent =
-titles[sectionId] || "CEO Dashboard";
-
-}
-
 
 /* =========================================================
-   RENDER DASHBOARD
+   DASHBOARD
 ========================================================= */
 
-function renderDashboard() {
+const pages={
 
-const employees =
-employeeArray();
+dashboard(){
 
-const pipeline =
-state.deals.reduce(
-(sum,deal) => sum + Number(deal.amount),
-0
-);
+    const pipeline=state.deals
+        .filter(d=>!["Won","Lost"].includes(d.stage))
+        .reduce((s,d)=>s+d.value,0);
 
+    const openTasks=state.tasks.filter(t=>t.status!=="Done").length;
 
-document
-.getElementById("statEmployees")
-.textContent =
-employees.length + 1;
+    const overloaded=state.employees.filter(e=>e.workload>=85).length;
 
+    const pending=state.decisions.filter(d=>d.status==="pending").length;
 
-document
-.getElementById("statDeals")
-.textContent =
-state.deals.length;
+    const briefing=generateBriefing();
 
+    return `
+        <div class="grid stats">
 
-document
-.getElementById("statPipeline")
-.textContent =
-"₸" +
-(pipeline / 1000000).toFixed(1) +
-"m";
+            <div class="card">
+                <div class="stat-title">Employees</div>
+                <div class="stat-value">${state.employees.length}</div>
+                <div class="stat-sub">Company headcount</div>
+            </div>
 
+            <div class="card">
+                <div class="stat-title">Revenue</div>
+                <div class="stat-value">${shortMoney(state.finance.revenue)}</div>
+                <div class="stat-sub">Total revenue</div>
+            </div>
 
-document
-.getElementById("statProjects")
-.textContent =
-state.projects.length;
+            <div class="card">
+                <div class="stat-title">Profit</div>
+                <div class="stat-value">${shortMoney(state.finance.profit)}</div>
+                <div class="stat-sub">Current result</div>
+            </div>
 
+            <div class="card">
+                <div class="stat-title">Pipeline</div>
+                <div class="stat-value">${shortMoney(pipeline)}</div>
+                <div class="stat-sub">${state.deals.length} active deals</div>
+            </div>
 
-/* DIRECTORS */
+            <div class="card">
+                <div class="stat-title">Projects</div>
+                <div class="stat-value">${state.projects.length}</div>
+                <div class="stat-sub">${state.projects.filter(p=>p.status!=="Done").length} active</div>
+            </div>
 
-const directors =
-employees.filter(employee =>
-employee.role.includes("Director") ||
-employee.role === "CTO" ||
-employee.role === "CFO" ||
-employee.role === "COO"
-);
+            <div class="card">
+                <div class="stat-title">Health</div>
+                <div class="stat-value">${state.companyHealth}%</div>
+                <div class="stat-sub">Company health</div>
+            </div>
 
+        </div>
 
-document
-.getElementById("directorList")
-.innerHTML =
-directors.map(employee => `
+        <div class="section-title">Morning Briefing</div>
 
-<div
-class="employee"
-onclick="openEmployee('${employee.id}')"
->
+        <div class="card briefing">
+            <h2>Доброе утро, Олег.</h2>
+            ${briefing.map(x=>`<p>• ${x}</p>`).join("")}
 
-<div class="employee-top">
+            <div class="kpi-grid">
+                <div class="kpi-box">
+                    <span class="muted small">Open tasks</span>
+                    <strong>${openTasks}</strong>
+                </div>
 
-<div>
+                <div class="kpi-box">
+                    <span class="muted small">Overloaded</span>
+                    <strong>${overloaded}</strong>
+                </div>
 
-<div class="employee-name">
-${escapeHTML(employee.name)}
-</div>
+                <div class="kpi-box">
+                    <span class="muted small">Decisions</span>
+                    <strong>${pending}</strong>
+                </div>
 
-<div class="employee-role">
-${escapeHTML(employee.role)}
-</div>
+                <div class="kpi-box">
+                    <span class="muted small">Clients</span>
+                    <strong>${state.clients.length}</strong>
+                </div>
+            </div>
+        </div>
 
-</div>
+        <div class="grid two">
 
-<div class="online"></div>
+            <div>
+                <div class="section-title">Company Activity</div>
+                <div class="card">
+                    <div class="feed">
+                        ${state.events.slice(0,12).map(eventHTML).join("")}
+                    </div>
+                </div>
+            </div>
 
-</div>
+            <div>
+                <div class="section-title">Needs CEO Attention</div>
+                <div class="card">
+                    <div class="list">
 
-<div class="kpi">
+                        ${pending ? `
+                            <div class="list-row">
+                                <div>
+                                    <strong>⚖️ ${pending} decision(s)</strong>
+                                    <div class="muted small">Require your attention</div>
+                                </div>
+                                <button class="btn" onclick="go('decisions')">Open</button>
+                            </div>
+                        `:""}
 
-<div class="kpi-label">
+                        ${overloaded ? `
+                            <div class="list-row">
+                                <div>
+                                    <strong>⚠️ ${overloaded} overloaded employees</strong>
+                                    <div class="muted small">Workload above 85%</div>
+                                </div>
+                                <button class="btn" onclick="go('employees')">View</button>
+                            </div>
+                        `:""}
 
-<span>
-KPI
-</span>
+                        <div class="list-row">
+                            <div>
+                                <strong>🎯 CRM pipeline</strong>
+                                <div class="muted small">${shortMoney(pipeline)} potential revenue</div>
+                            </div>
+                            <button class="btn" onclick="go('crm')">Open</button>
+                        </div>
 
-<span>
-${employee.kpi}%
-</span>
+                    </div>
+                </div>
+            </div>
 
-</div>
-
-<div class="progress">
-
-<div
-class="progress-bar"
-style="width:${employee.kpi}%"
-></div>
-
-</div>
-
-</div>
-
-</div>
-
-`).join("");
-
-
-/* EVENTS */
-
-document
-.getElementById("eventList")
-.innerHTML =
-state.events
-.slice(0,5)
-.map(event => `
-
-<div class="event">
-
-<strong>
-${escapeHTML(event.title)}
-</strong>
-
-<p>
-${escapeHTML(event.text)}
-</p>
-
-</div>
-
-`)
-.join("");
-
-
-/* DEPARTMENTS */
-
-const departments = {
-
-Sales:0,
-Technology:0,
-Finance:0,
-HR:0,
-Operations:0
-
-};
-
-
-employees.forEach(employee => {
-
-if(departments[employee.department] !== undefined) {
-
-departments[employee.department]++;
-
-}
-
-});
-
-
-document
-.getElementById("deptMap")
-.innerHTML =
-Object.entries(departments)
-.map(([department,count]) => `
-
-<div class="department">
-
-<strong>
-${department}
-</strong>
-
-<span>
-${count} сотрудников
-</span>
-
-</div>
-
-`)
-.join("");
-
-}
-
+        </div>
+    `;
+},
 
 /* =========================================================
-   EMPLOYEES
+   MESSENGER
 ========================================================= */
 
-function renderEmployees() {
+messenger(){
 
-const search =
-(
-document
-.getElementById("employeeSearch")
-?.value || ""
-)
-.toLowerCase();
+    return `
+        <div class="messenger">
 
+            <div class="chat-list">
 
-const employees =
-employeeArray()
-.filter(employee =>
-(
-employee.name +
-" " +
-employee.role +
-" " +
-employee.department
-)
-.toLowerCase()
-.includes(search)
-);
+                <div class="chat-list-header">
+                    💬 Messenger
+                </div>
 
+                ${state.chats.map(chat=>{
 
-document
-.getElementById("employeeTable")
-.innerHTML = `
+                    const last=chat.messages[chat.messages.length-1];
 
-<table class="table">
+                    return `
+                        <div class="chat-item ${chat.id===currentChatId?"active":""}"
+                             onclick="selectChat('${chat.id}')">
 
-<thead>
+                            <div class="chat-item-name">
+                                ${chat.type==="group"?"👥 ":""}${chat.name}
+                            </div>
 
-<tr>
+                            <div class="chat-item-last">
+                                ${last ? escapeHtml(last.text) : "No messages"}
+                            </div>
 
-<th>
-Сотрудник
-</th>
+                        </div>
+                    `;
+                }).join("")}
 
-<th>
-Должность
-</th>
+            </div>
 
-<th>
-Отдел
-</th>
+            <div class="chat-window">
 
-<th>
-KPI
-</th>
+                <div class="chat-header" id="chatHeader"></div>
 
-<th>
-Загрузка
-</th>
+                <div class="messages" id="messages"></div>
 
-<th>
-Зарплата
-</th>
+                <div class="chat-input">
+                    <input id="chatInput"
+                           placeholder="Написать сообщение..."
+                           onkeydown="if(event.key==='Enter')sendMessage()">
 
-</tr>
+                    <button class="btn primary" onclick="sendMessage()">
+                        Отправить
+                    </button>
+                </div>
 
-</thead>
+            </div>
 
-<tbody>
+            <div class="chat-context" id="chatContext"></div>
 
-${employees.map(employee => `
-
-<tr
-class="clickable"
-onclick="openEmployee('${employee.id}')"
->
-
-<td>
-<strong>
-${escapeHTML(employee.name)}
-</strong>
-</td>
-
-<td>
-${escapeHTML(employee.role)}
-</td>
-
-<td>
-${escapeHTML(employee.department)}
-</td>
-
-<td>
-<span class="badge">
-${employee.kpi}%
-</span>
-</td>
-
-<td>
-${employee.workload}%
-</td>
-
-<td>
-${money(employee.salary)}
-</td>
-
-</tr>
-
-`).join("")}
-
-</tbody>
-
-</table>
-
-`;
-
-}
-
-
-/* =========================================================
-   EMPLOYEE PROFILE
-========================================================= */
-
-function openEmployee(id) {
-
-const employee =
-state.employees[id];
-
-if(!employee) {
-
-alert("Сотрудник не найден.");
-
-return;
-
-}
-
-
-openModal(`
-
-<div class="profile-header">
-
-<div class="big-avatar">
-
-${escapeHTML(employee.avatar || initials(employee.name))}
-
-</div>
-
-<div>
-
-<h2>
-${escapeHTML(employee.name)}
-</h2>
-
-<p>
-${escapeHTML(employee.role)}
-·
-${escapeHTML(employee.department)}
-</p>
-
-</div>
-
-</div>
-
-
-<div class="profile-info">
-
-<div class="info">
-
-<span>
-Отдел
-</span>
-
-<strong>
-${escapeHTML(employee.department)}
-</strong>
-
-</div>
-
-
-<div class="info">
-
-<span>
-Зарплата
-</span>
-
-<strong>
-${money(employee.salary)}
-</strong>
-
-</div>
-
-
-<div class="info">
-
-<span>
-KPI
-</span>
-
-<strong>
-${employee.kpi}%
-</strong>
-
-</div>
-
-
-<div class="info">
-
-<span>
-Загрузка
-</span>
-
-<strong>
-${employee.workload}%
-</strong>
-
-</div>
-
-
-<div class="info">
-
-<span>
-Стаж
-</span>
-
-<strong>
-${escapeHTML(employee.experience)}
-</strong>
-
-</div>
-
-
-<div class="info">
-
-<span>
-Статус
-</span>
-
-<strong>
-Активен
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="profile-section">
-
-<h3>
-Цели
-</h3>
-
-${employee.goals
-.map(goal => `
-
-<div class="goal">
-• ${escapeHTML(goal)}
-</div>
-
-`)
-.join("")}
-
-</div>
-
-
-<div class="profile-section">
-
-<h3>
-Действия CEO
-</h3>
-
-<div class="actions">
-
-<button
-class="action"
-onclick="messageEmployee('${employee.id}')"
->
-💬 Написать
-</button>
-
-
-<button
-class="action"
-onclick="taskForEmployee('${employee.id}')"
->
-✓ Поставить задачу
-</button>
-
-
-<button
-class="action"
-onclick="changeKPI('${employee.id}')"
->
-📊 Изменить KPI
-</button>
-
-
-<button
-class="action"
-onclick="changeSalary('${employee.id}')"
->
-₸ Изменить зарплату
-</button>
-
-
-<button
-class="action"
-onclick="promoteEmployee('${employee.id}')"
->
-↑ Повысить
-</button>
-
-
-<button
-class="action"
-onclick="transferEmployee('${employee.id}')"
->
-↔ Перевести
-</button>
-
-
-<button
-class="action"
-onclick="warnEmployee('${employee.id}')"
->
-⚠ Предупредить
-</button>
-
-
-<button
-class="action danger"
-onclick="fireEmployee('${employee.id}')"
->
-✕ Уволить
-</button>
-
-</div>
-
-</div>
-
-`);
-
-}
-
-
-/* =========================================================
-   KPI
-========================================================= */
-
-function changeKPI(id) {
-
-const employee =
-state.employees[id];
-
-const value =
-prompt(
-"Новый KPI от 0 до 100:",
-employee.kpi
-);
-
-if(value === null) return;
-
-const number =
-Number(value);
-
-if(
-!Number.isFinite(number) ||
-number < 0 ||
-number > 100
-) {
-
-alert(
-"Введите число от 0 до 100."
-);
-
-return;
-
-}
-
-
-employee.kpi =
-Math.round(number);
-
-addEvent(
-"KPI изменён",
-`CEO изменил KPI ${employee.name} на ${employee.kpi}%.`
-);
-
-saveState();
-
-openEmployee(id);
-
-}
-
-
-/* =========================================================
-   SALARY
-========================================================= */
-
-function changeSalary(id) {
-
-const employee =
-state.employees[id];
-
-const value =
-prompt(
-"Новая зарплата в ₸:",
-employee.salary
-);
-
-if(value === null) return;
-
-const number =
-Number(
-String(value)
-.replace(/\s/g,"")
-);
-
-
-if(
-!Number.isFinite(number) ||
-number < 0
-) {
-
-alert(
-"Введите корректную сумму."
-);
-
-return;
-
-}
-
-
-employee.salary =
-Math.round(number);
-
-
-addEvent(
-"Изменение зарплаты",
-`CEO изменил зарплату ${employee.name} на ${money(employee.salary)}.`
-);
-
-saveState();
-
-openEmployee(id);
-
-}
-
-
-/* =========================================================
-   PROMOTION
-========================================================= */
-
-function promoteEmployee(id) {
-
-const employee =
-state.employees[id];
-
-if(
-employee.role.includes("Director") ||
-employee.role === "CTO" ||
-employee.role === "CFO" ||
-employee.role === "COO"
-) {
-
-alert(
-`${employee.name} уже находится на руководящей позиции.`
-);
-
-return;
-
-}
-
-
-employee.role =
-employee.role + " · Senior";
-
-
-employee.kpi =
-Math.min(
-100,
-employee.kpi + 3
-);
-
-
-addEvent(
-"Повышение",
-`${employee.name} получил повышение.`
-);
-
-
-saveState();
-
-openEmployee(id);
-
-}
-
-
-/* =========================================================
-   TRANSFER
-========================================================= */
-
-function transferEmployee(id) {
-
-const employee =
-state.employees[id];
-
-const department =
-prompt(
-"Новый отдел:\n\nSales\nTechnology\nFinance\nHR\nOperations",
-employee.department
-);
-
-
-if(department === null) return;
-
-
-const allowed = [
-"Sales",
-"Technology",
-"Finance",
-"HR",
-"Operations"
-];
-
-
-if(!allowed.includes(department)) {
-
-alert(
-"Введите один из предложенных отделов."
-);
-
-return;
-
-}
-
-
-employee.department =
-department;
-
-
-addEvent(
-"Перевод",
-`${employee.name} переведён в отдел ${department}.`
-);
-
-
-saveState();
-
-openEmployee(id);
-
-}
-
-
-/* =========================================================
-   WARNING
-========================================================= */
-
-function warnEmployee(id) {
-
-const employee =
-state.employees[id];
-
-
-addEvent(
-"Предупреждение",
-`CEO вынес предупреждение ${employee.name}.`
-);
-
-
-saveState();
-
-alert(
-`Предупреждение зафиксировано для ${employee.name}.`
-);
-
-openEmployee(id);
-
-}
-
-
-/* =========================================================
-   FIRE
-========================================================= */
-
-function fireEmployee(id) {
-
-const employee =
-state.employees[id];
-
-
-if(
-!confirm(
-`Уволить ${employee.name}?`
-)
-) {
-
-return;
-
-}
-
-
-delete state.employees[id];
-
-
-addEvent(
-"Увольнение",
-`${employee.name} исключён из штата.`
-);
-
-
-saveState();
-
-closeModal();
-
-}
-
-
-/* =========================================================
-   CHAT
-========================================================= */
-
-function messageEmployee(id) {
-
-const employee =
-state.employees[id];
-
-
-openModal(`
-
-<h2>
-Чат с ${escapeHTML(employee.name)}
-</h2>
-
-
-<div
-class="chat"
-id="chatBox"
->
-
-<div class="msg">
-
-<strong>
-${escapeHTML(employee.name)}
-</strong>
-
-<p>
-${escapeHTML(
-generateEmployeeReply(
-employee,
-"Привет"
-)
-)}
-</p>
-
-</div>
-
-</div>
-
-
-<div style="
-display:flex;
-gap:8px;
-">
-
-<input
-id="chatInput"
-class="btn"
-style="flex:1"
-placeholder="Напишите сообщение..."
-onkeydown="
-if(event.key === 'Enter')
-sendChat('${employee.id}')
-"
->
-
-
-<button
-class="btn primary"
-onclick="sendChat('${employee.id}')"
->
-Отправить
-</button>
-
-</div>
-
-`);
-
-}
-
-
-function generateEmployeeReply(
-employee,
-message
-) {
-
-const text =
-message.toLowerCase();
-
-
-if(
-employee.department === "Sales"
-) {
-
-if(
-text.includes("продаж") ||
-text.includes("клиент") ||
-text.includes("сделк")
-) {
-
-const deals =
-state.deals.filter(
-deal =>
-deal.owner === employee.name
-);
-
-
-return `Сейчас у меня ${deals.length} сделок в CRM. Я вижу основной фокус в доведении активных переговоров до следующего этапа.`;
-
-}
-
-
-return `Принял. Я отвечаю за продажи и клиентов. Могу дать текущий статус воронки, проблемные сделки и план действий.`;
-
-}
-
-
-if(employee.role === "CTO") {
-
-if(
-text.includes("бюдж") ||
-text.includes("деньг")
-) {
-
-return `По Nexus Portal есть запрос на дополнительный бюджет ${money(3500000)}. Причина — расширение технического объёма проекта.`;
-
-}
-
-
-return `По технологии главный фокус сейчас — стабильность платформы, сроки разработки и технический долг. Текущий KPI: ${employee.kpi}%.`;
-
-}
-
-
-if(employee.role === "CFO") {
-
-return `По финансам: выручка ${money(state.finance.revenue)}, расходы ${money(state.finance.expenses)}, cash ${money(state.finance.cash)}.`;
-
-}
-
-
-if(employee.role === "HR Director") {
-
-return `Сейчас в HR ${state.candidates.length} активных кандидата. Могу рассказать по каждому и предложить следующий этап.`;
-
-}
-
-
-if(employee.role === "COO") {
-
-return `Операционный KPI сейчас ${employee.kpi}%, загрузка ${employee.workload}%. Основной фокус — SLA и эффективность процессов.`;
-
-}
-
-
-return `Сейчас мой KPI ${employee.kpi}%, загрузка ${employee.workload}%. Готов дать статус по своим задачам и текущим проблемам.`;
-
-}
-
-
-function sendChat(id) {
-
-const input =
-document.getElementById("chatInput");
-
-
-if(
-!input ||
-!input.value.trim()
-) {
-
-return;
-
-}
-
-
-const employee =
-state.employees[id];
-
-
-const message =
-input.value.trim();
-
-
-const box =
-document.getElementById("chatBox");
-
-
-box.innerHTML += `
-
-<div class="msg ceo-msg">
-
-<strong>
-Олег Ким
-</strong>
-
-<p>
-${escapeHTML(message)}
-</p>
-
-</div>
-
-
-<div class="msg">
-
-<strong>
-${escapeHTML(employee.name)}
-</strong>
-
-<p>
-${escapeHTML(
-generateEmployeeReply(
-employee,
-message
-)
-)}
-</p>
-
-</div>
-
-`;
-
-
-input.value = "";
-
-box.scrollTop =
-box.scrollHeight;
-
-}
-
-
-/* =========================================================
-   TASKS
-========================================================= */
-
-function taskForEmployee(id) {
-
-const employee =
-state.employees[id];
-
-openTaskForm(
-employee.name
-);
-
-}
-
-
-function openTaskForm(
-assignee = ""
-) {
-
-openModal(`
-
-<h2>
-Поставить задачу
-</h2>
-
-
-<div class="form-grid">
-
-<div class="field full">
-
-<label>
-Задача
-</label>
-
-<input
-id="taskTitle"
-placeholder="Что нужно сделать?"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Исполнитель
-</label>
-
-<select id="taskAssignee">
-
-${employeeArray()
-.map(employee => `
-
-<option
-${employee.name === assignee ? "selected" : ""}
->
-${escapeHTML(employee.name)}
-</option>
-
-`)
-.join("")}
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Приоритет
-</label>
-
-<select id="taskPriority">
-
-<option>
-Высокий
-</option>
-
-<option selected>
-Средний
-</option>
-
-<option>
-Низкий
-</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Срок
-</label>
-
-<input
-id="taskDue"
-type="date"
->
-
-</div>
-
-</div>
-
-
-<div style="margin-top:15px">
-
-<button
-class="btn primary"
-onclick="createTask()"
->
-Создать задачу
-</button>
-
-</div>
-
-`);
-
-}
-
-
-function createTask() {
-
-const title =
-document
-.getElementById("taskTitle")
-.value
-.trim();
-
-
-const assignee =
-document
-.getElementById("taskAssignee")
-.value;
-
-
-const priority =
-document
-.getElementById("taskPriority")
-.value;
-
-
-const due =
-document
-.getElementById("taskDue")
-.value;
-
-
-if(!title) {
-
-alert(
-"Введите название задачи."
-);
-
-return;
-
-}
-
-
-state.tasks.unshift({
-
-id: ++sequence,
-
-title:title,
-
-assignee:assignee,
-
-priority:priority,
-
-status:"Ожидает",
-
-due:due
-
-});
-
-
-addEvent(
-"Новая задача",
-`CEO поставил задачу "${title}" сотруднику ${assignee}.`
-);
-
-
-saveState();
-
-closeModal();
-
-showSection(
-"tasks",
-document.querySelector(
-'[data-section="tasks"]'
-)
-);
-
-}
-
-
-function renderTasks() {
-
-const container =
-document.getElementById("taskTable");
-
-
-if(!state.tasks.length) {
-
-container.innerHTML =
-'<div class="empty">Задач пока нет.</div>';
-
-return;
-
-}
-
-
-container.innerHTML = `
-
-<table class="table">
-
-<thead>
-
-<tr>
-
-<th>
-Задача
-</th>
-
-<th>
-Исполнитель
-</th>
-
-<th>
-Приоритет
-</th>
-
-<th>
-Статус
-</th>
-
-<th>
-Срок
-</th>
-
-<th>
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-${state.tasks.map(task => `
-
-<tr>
-
-<td>
-<strong>
-${escapeHTML(task.title)}
-</strong>
-</td>
-
-<td>
-${escapeHTML(task.assignee)}
-</td>
-
-<td>
-${escapeHTML(task.priority)}
-</td>
-
-<td>
-
-<select
-class="btn"
-onchange="
-changeTaskStatus(
-${task.id},
-this.value
-)
-"
->
-
-<option
-${task.status === "Ожидает" ? "selected" : ""}
->
-Ожидает
-</option>
-
-<option
-${task.status === "В работе" ? "selected" : ""}
->
-В работе
-</option>
-
-<option
-${task.status === "Выполнено" ? "selected" : ""}
->
-Выполнено
-</option>
-
-</select>
-
-</td>
-
-<td>
-${task.due || "—"}
-</td>
-
-<td>
-
-<button
-class="btn danger"
-onclick="deleteTask(${task.id})"
->
-Удалить
-</button>
-
-</td>
-
-</tr>
-
-`).join("")}
-
-</tbody>
-
-</table>
-
-`;
-
-}
-
-
-function changeTaskStatus(
-id,
-status
-) {
-
-const task =
-state.tasks.find(
-item => item.id === id
-);
-
-
-if(!task) return;
-
-
-task.status =
-status;
-
-
-addEvent(
-"Статус задачи",
-`Задача "${task.title}" теперь: ${status}.`
-);
-
-
-saveState();
-
-}
-
-
-function deleteTask(id) {
-
-state.tasks =
-state.tasks.filter(
-task => task.id !== id
-);
-
-
-saveState();
-
-}
-
-
-/* =========================================================
-   CRM
-========================================================= */
-
-function renderCRM() {
-
-document
-.getElementById("crmTable")
-.innerHTML = `
-
-<table class="table">
-
-<thead>
-
-<tr>
-
-<th>
-Клиент
-</th>
-
-<th>
-Сделка
-</th>
-
-<th>
-Сумма
-</th>
-
-<th>
-Этап
-</th>
-
-<th>
-Вероятность
-</th>
-
-<th>
-Ответственный
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-${state.deals.map(deal => `
-
-<tr>
-
-<td>
-${escapeHTML(deal.client)}
-</td>
-
-<td>
-${escapeHTML(deal.title)}
-</td>
-
-<td>
-${money(deal.amount)}
-</td>
-
-<td>
-<span class="badge">
-${escapeHTML(deal.stage)}
-</span>
-</td>
-
-<td>
-${deal.probability}%
-</td>
-
-<td>
-${escapeHTML(deal.owner)}
-</td>
-
-</tr>
-
-`).join("")}
-
-</tbody>
-
-</table>
-
-`;
-
-}
-
-
-function openDealForm() {
-
-const salesEmployees =
-employeeArray()
-.filter(
-employee =>
-employee.department === "Sales"
-);
-
-
-openModal(`
-
-<h2>
-Новая сделка
-</h2>
-
-
-<div class="form-grid">
-
-<div class="field">
-
-<label>
-Клиент
-</label>
-
-<input id="dealClient">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Название сделки
-</label>
-
-<input id="dealTitle">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Сумма ₸
-</label>
-
-<input
-id="dealAmount"
-type="number"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Этап
-</label>
-
-<select id="dealStage">
-
-<option>
-Квалификация
-</option>
-
-<option>
-Предложение
-</option>
-
-<option>
-Переговоры
-</option>
-
-<option>
-Контракт
-</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Вероятность %
-</label>
-
-<input
-id="dealProbability"
-type="number"
-value="50"
->
-
-</div>
-
-
-<div class="field">
-
-<label>
-Ответственный
-</label>
-
-<select id="dealOwner">
-
-${salesEmployees.map(employee => `
-
-<option>
-${escapeHTML(employee.name)}
-</option>
-
-`)
-.join("")}
-
-</select>
-
-</div>
-
-</div>
-
-
-<div style="margin-top:15px">
-
-<button
-class="btn primary"
-onclick="createDeal()"
->
-Создать сделку
-</button>
-
-</div>
-
-`);
-
-}
-
-
-function createDeal() {
-
-const client =
-document
-.getElementById("dealClient")
-.value
-.trim();
-
-
-const title =
-document
-.getElementById("dealTitle")
-.value
-.trim();
-
-
-const amount =
-Number(
-document
-.getElementById("dealAmount")
-.value
-);
-
-
-const stage =
-document
-.getElementById("dealStage")
-.value;
-
-
-const probability =
-Number(
-document
-.getElementById("dealProbability")
-.value
-);
-
-
-const owner =
-document
-.getElementById("dealOwner")
-.value;
-
-
-if(
-!client ||
-!title ||
-!amount
-) {
-
-alert(
-"Заполните клиента, название и сумму."
-);
-
-return;
-
-}
-
-
-state.deals.unshift({
-
-id: ++sequence,
-
-client:client,
-
-title:title,
-
-amount:amount,
-
-stage:stage,
-
-probability:probability,
-
-owner:owner
-
-});
-
-
-addEvent(
-"Новая сделка",
-`${owner} зарегистрировал сделку ${client} на ${money(amount)}.`
-);
-
-
-saveState();
-
-closeModal();
-
-showSection(
-"crm",
-document.querySelector(
-'[data-section="crm"]'
-)
-);
-
-}
-
-
-/* =========================================================
-   EMPLOYEE CREATION
-========================================================= */
-
-function openEmployeeForm() {
-
-openModal(`
-
-<h2>
-Добавить сотрудника
-</h2>
-
-
-<div class="form-grid">
-
-<div class="field">
-
-<label>
-Имя
-</label>
-
-<input id="newEmployeeName">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Должность
-</label>
-
-<input id="newEmployeeRole">
-
-</div>
-
-
-<div class="field">
-
-<label>
-Отдел
-</label>
-
-<select id="newEmployeeDepartment">
-
-<option>
-Sales
-</option>
-
-<option>
-Technology
-</option>
-
-<option>
-Finance
-</option>
-
-<option>
-HR
-</option>
-
-<option>
-Operations
-</option>
-
-</select>
-
-</div>
-
-
-<div class="field">
-
-<label>
-Зарплата ₸
-</label>
-
-<input
-id="newEmployeeSalary"
-type="number"
->
-
-</div>
-
-</div>
-
-
-<div style="margin-top:15px">
-
-<button
-class="btn primary"
-onclick="createEmployee()"
->
-Добавить сотрудника
-</button>
-
-</div>
-
-`);
-
-}
-
-
-function createEmployee() {
-
-const name =
-document
-.getElementById("newEmployeeName")
-.value
-.trim();
-
-
-const role =
-document
-.getElementById("newEmployeeRole")
-.value
-.trim();
-
-
-const department =
-document
-.getElementById("newEmployeeDepartment")
-.value;
-
-
-const salary =
-Number(
-document
-.getElementById("newEmployeeSalary")
-.value
-);
-
-
-if(
-!name ||
-!role ||
-!salary
-) {
-
-alert(
-"Заполните имя, должность и зарплату."
-);
-
-return;
-
-}
-
-
-const id =
-"employee_" +
-(++sequence);
-
-
-state.employees[id] = {
-
-id:id,
-
-name:name,
-
-role:role,
-
-department:department,
-
-salary:salary,
-
-kpi:70,
-
-workload:0,
-
-experience:"0 лет",
-
-avatar:initials(name),
-
-goals:[
-"Выполнение KPI",
-"Качество работы",
-"Развитие компетенций"
-]
-
-};
-
-
-addEvent(
-"Новый сотрудник",
-`В компанию добавлен ${name}, ${role}.`
-);
-
-
-saveState();
-
-closeModal();
-
-}
-
-
-/* =========================================================
-   DEPARTMENTS
-========================================================= */
-
-function renderDepartments() {
-
-const groups = {};
-
-employeeArray()
-.forEach(employee => {
-
-if(!groups[employee.department]) {
-
-groups[employee.department] = [];
-
-}
-
-groups[employee.department]
-.push(employee);
-
-});
-
-
-document
-.getElementById("departmentCards")
-.innerHTML =
-Object.entries(groups)
-.map(([department,employees]) => {
-
-const avgKPI =
-Math.round(
-employees.reduce(
-(sum,employee) =>
-sum + employee.kpi,
-0
-) / employees.length
-);
-
-const avgWorkload =
-Math.round(
-employees.reduce(
-(sum,employee) =>
-sum + employee.workload,
-0
-) / employees.length
-);
-
-
-return `
-
-<div class="mini">
-
-<h4>
-${escapeHTML(department)}
-</h4>
-
-<div class="money">
-${employees.length} сотрудников
-</div>
-
-<div class="muted">
-Средний KPI: ${avgKPI}%
-</div>
-
-<div class="muted">
-Средняя загрузка: ${avgWorkload}%
-</div>
-
-</div>
-
-`;
-
-})
-.join("");
-
-}
-
+        </div>
+    `;
+},
 
 /* =========================================================
    COMPANY
 ========================================================= */
 
-function renderCompany() {
+company(){
 
-const pipeline =
-state.deals.reduce(
-(sum,deal) =>
-sum + deal.amount,
-0
-);
+    return `
+        <div class="card">
 
+            <div class="section-title" style="margin-top:0">
+                Organizational Structure
+            </div>
 
-document
-.getElementById("companyCards")
-.innerHTML = `
+            <div class="org">
 
-<div class="mini">
+                <div class="org-ceo">
+                    <strong>Олег Ким</strong>
+                    <div class="muted small">Founder & CEO</div>
+                </div>
 
-<h4>
-CEO
-</h4>
+                <div class="org-line"></div>
 
-<div class="money">
-Олег Ким
-</div>
+                <div class="directors">
 
-<div class="muted">
-Founder & CEO
-</div>
+                    ${state.employees
+                        .filter(e=>e.role.includes("Director"))
+                        .map(e=>`
+                            <div class="director" onclick="openEmployee('${e.id}')">
+                                <div class="avatar" style="margin:auto">${initials(e.name)}</div>
+                                <div style="margin-top:8px;font-weight:800;font-size:12px">
+                                    ${e.name}
+                                </div>
+                                <div class="muted small">${e.role}</div>
+                            </div>
+                        `).join("")}
 
-</div>
+                </div>
 
+            </div>
+        </div>
 
-<div class="mini">
+        <div class="section-title">Departments</div>
 
-<h4>
-Команда
-</h4>
+        <div class="dept-list">
 
-<div class="money">
-${employeeArray().length + 1}
-</div>
+            ${state.departments.map(d=>{
 
-<div class="muted">
-CEO + сотрудники
-</div>
+                const head=employee(d.director);
 
-</div>
+                const people=state.employees.filter(e=>e.department===d.id);
 
+                return `
+                    <div class="dept-card">
+                        <div class="dept-title">${d.name}</div>
 
-<div class="mini">
+                        <div class="dept-head">
+                            Director: ${head ? head.name : "—"}
+                        </div>
 
-<h4>
-Pipeline
-</h4>
+                        <div class="muted small" style="margin-top:7px">
+                            ${people.length} employees
+                        </div>
 
-<div class="money">
-${money(pipeline)}
-</div>
+                        <div style="margin-top:8px">
+                            <div class="progress">
+                                <div style="width:${Math.min(100,average(people.map(e=>e.kpi)))}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join("")}
 
-<div class="muted">
-${state.deals.length} активных сделок
-</div>
+        </div>
+    `;
+},
 
-</div>
+/* =========================================================
+   EMPLOYEES
+========================================================= */
 
-`;
+employees(){
 
-}
+    return `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+            <div class="muted small">
+                ${state.employees.length} employees • CEO included
+            </div>
 
+            <button class="btn primary" onclick="openEmployeeCreate()">
+                + Employee
+            </button>
+        </div>
+
+        <div class="employee-grid">
+
+            ${state.employees.map(e=>`
+
+                <div class="employee-card">
+
+                    <div class="employee-head">
+
+                        <div class="avatar">
+                            ${initials(e.name)}
+                        </div>
+
+                        <div>
+                            <div class="employee-name">${e.name}</div>
+                            <div class="employee-role">${e.role}</div>
+                            <div class="muted small">
+                                ${department(e.department)?.name || e.department}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="employee-meta">
+
+                        <div class="meta-box">
+                            <span>KPI</span>
+                            <strong>${e.kpi}%</strong>
+                        </div>
+
+                        <div class="meta-box">
+                            <span>Workload</span>
+                            <strong>${e.workload}%</strong>
+                        </div>
+
+                        <div class="meta-box">
+                            <span>Motivation</span>
+                            <strong>${e.motivation}%</strong>
+                        </div>
+
+                        <div class="meta-box">
+                            <span>Loyalty</span>
+                            <strong>${e.loyalty}%</strong>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top:10px">
+                        <div class="muted small">Workload</div>
+                        <div class="progress" style="margin-top:5px">
+                            <div style="width:${e.workload}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="employee-actions">
+
+                        <button class="btn"
+                                onclick="openEmployee('${e.id}')">
+                            Profile
+                        </button>
+
+                        ${e.id!=="e1" ? `
+                            <button class="btn"
+                                    onclick="openChatWith('${e.id}')">
+                                💬
+                            </button>
+                        `:""}
+
+                    </div>
+
+                </div>
+
+            `).join("")}
+
+        </div>
+    `;
+},
+
+/* =========================================================
+   CRM
+========================================================= */
+
+crm(){
+
+    const stages=["Lead","Contacted","Meeting","Proposal","Negotiation","Won"];
+
+    return `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div class="muted small">
+                ${state.deals.length} deals • ${shortMoney(
+                    state.deals.reduce((s,d)=>s+d.value,0)
+                )} total pipeline
+            </div>
+
+            <button class="btn primary" onclick="openDealCreate()">
+                + Deal
+            </button>
+        </div>
+
+        <div class="crm-board">
+
+            ${stages.map(stage=>{
+
+                const deals=state.deals.filter(d=>d.stage===stage);
+
+                return `
+                    <div class="crm-column">
+
+                        <div class="crm-column-title">
+                            <span>${stage}</span>
+                            <span class="badge ${stageClass(stage)}">${deals.length}</span>
+                        </div>
+
+                        ${deals.map(d=>{
+
+                            const c=client(d.client);
+                            const o=employee(d.owner);
+
+                            return `
+                                <div class="deal" onclick="openDeal('${d.id}')">
+
+                                    <div class="deal-name">${d.name}</div>
+
+                                    <div class="deal-client">
+                                        ${c?.name || "Unknown"}
+                                    </div>
+
+                                    <div class="deal-value">
+                                        ${money(d.value)}
+                                    </div>
+
+                                    <div class="deal-owner">
+                                        ${o?.name || "Unassigned"} • ${d.prob}%
+                                    </div>
+
+                                </div>
+                            `;
+
+                        }).join("")}
+
+                    </div>
+                `;
+
+            }).join("")}
+
+        </div>
+    `;
+},
 
 /* =========================================================
    PROJECTS
 ========================================================= */
 
-function renderProjects() {
+projects(){
 
-document
-.getElementById("projectCards")
-.innerHTML =
-state.projects
-.map(project => `
+    return `
+        <div class="section-title" style="margin-top:0">
+            Active Projects
+        </div>
 
-<div class="mini">
+        <div class="grid two">
 
-<h4>
-${escapeHTML(project.name)}
-</h4>
+            ${state.projects.map(p=>{
 
-<div class="muted">
+                const m=employee(p.manager);
+                const c=p.client ? client(p.client) : null;
 
-${escapeHTML(project.lead)}
-·
-${escapeHTML(project.status)}
+                return `
+                    <div class="card">
 
-</div>
+                        <div style="display:flex;justify-content:space-between">
+                            <strong>${p.name}</strong>
+                            <span class="badge ${p.progress>80?"green":p.progress<50?"yellow":"blue"}">
+                                ${p.status}
+                            </span>
+                        </div>
 
+                        <div class="muted small" style="margin-top:5px">
+                            ${c ? c.name : "Internal project"}
+                        </div>
 
-<div class="kpi">
+                        <div style="margin-top:15px">
+                            <div style="display:flex;justify-content:space-between;font-size:10px">
+                                <span>Progress</span>
+                                <strong>${p.progress}%</strong>
+                            </div>
 
-<div class="kpi-label">
+                            <div class="progress" style="margin-top:6px">
+                                <div style="width:${p.progress}%"></div>
+                            </div>
+                        </div>
 
-<span>
-Прогресс
-</span>
+                        <div class="employee-meta">
 
-<span>
-${project.progress}%
-</span>
+                            <div class="meta-box">
+                                <span>Manager</span>
+                                <strong>${m?.name || "—"}</strong>
+                            </div>
 
-</div>
+                            <div class="meta-box">
+                                <span>Budget</span>
+                                <strong>${shortMoney(p.budget)}</strong>
+                            </div>
 
-<div class="progress">
+                            <div class="meta-box">
+                                <span>Deadline</span>
+                                <strong>${p.deadline} days</strong>
+                            </div>
 
-<div
-class="progress-bar"
-style="width:${project.progress}%"
-></div>
+                            <div class="meta-box">
+                                <span>Team</span>
+                                <strong>${state.employees.filter(e=>e.department==="development").length}</strong>
+                            </div>
 
-</div>
+                        </div>
 
-</div>
+                    </div>
+                `;
 
-</div>
+            }).join("")}
 
-`)
-.join("");
+        </div>
+    `;
+},
 
-}
+/* =========================================================
+   TASKS
+========================================================= */
 
+tasks(){
+
+    return `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div class="muted small">
+                ${state.tasks.filter(t=>t.status!=="Done").length} open tasks
+            </div>
+
+            <button class="btn primary" onclick="openTaskCreate()">
+                + Task
+            </button>
+        </div>
+
+        <div class="card">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Owner</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Due</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    ${state.tasks.map(t=>{
+
+                        const o=employee(t.owner);
+
+                        return `
+                            <tr>
+
+                                <td>
+                                    <strong>${t.title}</strong>
+                                    <div class="muted small">
+                                        ${t.project ? project(t.project)?.name || "" : ""}
+                                    </div>
+                                </td>
+
+                                <td>${o?.name || "—"}</td>
+
+                                <td>
+                                    <span class="badge ${t.priority==="High"?"red":"blue"}">
+                                        ${t.priority}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <select onchange="changeTaskStatus('${t.id}',this.value)">
+                                        ${["Open","In Progress","Done"].map(s=>
+                                            `<option ${t.status===s?"selected":""}>${s}</option>`
+                                        ).join("")}
+                                    </select>
+                                </td>
+
+                                <td>Day ${state.day+t.due}</td>
+
+                                <td>
+                                    <button class="btn danger"
+                                            onclick="deleteTask('${t.id}')">
+                                        ×
+                                    </button>
+                                </td>
+
+                            </tr>
+                        `;
+
+                    }).join("")}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    `;
+},
 
 /* =========================================================
    FINANCE
 ========================================================= */
 
-function renderFinance() {
+finance(){
 
-const finance =
-state.finance;
+    const payroll=state.employees
+        .filter(e=>e.id!=="e1")
+        .reduce((s,e)=>s+e.salary,0);
 
+    return `
+        <div class="grid stats">
 
-document
-.getElementById("financeStats")
-.innerHTML = `
+            <div class="card">
+                <div class="stat-title">Cash</div>
+                <div class="stat-value">${shortMoney(state.finance.cash)}</div>
+            </div>
 
-<div class="card">
+            <div class="card">
+                <div class="stat-title">Revenue</div>
+                <div class="stat-value">${shortMoney(state.finance.revenue)}</div>
+            </div>
 
-<div class="stat-title">
-Выручка
-</div>
+            <div class="card">
+                <div class="stat-title">Expenses</div>
+                <div class="stat-value">${shortMoney(state.finance.expenses)}</div>
+            </div>
 
-<div class="stat-value">
-${money(finance.revenue)}
-</div>
+            <div class="card">
+                <div class="stat-title">Profit</div>
+                <div class="stat-value">${shortMoney(state.finance.profit)}</div>
+            </div>
 
-</div>
+            <div class="card">
+                <div class="stat-title">Payroll</div>
+                <div class="stat-value">${shortMoney(payroll)}</div>
+            </div>
 
+            <div class="card">
+                <div class="stat-title">Margin</div>
+                <div class="stat-value">
+                    ${state.finance.revenue ?
+                        ((state.finance.profit/state.finance.revenue)*100).toFixed(1):0}%
+                </div>
+            </div>
 
-<div class="card">
+        </div>
 
-<div class="stat-title">
-Расходы
-</div>
+        <div class="section-title">Financial Logic</div>
 
-<div class="stat-value">
-${money(finance.expenses)}
-</div>
+        <div class="grid three">
 
-</div>
+            <div class="card">
+                <strong>Revenue</strong>
+                <p class="muted small">
+                    Closed deals and project revenue increase company revenue.
+                </p>
+            </div>
 
+            <div class="card">
+                <strong>Expenses</strong>
+                <p class="muted small">
+                    Payroll, projects and operating events affect expenses.
+                </p>
+            </div>
 
-<div class="card">
+            <div class="card">
+                <strong>Profit</strong>
+                <p class="muted small">
+                    Profit is derived from revenue minus expenses.
+                </p>
+            </div>
 
-<div class="stat-title">
-Операционная разница
-</div>
-
-<div class="stat-value">
-${money(
-finance.revenue -
-finance.expenses
-)}
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="stat-title">
-Cash
-</div>
-
-<div class="stat-value">
-${money(finance.cash)}
-</div>
-
-</div>
-
-`;
-
-
-document
-.getElementById("financeTable")
-.innerHTML = `
-
-<table class="table">
-
-<tbody>
-
-<tr>
-
-<td>
-Ожидаемый платёж
-</td>
-
-<td>
-${money(2100000)}
-</td>
-
-<td>
-<span class="badge">
-Ожидает
-</span>
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Бюджет Nexus Portal
-</td>
-
-<td>
-${money(3500000)}
-</td>
-
-<td>
-<span class="badge">
-На согласовании
-</span>
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-`;
-
-}
-
+        </div>
+    `;
+},
 
 /* =========================================================
    HR
 ========================================================= */
 
-function renderHR() {
+hr(){
 
-document
-.getElementById("candidateCards")
-.innerHTML =
-state.candidates
-.map((candidate,index) => `
+    return `
+        <div class="grid three">
 
-<div class="mini">
+            <div class="card">
+                <div class="stat-title">Headcount</div>
+                <div class="stat-value">${state.employees.length}</div>
+            </div>
 
-<h4>
-${escapeHTML(candidate.name)}
-</h4>
+            <div class="card">
+                <div class="stat-title">Open Candidates</div>
+                <div class="stat-value">
+                    ${state.candidates.filter(c=>c.status!=="Hired").length}
+                </div>
+            </div>
 
-<div>
-${escapeHTML(candidate.role)}
-</div>
+            <div class="card">
+                <div class="stat-title">Average Motivation</div>
+                <div class="stat-value">
+                    ${average(state.employees.map(e=>e.motivation))}%
+                </div>
+            </div>
 
-<div class="muted">
-${escapeHTML(candidate.experience)}
-</div>
+        </div>
 
-<p>
+        <div class="section-title">Candidates</div>
 
-<span class="badge">
-${escapeHTML(candidate.status)}
-</span>
+        <div class="grid two">
 
-</p>
+            ${state.candidates.map(c=>`
 
-<button
-class="btn"
-onclick="openCandidate(${index})"
->
-Открыть
-</button>
+                <div class="card">
 
-</div>
+                    <div style="display:flex;justify-content:space-between">
+                        <strong>${c.name}</strong>
 
-`)
-.join("");
+                        <span class="badge ${c.score>=85?"green":"blue"}">
+                            Score ${c.score}
+                        </span>
+                    </div>
 
-}
+                    <div class="muted small" style="margin-top:5px">
+                        ${c.role}
+                    </div>
 
+                    <div style="margin-top:10px;font-size:12px">
+                        ${c.experience}
+                    </div>
 
-function openCandidate(index) {
+                    <div class="employee-actions">
 
-const candidate =
-state.candidates[index];
+                        ${c.status!=="Hired" ? `
+                            <button class="btn primary"
+                                    onclick="hireCandidate('${c.id}')">
+                                Hire
+                            </button>
+                        `:`
+                            <span class="badge green">Hired</span>
+                        `}
 
+                    </div>
 
-openModal(`
+                </div>
 
-<h2>
-${escapeHTML(candidate.name)}
-</h2>
+            `).join("")}
 
-<p>
-${escapeHTML(candidate.role)}
-·
-${escapeHTML(candidate.experience)}
-</p>
-
-
-<div class="notice">
-
-Текущий этап:
-${escapeHTML(candidate.status)}
-
-</div>
-
-
-<button
-class="btn primary"
-onclick="hireCandidate(${index})"
->
-Нанять
-</button>
-
-
-<button
-class="btn"
-onclick="closeModal()"
->
-Закрыть
-</button>
-
-`);
-
-}
-
-
-function hireCandidate(index) {
-
-const candidate =
-state.candidates[index];
-
-
-const id =
-"employee_" +
-(++sequence);
-
-
-let department =
-"Technology";
-
-
-if(
-candidate.role
-.toLowerCase()
-.includes("sales")
-) {
-
-department =
-"Sales";
-
-}
-
-
-state.employees[id] = {
-
-id:id,
-
-name:candidate.name,
-
-role:candidate.role,
-
-department:department,
-
-salary:500000,
-
-kpi:70,
-
-workload:0,
-
-experience:candidate.experience,
-
-avatar:initials(candidate.name),
-
-goals:[
-"Выполнение KPI",
-"Адаптация",
-"Развитие компетенций"
-]
-
-};
-
-
-state.candidates.splice(
-index,
-1
-);
-
-
-addEvent(
-"Найм",
-`${candidate.name} принят в Alatau Nexus.`
-);
-
-
-saveState();
-
-closeModal();
-
-}
-
+        </div>
+    `;
+},
 
 /* =========================================================
    DECISIONS
 ========================================================= */
 
-function renderDecisions() {
+decisions(){
 
-document
-.getElementById("decisionList")
-.innerHTML =
-state.decisions
-.map(decision => `
+    const pending=state.decisions.filter(d=>d.status==="pending");
 
-<div
-class="card"
-style="margin-bottom:12px"
->
+    return `
+        <div class="section-title" style="margin-top:0">
+            Decisions requiring CEO
+        </div>
 
-<h3>
-${escapeHTML(decision.title)}
-</h3>
+        ${pending.length===0 ? `
+            <div class="card">
+                <strong>Все спокойно.</strong>
+                <div class="muted small" style="margin-top:5px">
+                    Сейчас нет решений, требующих вмешательства CEO.
+                </div>
+            </div>
+        `:""}
 
-<p class="muted">
+        <div class="list">
 
-Инициатор:
-${escapeHTML(decision.from)}
+            ${pending.map(d=>`
 
-·
+                <div class="card">
 
-Сумма:
-${money(decision.amount)}
+                    <strong>${d.title}</strong>
 
-</p>
+                    <p class="muted small">
+                        ${d.description}
+                    </p>
 
+                    <div class="modal-actions" style="justify-content:flex-start">
 
-<span class="badge">
+                        ${d.options.map(o=>`
+                            <button class="btn"
+                                    onclick="makeDecision('${d.id}','${o.effect}','${escapeAttr(o.label)}')">
+                                ${o.label}
+                            </button>
+                        `).join("")}
 
-${escapeHTML(decision.status)}
+                    </div>
 
-</span>
+                </div>
 
+            `).join("")}
 
-<div
-style="
-margin-top:12px;
-display:flex;
-gap:8px;
-"
->
+        </div>
 
-<button
-class="btn primary"
-onclick="
-resolveDecision(
-${decision.id},
-'approved'
-)
-"
->
-Одобрить
-</button>
+        <div class="section-title">
+            Decision History
+        </div>
 
-
-<button
-class="btn"
-onclick="
-resolveDecision(
-${decision.id},
-'rejected'
-)
-"
->
-Отклонить
-</button>
-
-</div>
-
-</div>
-
-`)
-.join("");
-
+        <div class="card">
+            <div class="feed">
+                ${state.events.filter(e=>e.icon==="⚖️").slice(0,20).map(eventHTML).join("") || `
+                    <div class="muted small">No decisions yet.</div>
+                `}
+            </div>
+        </div>
+    `
 }
 
+};
 
-function resolveDecision(
-id,
-result
-) {
+/* =========================================================
+   NAV HELPERS
+========================================================= */
 
-const decision =
-state.decisions.find(
-item => item.id === id
-);
+function go(page){
+    currentPage=page;
 
+    document.querySelectorAll(".nav button").forEach(b=>{
+        b.classList.toggle("active",b.dataset.page===page);
+    });
 
-if(!decision) return;
-
-
-decision.status =
-result === "approved"
-? "Одобрено CEO"
-: "Отклонено CEO";
-
-
-addEvent(
-"Решение CEO",
-`${decision.title}: ${decision.status}.`
-);
-
-
-saveState();
-
+    render();
 }
 
+/* =========================================================
+   MESSENGER
+========================================================= */
+
+function selectChat(id){
+    currentChatId=id;
+    render();
+}
+
+function openChatWith(employeeId){
+    currentChatId="chat_"+employeeId;
+    go("messenger");
+}
+
+function renderMessages(){
+
+    const chat=getChat(currentChatId);
+
+    if(!chat)return;
+
+    const header=document.getElementById("chatHeader");
+
+    header.innerHTML=`
+        <div class="avatar">
+            ${chat.type==="group"?"👥":initials(chat.name)}
+        </div>
+
+        <div>
+            <div class="chat-header-name">${chat.name}</div>
+            <div class="chat-header-sub">
+                ${chat.type==="group"
+                    ?chat.members.length+" participants"
+                    :employee(chat.members.find(id=>id!=="e1"))?.role || ""}
+            </div>
+        </div>
+    `;
+
+    const messages=document.getElementById("messages");
+
+    messages.innerHTML=chat.messages.map(m=>{
+
+        const a=employee(m.author);
+
+        return `
+            <div class="message ${m.author==="e1"?"mine":""}">
+
+                ${m.author!=="e1" ? `
+                    <div class="message-author">
+                        ${a?.name || "Unknown"}
+                    </div>
+                `:""}
+
+                <div class="message-bubble">
+                    ${escapeHtml(m.text)}
+                </div>
+
+                <div class="message-time">
+                    ${m.time}
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+
+    messages.scrollTop=messages.scrollHeight;
+
+    renderChatContext(chat);
+}
+
+function renderChatContext(chat){
+
+    const box=document.getElementById("chatContext");
+
+    if(!box)return;
+
+    if(chat.type==="group"){
+
+        box.innerHTML=`
+            <div class="context-title">GROUP CONTEXT</div>
+
+            <div class="context-block">
+                <div class="context-label">Participants</div>
+                <div class="context-value">${chat.members.length}</div>
+            </div>
+
+            <div class="context-block">
+                <div class="context-label">Current day</div>
+                <div class="context-value">Day ${state.day}</div>
+            </div>
+
+            <div class="context-block">
+                <div class="context-label">Messages</div>
+                <div class="context-value">${chat.messages.length}</div>
+            </div>
+        `;
+
+        return;
+    }
+
+    const other=employee(chat.members.find(id=>id!=="e1"));
+
+    if(!other)return;
+
+    box.innerHTML=`
+        <div class="context-title">EMPLOYEE CONTEXT</div>
+
+        <div class="context-block">
+            <div class="context-label">Role</div>
+            <div class="context-value">${other.role}</div>
+        </div>
+
+        <div class="context-block">
+            <div class="context-label">Department</div>
+            <div class="context-value">${department(other.department)?.name || other.department}</div>
+        </div>
+
+        <div class="context-block">
+            <div class="context-label">KPI</div>
+            <div class="context-value">${other.kpi}%</div>
+        </div>
+
+        <div class="context-block">
+            <div class="context-label">Workload</div>
+            <div class="context-value">${other.workload}%</div>
+        </div>
+
+        <div class="context-block">
+            <div class="context-label">Motivation</div>
+            <div class="context-value">${other.motivation}%</div>
+        </div>
+
+        <div class="context-block">
+            <div class="context-label">Personality</div>
+            <div class="context-value">${other.personality}</div>
+        </div>
+
+        <div class="context-block">
+            <div class="context-label">Memory</div>
+            <div class="context-value">
+                ${other.memory.slice(-3).map(x=>`• ${escapeHtml(x)}`).join("<br>") || "No personal memories yet."}
+            </div>
+        </div>
+    `;
+}
+
+function sendMessage(){
+
+    const input=document.getElementById("chatInput");
+
+    if(!input)return;
+
+    const text=input.value.trim();
+
+    if(!text)return;
+
+    const chat=getChat(currentChatId);
+
+    if(!chat)return;
+
+    chat.messages.push({
+        id:"m_"+Date.now(),
+        author:"e1",
+        text,
+        time:timeString(),
+        mine:true
+    });
+
+    input.value="";
+
+    addEvent(
+        "💬",
+        "CEO entered conversation",
+        currentPage==="messenger"
+            ? `${chat.name}: "${text.slice(0,70)}"`
+            :""
+    );
+
+    save();
+
+    /* Immediate contextual reaction */
+    setTimeout(()=>{
+        generateConversationReaction(chat,text);
+        save();
+        if(currentPage==="messenger")render();
+    },350);
+
+    renderMessages();
+}
+
+function generateConversationReaction(chat,text){
+
+    if(chat.type==="direct"){
+
+        const other=employee(chat.members.find(id=>id!=="e1"));
+
+        if(!other)return;
+
+        const response=naturalEmployeeResponse(other,text);
+
+        chat.messages.push({
+            id:"m_"+Date.now(),
+            author:other.id,
+            text:response,
+            time:timeString()
+        });
+
+        remember(other,"Олег спросил: "+text);
+        remember(other,"Я ответил Олегу: "+response);
+
+        /* If CEO asks about a work matter, connect to business */
+        processCEOConversationImpact(other,text,response);
+
+        return;
+    }
+
+    /* Group chat: multiple people react */
+    const candidates=chat.members
+        .filter(id=>id!=="e1")
+        .map(id=>employee(id))
+        .filter(Boolean);
+
+    const chosen=[];
+
+    if(candidates.length){
+        chosen.push(candidates[Math.floor(Math.random()*candidates.length)]);
+    }
+
+    if(candidates.length>3 && Math.random()>0.35){
+        let second=candidates[Math.floor(Math.random()*candidates.length)];
+        if(second.id===chosen[0]?.id){
+            second=candidates.find(e=>e.id!==chosen[0].id);
+        }
+        if(second)chosen.push(second);
+    }
+
+    chosen.forEach((person,i)=>{
+
+        const response=naturalEmployeeResponse(person,text);
+
+        chat.messages.push({
+            id:"m_"+Date.now()+"_"+i,
+            author:person.id,
+            text:response,
+            time:timeString()
+        });
+
+        remember(person,"Олег написал в группе: "+text);
+        remember(person,"Ответил: "+response);
+    });
+
+    addEvent(
+        "💬",
+        "Board discussion updated",
+        "CEO вмешался в групповой разговор."
+    );
+}
+
+function naturalEmployeeResponse(e,text){
+
+    const lower=text.toLowerCase();
+
+    /* Personal questions */
+    if(
+        lower.includes("жена") ||
+        lower.includes("семь") ||
+        lower.includes("семья") ||
+        lower.includes("дом") ||
+        lower.includes("вчера") && (
+            lower.includes("вечер") ||
+            lower.includes("дома")
+        )
+    ){
+
+        const answers=[
+            "Да, всё нормально. Вчера спокойно посидели дома, наконец-то без рабочих звонков.",
+            "Всё хорошо 🙂 Вчера удалось нормально провести вечер вместе.",
+            "Да, нормально. Был насыщенный день, но вечером всё спокойно.",
+            "Всё хорошо, спасибо. Иногда полезно вообще не говорить о работе вечером."
+        ];
+
+        return answers[e.id.charCodeAt(1)%answers.length];
+    }
+
+    if(
+        lower.includes("как ты") ||
+        lower.includes("как дела") ||
+        lower.includes("настроение")
+    ){
+
+        if(e.workload>85){
+            return "Честно? Немного перегружен сегодня. Но ситуация под контролем.";
+        }
+
+        if(e.motivation>85){
+            return "Хорошо. Сегодня настроение отличное, думаю, продуктивный день получится.";
+        }
+
+        return "Нормально. Есть несколько задач, но ничего критичного.";
+    }
+
+    /* Work context */
+    if(
+        lower.includes("сделк") ||
+        lower.includes("клиент") ||
+        lower.includes("crm") ||
+        lower.includes("продаж") ||
+        lower.includes("nova") ||
+        lower.includes("kaspi")
+    ){
+
+        const myDeals=state.deals.filter(d=>d.owner===e.id);
+
+        if(myDeals.length){
+
+            const d=myDeals[0];
+            const c=client(d.client);
+
+            return `Сейчас у меня ${myDeals.length} активных сделок. По ${c?.name || "клиенту"} мы на стадии ${d.stage}. Следующее действие — ${d.next.toLowerCase()}.`;
+        }
+
+        return "По моим текущим задачам всё под контролем. Если хочешь, могу отдельно пройтись по конкретному вопросу.";
+    }
+
+    if(
+        lower.includes("проект") ||
+        lower.includes("задач")
+    ){
+
+        const tasks=state.tasks.filter(t=>t.owner===e.id && t.status!=="Done");
+
+        if(tasks.length){
+            return `Сейчас у меня ${tasks.length} открытых задач. Самая важная — «${tasks[0].title}».`;
+        }
+
+        return "По задачам сейчас без критичных проблем.";
+    }
+
+    if(
+        lower.includes("зарплат") ||
+        lower.includes("деньг") ||
+        lower.includes("бонус")
+    ){
+        return `По моим текущим условиям всё понятно. Если ты хочешь обсудить компенсацию, можем отдельно поговорить.`;
+    }
+
+    if(
+        lower.includes("почему") ||
+        lower.includes("объясни") ||
+        lower.includes("что происходит")
+    ){
+
+        if(e.workload>85){
+            return "Основная проблема сейчас — нагрузка. Несколько задач наложились одновременно, поэтому приходится выбирать приоритеты.";
+        }
+
+        return `Если говорить по моей зоне ответственности: сейчас главное — держать задачи под контролем и не допустить, чтобы проблемы дошли до клиентов.`;
+    }
+
+    /* Generic but contextual */
+    const responses=[
+        "Понял тебя. Я подумаю над этим с учётом того, что сейчас происходит у меня в работе.",
+        "Да, понимаю. С моей стороны ситуация сейчас под контролем.",
+        "Хороший вопрос. Если коротко — сейчас всё нормально, но есть несколько вещей, за которыми я слежу.",
+        "Понял. Давай я отвечу по сути: критичной проблемы сейчас нет."
+    ];
+
+    return responses[(e.id.charCodeAt(1)+text.length)%responses.length];
+}
+
+function processCEOConversationImpact(e,text,response){
+
+    const lower=text.toLowerCase();
+
+    if(lower.includes("почему") && lower.includes("crm")){
+        e.motivation=Math.min(100,e.motivation+1);
+    }
+
+    if(lower.includes("спасибо")){
+        e.motivation=Math.min(100,e.motivation+2);
+    }
+
+    if(
+        lower.includes("сделк") ||
+        lower.includes("клиент")
+    ){
+        addEvent(
+            "👤",
+            "CEO spoke with "+e.name,
+            "Обсуждение связано с клиентской работой."
+        );
+    }
+}
+
+function remember(e,text){
+    e.memory.push(text);
+
+    if(e.memory.length>20){
+        e.memory.shift();
+    }
+}
+
+/* =========================================================
+   EMPLOYEE MODAL
+========================================================= */
+
+function openEmployee(id){
+
+    const e=employee(id);
+
+    if(!e)return;
+
+    const manager=e.manager ? employee(e.manager) : null;
+
+    openModal(
+        e.name,
+        `
+            <div class="employee-head">
+
+                <div class="avatar" style="width:54px;height:54px">
+                    ${initials(e.name)}
+                </div>
+
+                <div>
+                    <div style="font-size:17px;font-weight:800">
+                        ${e.name}
+                    </div>
+
+                    <div class="muted small">
+                        ${e.role} • ${department(e.department)?.name || e.department}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="employee-meta" style="margin-top:18px">
+
+                <div class="meta-box">
+                    <span>KPI</span>
+                    <strong>${e.kpi}%</strong>
+                </div>
+
+                <div class="meta-box">
+                    <span>Workload</span>
+                    <strong>${e.workload}%</strong>
+                </div>
+
+                <div class="meta-box">
+                    <span>Motivation</span>
+                    <strong>${e.motivation}%</strong>
+                </div>
+
+                <div class="meta-box">
+                    <span>Loyalty</span>
+                    <strong>${e.loyalty}%</strong>
+                </div>
+
+            </div>
+
+            <div class="section-title">Profile</div>
+
+            <div class="card">
+
+                <div class="small">
+                    <strong>Manager:</strong>
+                    ${manager?.name || "CEO"}
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Salary:</strong>
+                    ${money(e.salary)}
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Bonus:</strong>
+                    ${e.bonus}%
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Personality:</strong>
+                    ${e.personality}
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Authority:</strong>
+                    ${e.authority}/100
+                </div>
+
+            </div>
+
+            <div class="section-title">Skills</div>
+
+            <div>
+                ${e.skills.map(s=>`<span class="badge blue">${s}</span>`).join(" ")}
+            </div>
+
+            <div class="section-title">Responsibilities</div>
+
+            <div class="card">
+                ${e.responsibilities.map(r=>`• ${r}<br>`).join("")}
+            </div>
+
+            <div class="section-title">Memory</div>
+
+            <div class="card">
+                ${e.memory.slice(-8).map(m=>`
+                    <div class="small" style="margin-bottom:6px">
+                        • ${escapeHtml(m)}
+                    </div>
+                `).join("") || `<div class="muted small">No memories yet.</div>`}
+            </div>
+
+            <div class="modal-actions">
+
+                ${e.id!=="e1" ? `
+                    <button class="btn primary"
+                            onclick="closeModal();openChatWith('${e.id}')">
+                        💬 Message
+                    </button>
+
+                    <button class="btn"
+                            onclick="changeKPI('${e.id}')">
+                        Change KPI
+                    </button>
+
+                    <button class="btn"
+                            onclick="changeSalary('${e.id}')">
+                        Salary
+                    </button>
+
+                    <button class="btn danger"
+                            onclick="fireEmployee('${e.id}')">
+                        Fire
+                    </button>
+                `:""}
+
+            </div>
+        `
+    );
+}
+
+function changeKPI(id){
+
+    const e=employee(id);
+
+    const value=prompt("Новый KPI (0-100):",e.kpi);
+
+    if(value===null)return;
+
+    const n=Math.max(0,Math.min(100,Number(value)));
+
+    if(!Number.isFinite(n))return;
+
+    e.kpi=n;
+
+    addEvent("👤","KPI changed",`${e.name}: KPI установлен на ${n}%.`);
+
+    save();
+    closeModal();
+    render();
+}
+
+function changeSalary(id){
+
+    const e=employee(id);
+
+    const value=prompt("Новая зарплата:",e.salary);
+
+    if(value===null)return;
+
+    const n=Math.max(0,Number(value));
+
+    if(!Number.isFinite(n))return;
+
+    const difference=n-e.salary;
+
+    e.salary=n;
+
+    state.finance.payroll+=difference;
+    state.finance.expenses+=difference;
+    state.finance.profit-=difference;
+
+    addEvent(
+        "💰",
+        "Salary changed",
+        `${e.name}: ${money(e.salary)}.`
+    );
+
+    remember(e,`CEO изменил мою зарплату на ${money(n)}.`);
+
+    save();
+    closeModal();
+    render();
+}
+
+function fireEmployee(id){
+
+    const e=employee(id);
+
+    if(!e)return;
+
+    if(!confirm(`Уволить ${e.name}?`))return;
+
+    const replacementDeals=state.deals.filter(d=>d.owner===id);
+
+    replacementDeals.forEach(d=>{
+        d.owner=e.manager || "e5";
+    });
+
+    state.tasks
+        .filter(t=>t.owner===id && t.status!=="Done")
+        .forEach(t=>{
+            t.owner=e.manager || "e5";
+        });
+
+    state.employees=state.employees.filter(x=>x.id!==id);
+
+    state.finance.expenses=Math.max(
+        0,
+        state.finance.expenses-e.salary
+    );
+
+    state.finance.profit+=e.salary;
+
+    addEvent(
+        "🔴",
+        "Employee dismissed",
+        `${e.name} был уволен. Активные задачи и сделки переданы руководителю.`
+    );
+
+    save();
+    closeModal();
+    render();
+}
+
+function openEmployeeCreate(){
+
+    openModal(
+        "Новый сотрудник",
+        `
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Name</label>
+                    <input id="newEmpName">
+                </div>
+
+                <div class="field">
+                    <label>Role</label>
+                    <input id="newEmpRole" value="Specialist">
+                </div>
+
+                <div class="field">
+                    <label>Salary</label>
+                    <input id="newEmpSalary" type="number" value="350000">
+                </div>
+
+                <div class="field">
+                    <label>Department</label>
+                    <select id="newEmpDept">
+                        ${state.departments.map(d=>
+                            `<option value="${d.id}">${d.name}</option>`
+                        ).join("")}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn" onclick="closeModal()">Cancel</button>
+                <button class="btn primary" onclick="createEmployee()">Create</button>
+            </div>
+        `
+    );
+}
+
+function createEmployee(){
+
+    const name=document.getElementById("newEmpName").value.trim();
+    const role=document.getElementById("newEmpRole").value.trim();
+    const salary=Number(document.getElementById("newEmpSalary").value);
+    const dept=document.getElementById("newEmpDept").value;
+
+    if(!name || !role || !salary)return;
+
+    const id="new_"+Date.now();
+
+    const d=department(dept);
+
+    state.employees.push({
+        id,
+        name,
+        role,
+        department:dept,
+        manager:d?.director || "e1",
+        salary,
+        bonus:5,
+        kpi:70,
+        workload:30,
+        motivation:80,
+        loyalty:70,
+        skills:["Execution"],
+        personality:"новый сотрудник, пока ещё формирует рабочий стиль",
+        responsibilities:["Выполнение задач отдела"],
+        memory:["Принят на работу CEO."],
+        status:"active",
+        authority:20
+    });
+
+    state.finance.payroll+=salary;
+    state.finance.expenses+=salary;
+    state.finance.profit-=salary;
+
+    addEvent(
+        "🧑‍💼",
+        "New employee hired",
+        `${name} присоединился к ${d?.name || dept}.`
+    );
+
+    save();
+    closeModal();
+    render();
+}
+
+/* =========================================================
+   CRM
+========================================================= */
+
+function openDeal(id){
+
+    const d=deal(id);
+    const c=client(d.client);
+    const o=employee(d.owner);
+
+    openModal(
+        d.name,
+        `
+            <div class="card">
+
+                <div class="small">
+                    <strong>Client:</strong> ${c?.name || "—"}
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Value:</strong> ${money(d.value)}
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Stage:</strong> ${d.stage}
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Probability:</strong> ${d.prob}%
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Owner:</strong> ${o?.name || "—"}
+                </div>
+
+                <div class="small" style="margin-top:7px">
+                    <strong>Next action:</strong> ${d.next}
+                </div>
+
+            </div>
+
+            <div class="section-title">
+                Deal actions
+            </div>
+
+            <div class="modal-actions" style="justify-content:flex-start">
+
+                <button class="btn"
+                        onclick="advanceDeal('${d.id}')">
+                    Advance Stage
+                </button>
+
+                <button class="btn success"
+                        onclick="winDeal('${d.id}')">
+                    Mark Won
+                </button>
+
+                <button class="btn danger"
+                        onclick="loseDeal('${d.id}')">
+                    Mark Lost
+                </button>
+
+            </div>
+        `
+    );
+}
+
+function advanceDeal(id){
+
+    const d=deal(id);
+
+    const stages=["Lead","Contacted","Meeting","Proposal","Negotiation","Won"];
+
+    const i=stages.indexOf(d.stage);
+
+    if(i<0 || i>=stages.length-2)return;
+
+    d.stage=stages[i+1];
+    d.prob=Math.min(95,d.prob+8);
+
+    addEvent(
+        "🎯",
+        "Deal advanced",
+        `${d.name}: ${d.stage}.`
+    );
+
+    if(d.stage==="Negotiation"){
+        createDecisionForDeal(d);
+    }
+
+    save();
+    closeModal();
+    render();
+}
+
+function winDeal(id){
+
+    const d=deal(id);
+
+    d.stage="Won";
+    d.prob=100;
+
+    state.finance.revenue+=d.value;
+    state.finance.cash+=d.value;
+    state.finance.profit+=d.value;
+
+    const c=client(d.client);
+
+    if(c)c.health=Math.min(100,c.health+8);
+
+    addEvent(
+        "💰",
+        "Deal Won",
+        `${d.name} закрыта на ${money(d.value)}.`
+    );
+
+    addProjectFromDeal(d);
+
+    save();
+    closeModal();
+    render();
+}
+
+function loseDeal(id){
+
+    const d=deal(id);
+
+    d.stage="Lost";
+    d.prob=0;
+
+    const c=client(d.client);
+
+    if(c)c.health=Math.max(0,c.health-10);
+
+    state.companyHealth=Math.max(0,state.companyHealth-1);
+
+    addEvent(
+        "🔴",
+        "Deal Lost",
+        `${d.name} потеряна.`
+    );
+
+    save();
+    closeModal();
+    render();
+}
+
+function createDecisionForDeal(d){
+
+    if(state.decisions.some(x=>x.type==="commercial" && x.status==="pending")){
+        return;
+    }
+
+    state.decisions.push({
+        id:"dec_"+Date.now(),
+        title:`${d.name}: коммерческое решение`,
+        description:`Сделка ${money(d.value)} перешла в переговоры. Требуется внимание CEO.`,
+        type:"commercial",
+        status:"pending",
+        options:[
+            {label:"Одобрить условия",effect:"deal_prob_up"},
+            {label:"Запросить ещё переговоры",effect:"balanced"},
+            {label:"Отложить",effect:"deal_prob_down"}
+        ]
+    });
+
+    addEvent(
+        "⚖️",
+        "CEO decision required",
+        `${d.name} требует управленческого решения.`
+    );
+}
+
+function addProjectFromDeal(d){
+
+    if(state.projects.some(p=>p.sourceDeal===d.id))return;
+
+    state.projects.push({
+        id:"p_"+Date.now(),
+        name:d.name+" — Delivery",
+        client:d.client,
+        manager:employee(d.owner)?.manager || "e5",
+        budget:d.value*0.4,
+        progress:5,
+        status:"Planning",
+        deadline:30,
+        sourceDeal:d.id
+    });
+
+    addEvent(
+        "📁",
+        "Project created",
+        `После закрытия сделки создан проект ${d.name}.`
+    );
+}
+
+function openDealCreate(){
+
+    openModal(
+        "New Deal",
+        `
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Deal name</label>
+                    <input id="dealName">
+                </div>
+
+                <div class="field">
+                    <label>Value</label>
+                    <input id="dealValue" type="number" value="10000000">
+                </div>
+
+                <div class="field">
+                    <label>Client</label>
+                    <select id="dealClient">
+                        ${state.clients.map(c=>
+                            `<option value="${c.id}">${c.name}</option>`
+                        ).join("")}
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Owner</label>
+                    <select id="dealOwner">
+                        ${state.employees
+                            .filter(e=>e.role.includes("Sales"))
+                            .map(e=>
+                                `<option value="${e.id}">${e.name}</option>`
+                            ).join("")}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn" onclick="closeModal()">Cancel</button>
+                <button class="btn primary" onclick="createDeal()">Create</button>
+            </div>
+        `
+    );
+}
+
+function createDeal(){
+
+    const name=document.getElementById("dealName").value.trim();
+    const value=Number(document.getElementById("dealValue").value);
+    const c=document.getElementById("dealClient").value;
+    const owner=document.getElementById("dealOwner").value;
+
+    if(!name || !value)return;
+
+    state.deals.push({
+        id:"d_"+Date.now(),
+        name,
+        client:c,
+        owner,
+        value,
+        stage:"Lead",
+        prob:20,
+        next:"Initial contact"
+    });
+
+    addEvent(
+        "🎯",
+        "New CRM deal",
+        `${name} добавлена в pipeline.`
+    );
+
+    save();
+    closeModal();
+    render();
+}
+
+/* =========================================================
+   TASKS
+========================================================= */
+
+function changeTaskStatus(id,status){
+
+    const t=state.tasks.find(x=>x.id===id);
+
+    if(!t)return;
+
+    const old=t.status;
+    t.status=status;
+
+    if(status==="Done" && old!=="Done"){
+
+        const e=employee(t.owner);
+
+        if(e){
+            e.kpi=Math.min(100,e.kpi+1);
+            e.workload=Math.max(0,e.workload-8);
+        }
+
+        addEvent(
+            "✅",
+            "Task completed",
+            `${t.title} выполнена ${e?.name || ""}.`
+        );
+    }
+
+    save();
+    render();
+}
+
+function deleteTask(id){
+
+    state.tasks=state.tasks.filter(t=>t.id!==id);
+
+    addEvent(
+        "🗑️",
+        "Task removed",
+        "Задача удалена CEO."
+    );
+
+    save();
+    render();
+}
+
+function openTaskCreate(){
+
+    openModal(
+        "New Task",
+        `
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Task</label>
+                    <input id="taskTitle">
+                </div>
+
+                <div class="field">
+                    <label>Owner</label>
+                    <select id="taskOwner">
+                        ${state.employees
+                            .filter(e=>e.id!=="e1")
+                            .map(e=>`<option value="${e.id}">${e.name}</option>`)
+                            .join("")}
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Priority</label>
+                    <select id="taskPriority">
+                        <option>Normal</option>
+                        <option>High</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn" onclick="closeModal()">Cancel</button>
+                <button class="btn primary" onclick="createTask()">Create</button>
+            </div>
+        `
+    );
+}
+
+function createTask(){
+
+    const title=document.getElementById("taskTitle").value.trim();
+    const owner=document.getElementById("taskOwner").value;
+    const priority=document.getElementById("taskPriority").value;
+
+    if(!title)return;
+
+    state.tasks.unshift({
+        id:"t_"+Date.now(),
+        title,
+        owner,
+        creator:"e1",
+        project:null,
+        deal:null,
+        priority,
+        status:"Open",
+        due:2
+    });
+
+    const e=employee(owner);
+
+    if(e){
+        e.workload=Math.min(100,e.workload+7);
+        remember(e,`CEO назначил мне задачу: ${title}`);
+    }
+
+    addEvent(
+        "✅",
+        "CEO assigned task",
+        `${title} → ${e?.name || "employee"}`
+    );
+
+    save();
+    closeModal();
+    render();
+}
+
+/* =========================================================
+   DECISIONS
+========================================================= */
+
+function makeDecision(id,effect,label){
+
+    const d=state.decisions.find(x=>x.id===id);
+
+    if(!d)return;
+
+    d.status="resolved";
+
+    if(effect==="deal_prob_up"){
+
+        const active=state.deals.find(x=>x.stage==="Negotiation");
+
+        if(active){
+            active.prob=Math.min(95,active.prob+12);
+        }
+
+        state.companyHealth=Math.min(100,state.companyHealth+1);
+    }
+
+    if(effect==="balanced"){
+        state.companyHealth=Math.min(100,state.companyHealth+1);
+    }
+
+    if(effect==="deal_prob_down"){
+
+        const active=state.deals.find(x=>x.stage==="Negotiation");
+
+        if(active){
+            active.prob=Math.max(5,active.prob-12);
+        }
+
+        state.companyHealth=Math.max(0,state.companyHealth-1);
+    }
+
+    addEvent(
+        "⚖️",
+        "CEO decision",
+        `${d.title}: ${label}.`
+    );
+
+    state.employees
+        .filter(e=>e.role.includes("Director"))
+        .forEach(e=>{
+            remember(e,`CEO принял решение: ${label}.`);
+        });
+
+    save();
+    render();
+}
+
+/* =========================================================
+   HR
+========================================================= */
+
+function hireCandidate(id){
+
+    const c=state.candidates.find(x=>x.id===id);
+
+    if(!c || c.status==="Hired")return;
+
+    const newId="hire_"+Date.now();
+
+    const dept=
+        c.role.includes("Sales") ? "sales":
+        c.role.includes("Product") ? "product":
+        "qa";
+
+    state.employees.push({
+        id:newId,
+        name:c.name,
+        role:c.role,
+        department:dept,
+        manager:department(dept)?.director || "e1",
+        salary:450000,
+        bonus:7,
+        kpi:c.score,
+        workload:20,
+        motivation:92,
+        loyalty:60,
+        skills:["Communication","Execution","Professional expertise"],
+        personality:"новый сотрудник, мотивированный проявить себя",
+        responsibilities:["Освоение роли","Выполнение задач"],
+        memory:["Первый день в Alatau Nexus."],
+        status:"active",
+        authority:20
+    });
+
+    c.status="Hired";
+
+    state.finance.payroll+=450000;
+    state.finance.expenses+=450000;
+    state.finance.profit-=450000;
+
+    addEvent(
+        "🧑‍💼",
+        "New employee joined",
+        `${c.name} принят на позицию ${c.role}.`
+    );
+
+    save();
+    render();
+}
+
+/* =========================================================
+   SIMULATION ENGINE
+========================================================= */
+
+function toggleSimulation(){
+
+    state.running=!state.running;
+
+    if(state.running){
+
+        simulationTimer=setInterval(simulationTick,4000);
+
+    }else{
+
+        clearInterval(simulationTimer);
+        simulationTimer=null;
+    }
+
+    save();
+    updateTopbar();
+}
+
+function simulationTick(){
+
+    advanceTime(30);
+
+    processEmployees();
+    processDeals();
+    processTasks();
+    processProjects();
+    processFinance();
+    maybeGenerateConversation();
+    updateCompanyHealth();
+
+    save();
+
+    if(currentPage==="dashboard" ||
+       currentPage==="messenger" ||
+       currentPage==="crm" ||
+       currentPage==="tasks" ||
+       currentPage==="projects"){
+        render();
+    }else{
+        updateTopbar();
+    }
+}
+
+function advanceTime(minutes){
+
+    state.minute+=minutes;
+
+    while(state.minute>=60){
+        state.minute-=60;
+        state.hour++;
+    }
+
+    if(state.hour>=24){
+        state.hour=0;
+        state.day++;
+    }
+}
+
+function nextDay(){
+
+    state.day++;
+    state.hour=9;
+    state.minute=0;
+
+    processEmployees();
+    processDeals();
+    processTasks();
+    processProjects();
+    processFinance();
+    generateDailyEvents();
+    updateCompanyHealth();
+
+    save();
+    render();
+}
+
+function processEmployees(){
+
+    state.employees.forEach(e=>{
+
+        if(e.id==="e1")return;
+
+        /* Workload naturally falls a little when employees work */
+        if(e.workload>45){
+            e.workload=Math.max(25,e.workload-2);
+        }
+
+        /* Motivation reacts to workload */
+        if(e.workload>90){
+            e.motivation=Math.max(30,e.motivation-2);
+        }else if(e.kpi>80){
+            e.motivation=Math.min(100,e.motivation+1);
+        }
+
+        /* KPI responds slowly to performance */
+        if(e.workload>90){
+            e.kpi=Math.max(30,e.kpi-1);
+        }
+
+    });
+}
+
+function processDeals(){
+
+    state.deals.forEach(d=>{
+
+        if(["Won","Lost"].includes(d.stage))return;
+
+        const owner=employee(d.owner);
+
+        if(!owner)return;
+
+        /* High workload slows deal progress */
+        if(owner.workload>90){
+            d.prob=Math.max(5,d.prob-1);
+            return;
+        }
+
+        if(state.day%3===0 && d.prob>30){
+            d.prob=Math.min(95,d.prob+2);
+        }
+
+        if(d.stage==="Lead" && d.prob>30 && Math.random()>0.7){
+            d.stage="Contacted";
+            d.next="Discovery call";
+
+            addEvent(
+                "🎯",
+                "CRM activity",
+                `${d.name} moved to Contacted.`
+            );
+        }
+
+    });
+}
+
+function processTasks(){
+
+    state.tasks.forEach(t=>{
+
+        if(t.status==="Done")return;
+
+        const e=employee(t.owner);
+
+        if(!e)return;
+
+        if(e.workload>95)return;
+
+        if(Math.random()>0.7){
+
+            t.status="In Progress";
+
+            e.workload=Math.min(100,e.workload+2);
+        }
+
+        if(Math.random()>0.93){
+
+            t.status="Done";
+
+            e.kpi=Math.min(100,e.kpi+1);
+            e.workload=Math.max(0,e.workload-5);
+
+            addEvent(
+                "✅",
+                "Employee completed task",
+                `${e.name} завершил: ${t.title}.`
+            );
+        }
+    });
+}
+
+function processProjects(){
+
+    state.projects.forEach(p=>{
+
+        if(p.status==="Done")return;
+
+        const manager=employee(p.manager);
+
+        if(!manager)return;
+
+        let speed=1;
+
+        if(manager.kpi>85)speed+=0.5;
+        if(manager.workload>90)speed-=0.6;
+
+        p.progress=Math.min(100,p.progress+Math.max(0,speed));
+
+        if(p.progress>=100){
+
+            p.status="Done";
+
+            addEvent(
+                "📁",
+                "Project completed",
+                `${p.name} завершён.`
+            );
+        }
+    });
+}
+
+function processFinance(){
+
+    const payroll=state.employees
+        .filter(e=>e.id!=="e1")
+        .reduce((s,e)=>s+e.salary,0);
+
+    /* Daily operating expense */
+    const dailyPayroll=payroll/30;
+
+    state.finance.payroll=payroll;
+    state.finance.expenses+=dailyPayroll;
+    state.finance.cash-=dailyPayroll;
+    state.finance.profit-=dailyPayroll;
+}
+
+function updateCompanyHealth(){
+
+    const avgKpi=average(state.employees.map(e=>e.kpi));
+    const avgMotivation=average(state.employees.map(e=>e.motivation));
+
+    const overdue=state.tasks.filter(t=>t.status!=="Done" && t.due<=0).length;
+
+    const riskDeals=state.deals.filter(d=>d.prob<25 && !["Won","Lost"].includes(d.stage)).length;
+
+    let health=(
+        avgKpi*.35+
+        avgMotivation*.30+
+        (100-riskDeals*8)*.2+
+        (100-overdue*5)*.15
+    );
+
+    state.companyHealth=Math.max(0,Math.min(100,Math.round(health)));
+}
+
+function generateDailyEvents(){
+
+    const overloaded=state.employees
+        .filter(e=>e.workload>88 && e.id!=="e1");
+
+    if(overloaded.length){
+
+        const e=overloaded[Math.floor(Math.random()*overloaded.length)];
+
+        addEvent(
+            "⚠️",
+            "Workload warning",
+            `${e.name} перегружен. Workload ${e.workload}%.`
+        );
+    }
+
+    const dealAtRisk=state.deals
+        .find(d=>d.prob<30 && !["Won","Lost"].includes(d.stage));
+
+    if(dealAtRisk){
+
+        addEvent(
+            "🎯",
+            "Deal at risk",
+            `${dealAtRisk.name} имеет вероятность ${dealAtRisk.prob}%.`
+        );
+    }
+
+    addEvent(
+        "🌅",
+        "New company day",
+        `Компания начала Day ${state.day}.`
+    );
+}
+
+function maybeGenerateConversation(){
+
+    /*
+       Conversations are intentionally rare.
+       No spam. A conversation happens when there is
+       a business reason or an active situation.
+    */
+
+    if(Math.random()>0.35)return;
+
+    const director=state.employees.find(
+        e=>e.role.includes("Director") && e.id!=="e1"
+    );
+
+    if(!director)return;
+
+    const chat=getChat("chat_"+director.id);
+
+    if(!chat)return;
+
+    const openTasks=state.tasks.filter(
+        t=>t.owner===director.id && t.status!=="Done"
+    );
+
+    if(openTasks.length){
+
+        chat.messages.push({
+            id:"m_"+Date.now(),
+            author:director.id,
+            text:`У меня сейчас ${openTasks.length} открытых задач. Основная — ${openTasks[0].title.toLowerCase()}.`,
+            time:timeString()
+        });
+
+        addEvent(
+            "💬",
+            "Director activity",
+            `${director.name} обновил личный статус.`
+        );
+
+        return;
+    }
+
+    if(director.workload>85){
+
+        chat.messages.push({
+            id:"m_"+Date.now(),
+            author:director.id,
+            text:"Сегодня довольно плотный день. Есть несколько вопросов, которые нужно закрыть до вечера.",
+            time:timeString()
+        });
+
+        addEvent(
+            "💬",
+            "Director activity",
+            `${director.name} сообщил о высокой загрузке.`
+        );
+    }
+}
+
+/* =========================================================
+   BRIEFING
+========================================================= */
+
+function generateBriefing(){
+
+    const result=[];
+
+    const activeDeals=state.deals.filter(
+        d=>!["Won","Lost"].includes(d.stage)
+    );
+
+    const pipeline=activeDeals.reduce((s,d)=>s+d.value,0);
+
+    result.push(
+        `Pipeline сейчас составляет ${shortMoney(pipeline)}.`
+    );
+
+    const overdue=state.tasks.filter(
+        t=>t.status!=="Done" && t.due<=0
+    ).length;
+
+    if(overdue){
+        result.push(
+            `${overdue} задач требуют внимания из-за срока.`
+        );
+    }else{
+        result.push(
+            `Критических просроченных задач сейчас нет.`
+        );
+    }
+
+    const overloaded=state.employees.filter(
+        e=>e.workload>85 && e.id!=="e1"
+    );
+
+    if(overloaded.length){
+        result.push(
+            `${overloaded.length} сотрудников работают с высокой нагрузкой.`
+        );
+    }
+
+    const decisions=state.decisions.filter(d=>d.status==="pending");
+
+    if(decisions.length){
+        result.push(
+            `${decisions.length} управленческих решения ожидают CEO.`
+        );
+    }
+
+    const project=state.projects
+        .filter(p=>p.status!=="Done")
+        .sort((a,b)=>a.progress-b.progress)[0];
+
+    if(project && project.progress<50){
+        result.push(
+            `Проект ${project.name} пока идёт медленно: ${project.progress}% готовности.`
+        );
+    }
+
+    return result.slice(0,5);
+}
 
 /* =========================================================
    MODAL
 ========================================================= */
 
-function openModal(content) {
+function openModal(title,body){
 
-document
-.getElementById("modalContent")
-.innerHTML =
-content;
-
-
-document
-.getElementById("modal")
-.classList.add("active");
-
+    document.getElementById("modalTitle").textContent=title;
+    document.getElementById("modalBody").innerHTML=body;
+    document.getElementById("modalBackdrop").classList.add("open");
 }
 
-
-function closeModal() {
-
-document
-.getElementById("modal")
-.classList.remove("active");
-
+function closeModal(){
+    document.getElementById("modalBackdrop").classList.remove("open");
 }
 
-
-document
-.getElementById("modal")
-.addEventListener(
-"click",
-function(event){
-
-if(
-event.target === this
-) {
-
-closeModal();
-
-}
-
+document.getElementById("modalBackdrop").addEventListener("click",e=>{
+    if(e.target.id==="modalBackdrop"){
+        closeModal();
+    }
 });
-
-
-document
-.addEventListener(
-"keydown",
-function(event){
-
-if(
-event.key === "Escape"
-) {
-
-closeModal();
-
-}
-
-});
-
 
 /* =========================================================
-   RENDER ALL
+   UTILITIES
 ========================================================= */
 
-function renderAll() {
+function initials(name){
 
-renderDashboard();
-
-renderEmployees();
-
-renderDepartments();
-
-renderCompany();
-
-renderCRM();
-
-renderProjects();
-
-renderTasks();
-
-renderFinance();
-
-renderHR();
-
-renderDecisions();
-
+    return name
+        .split(" ")
+        .slice(0,2)
+        .map(x=>x[0])
+        .join("")
+        .toUpperCase();
 }
 
+function average(arr){
 
-/* START */
+    if(!arr.length)return 0;
 
-renderAll();
+    return Math.round(
+        arr.reduce((a,b)=>a+b,0)/arr.length
+    );
+}
+
+function escapeHtml(str){
+
+    return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function escapeAttr(str){
+    return String(str).replaceAll("'","\\'");
+}
+
+function eventHTML(e){
+
+    return `
+        <div class="feed-item">
+
+            <div class="feed-icon">
+                ${e.icon}
+            </div>
+
+            <div class="feed-main">
+
+                <div class="feed-title">
+                    ${escapeHtml(e.title)}
+                </div>
+
+                <div class="feed-text">
+                    ${escapeHtml(e.text)}
+                </div>
+
+            </div>
+
+            <div class="feed-time">
+                ${e.time}
+            </div>
+
+        </div>
+    `;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+window.resetCompany=function(){
+
+    if(!confirm(
+        "Сбросить компанию к начальному состоянию? Все текущие изменения будут удалены."
+    ))return;
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    location.reload();
+};
+
+window.go=go;
+window.selectChat=selectChat;
+window.openChatWith=openChatWith;
+window.sendMessage=sendMessage;
+window.openEmployee=openEmployee;
+window.changeKPI=changeKPI;
+window.changeSalary=changeSalary;
+window.fireEmployee=fireEmployee;
+window.openEmployeeCreate=openEmployeeCreate;
+window.createEmployee=createEmployee;
+window.openDeal=openDeal;
+window.advanceDeal=advanceDeal;
+window.winDeal=winDeal;
+window.loseDeal=loseDeal;
+window.openDealCreate=openDealCreate;
+window.createDeal=createDeal;
+window.changeTaskStatus=changeTaskStatus;
+window.deleteTask=deleteTask;
+window.openTaskCreate=openTaskCreate;
+window.createTask=createTask;
+window.makeDecision=makeDecision;
+window.hireCandidate=hireCandidate;
+window.toggleSimulation=toggleSimulation;
+window.nextDay=nextDay;
+window.openModal=openModal;
+window.closeModal=closeModal;
+
+/* =========================================================
+   START
+========================================================= */
+
+render();
 
 </script>
-
 </body>
 </html>
