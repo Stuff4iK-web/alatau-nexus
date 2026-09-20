@@ -1,0 +1,163 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alatau Nexus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        header {
+            padding: 24px 40px;
+            border-bottom: 1px solid #334155;
+            background: #111827;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        header p {
+            margin: 6px 0 0;
+            color: #94a3b8;
+        }
+
+        .company {
+            padding: 40px;
+        }
+
+        .ceo {
+            width: 280px;
+            margin: 0 auto 50px;
+            padding: 24px;
+            text-align: center;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 16px;
+        }
+
+        .ceo h2 {
+            margin: 0 0 8px;
+        }
+
+        .ceo p {
+            margin: 0;
+            color: #94a3b8;
+        }
+
+        .directors {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .director {
+            padding: 22px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 14px;
+        }
+
+        .director h3 {
+            margin-top: 0;
+        }
+
+        .director p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 5px 9px;
+            border-radius: 8px;
+            background: #14532d;
+            color: #bbf7d0;
+            font-size: 12px;
+        }
+
+        @media (max-width: 1000px) {
+            .directors {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .directors {
+                grid-template-columns: 1fr;
+            }
+
+            .company {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Alatau Nexus</h1>
+    <p>CEO Control Center · Алматы, Казахстан</p>
+</header>
+
+<main class="company">
+
+    <section class="ceo">
+        <h2>Олег Ким</h2>
+        <p>Founder & CEO</p>
+        <span class="status">Компания работает</span>
+    </section>
+
+    <section class="directors">
+
+        <div class="director">
+            <h3>Алексей Волков</h3>
+            <p>Sales Director</p>
+            <span class="status">Online</span>
+        </div>
+
+        <div class="director">
+            <h3>Дмитрий Соколов</h3>
+            <p>CTO</p>
+            <span class="status">Online</span>
+        </div>
+
+        <div class="director">
+            <h3>Анна Морозова</h3>
+            <p>CFO</p>
+            <span class="status">Online</span>
+        </div>
+
+        <div class="director">
+            <h3>Елена Орлова</h3>
+            <p>HR Director</p>
+            <span class="status">Online</span>
+        </div>
+
+        <div class="director">
+            <h3>Максим Петров</h3>
+            <p>COO</p>
+            <span class="status">Online</span>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>
+```
