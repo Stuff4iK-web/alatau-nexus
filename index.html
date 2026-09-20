@@ -17,8 +17,15 @@ body {
     color: #f1f5f9;
 }
 
-button {
+button,
+input,
+select,
+textarea {
     font-family: inherit;
+}
+
+button {
+    cursor: pointer;
 }
 
 .app {
@@ -42,12 +49,12 @@ button {
 .logo {
     font-size: 21px;
     font-weight: 700;
-    margin-bottom: 8px;
 }
 
 .logo-sub {
     color: #8b93a7;
     font-size: 12px;
+    margin-top: 4px;
     margin-bottom: 30px;
 }
 
@@ -60,15 +67,10 @@ button {
     padding: 12px 14px;
     margin-bottom: 5px;
     border-radius: 8px;
-    cursor: pointer;
     font-size: 14px;
 }
 
-.menu button:hover {
-    background: #202530;
-    color: white;
-}
-
+.menu button:hover,
 .menu button.active {
     background: #283044;
     color: white;
@@ -104,16 +106,20 @@ button {
     border-radius: 10px;
 }
 
-.avatar {
-    width: 34px;
-    height: 34px;
+.avatar,
+.big-avatar {
     border-radius: 50%;
     background: #3a465d;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
     font-weight: bold;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
 }
 
 .ceo-text strong {
@@ -126,7 +132,7 @@ button {
     font-size: 11px;
 }
 
-/* WELCOME */
+/* COMMON */
 
 .welcome {
     margin-bottom: 25px;
@@ -141,8 +147,6 @@ button {
     margin: 0;
     color: #8b93a7;
 }
-
-/* CARDS */
 
 .grid {
     display: grid;
@@ -169,8 +173,6 @@ button {
     font-weight: 700;
 }
 
-/* DIRECTORS */
-
 .two-column {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -183,6 +185,8 @@ button {
     font-size: 16px;
 }
 
+/* EMPLOYEE */
+
 .employee {
     background: #1b202a;
     border: 1px solid #2b313d;
@@ -190,17 +194,11 @@ button {
     padding: 15px;
     margin-bottom: 10px;
     cursor: pointer;
-    transition: 0.15s;
 }
 
 .employee:hover {
     background: #222936;
     border-color: #485269;
-    transform: translateY(-1px);
-}
-
-.employee:last-child {
-    margin-bottom: 0;
 }
 
 .employee-top {
@@ -271,7 +269,7 @@ button {
     font-size: 12px;
 }
 
-/* COMPANY MAP */
+/* COMPANY */
 
 .company-map {
     margin-top: 20px;
@@ -329,12 +327,131 @@ button {
     font-size: 11px;
 }
 
+/* SECTIONS */
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* TOOLBAR */
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.toolbar-left,
+.toolbar-right {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* BUTTONS */
+
+.btn {
+    border: 1px solid #353d4d;
+    background: #202631;
+    color: #dbe1eb;
+    padding: 10px 13px;
+    border-radius: 8px;
+}
+
+.btn:hover {
+    background: #2a3241;
+}
+
+.btn.primary {
+    background: #33415f;
+    border-color: #4a5e89;
+}
+
+.btn.danger {
+    color: #ff9b9b;
+    border-color: #5b3434;
+}
+
+/* TABLE */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid #292e3a;
+    font-size: 13px;
+}
+
+.table th {
+    color: #8b93a7;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.table tr.clickable {
+    cursor: pointer;
+}
+
+.table tr.clickable:hover {
+    background: #1d222c;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: #273044;
+    color: #cbd6eb;
+    font-size: 11px;
+}
+
+/* MINI CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.mini {
+    background: #1b202a;
+    border: 1px solid #2b313d;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.mini h4 {
+    margin: 0 0 7px;
+}
+
+.muted {
+    color: #8b93a7;
+    font-size: 12px;
+}
+
+.money {
+    font-weight: 700;
+    font-size: 18px;
+}
+
 /* MODAL */
 
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0,0,0,.7);
     display: none;
     align-items: center;
     justify-content: center;
@@ -347,7 +464,7 @@ button {
 }
 
 .modal-box {
-    width: 700px;
+    width: 760px;
     max-width: 100%;
     max-height: 90vh;
     overflow-y: auto;
@@ -367,7 +484,6 @@ button {
     background: transparent;
     color: #8b93a7;
     font-size: 28px;
-    cursor: pointer;
 }
 
 .close:hover {
@@ -385,12 +501,6 @@ button {
 .big-avatar {
     width: 65px;
     height: 65px;
-    border-radius: 50%;
-    background: #39465f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
     font-size: 18px;
 }
 
@@ -458,7 +568,6 @@ button {
     color: #dbe1eb;
     padding: 11px;
     border-radius: 7px;
-    cursor: pointer;
     text-align: left;
 }
 
@@ -471,19 +580,91 @@ button {
     border-color: #5b3434;
 }
 
-/* SECTIONS */
+/* FORMS */
 
-.section {
-    display: none;
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
 }
 
-#dashboard {
+.field label {
     display: block;
+    color: #8b93a7;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    background: #11151d;
+    border: 1px solid #353d4d;
+    color: #f1f5f9;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.field textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+/* CHAT */
+
+.chat {
+    background: #11151d;
+    border: 1px solid #2b313d;
+    border-radius: 10px;
+    padding: 12px;
+    max-height: 260px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.msg {
+    padding: 9px 11px;
+    border-radius: 8px;
+    margin-bottom: 7px;
+    background: #1d222c;
+}
+
+.msg.ceo-msg {
+    background: #26324a;
+}
+
+.msg strong {
+    font-size: 11px;
+}
+
+.msg p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.notice {
+    padding: 12px;
+    border: 1px solid #343d50;
+    background: #1a2030;
+    border-radius: 8px;
+    color: #cbd2df;
+    margin-bottom: 12px;
+}
+
+.empty {
+    color: #8b93a7;
+    padding: 20px 0;
 }
 
 /* RESPONSIVE */
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -493,6 +674,10 @@ button {
     }
 
     .departments {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cards {
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -508,8 +693,11 @@ button {
         padding: 20px;
     }
 
-    .profile-info {
-        grid-template-columns: repeat(2, 1fr);
+    .profile-info,
+    .form-grid,
+    .cards,
+    .actions {
+        grid-template-columns: 1fr;
     }
 
     .grid {
@@ -523,61 +711,56 @@ button {
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="logo">Alatau Nexus</div>
 <div class="logo-sub">CEO Control Center</div>
 
-<nav class="menu">
+<nav class="menu" id="menu">
 
-<button class="active" onclick="showSection('dashboard', this)">
+<button class="active" data-section="dashboard">
 Dashboard
 </button>
 
-<button onclick="showSection('company', this)">
+<button data-section="company">
 Компания
 </button>
 
-<button onclick="showSection('employees', this)">
+<button data-section="employees">
 Сотрудники
 </button>
 
-<button onclick="showSection('departments', this)">
+<button data-section="departments">
 Отделы
 </button>
 
-<button onclick="showSection('crm', this)">
+<button data-section="crm">
 CRM
 </button>
 
-<button onclick="showSection('projects', this)">
+<button data-section="projects">
 Проекты
 </button>
 
-<button onclick="showSection('tasks', this)">
+<button data-section="tasks">
 Задачи
 </button>
 
-<button onclick="showSection('finance', this)">
+<button data-section="finance">
 Финансы
 </button>
 
-<button onclick="showSection('hr', this)">
+<button data-section="hr">
 HR
 </button>
 
-<button onclick="showSection('decisions', this)">
+<button data-section="decisions">
 Решения
 </button>
 
 </nav>
 
 </aside>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
@@ -605,11 +788,13 @@ OK
 
 <!-- DASHBOARD -->
 
-<section id="dashboard" class="section">
+<section id="dashboard" class="section active">
 
 <div class="welcome">
 
-<h1>Добро пожаловать, Олег</h1>
+<h1>
+Добро пожаловать, Олег
+</h1>
 
 <p>
 Центр управления компанией Alatau Nexus.
@@ -617,8 +802,6 @@ OK
 
 </div>
 
-
-<!-- STATS -->
 
 <div class="grid">
 
@@ -628,7 +811,7 @@ OK
 Сотрудники
 </div>
 
-<div class="stat-value">
+<div class="stat-value" id="statEmployees">
 36
 </div>
 
@@ -641,7 +824,7 @@ OK
 Активные сделки
 </div>
 
-<div class="stat-value">
+<div class="stat-value" id="statDeals">
 8
 </div>
 
@@ -654,7 +837,7 @@ OK
 Pipeline
 </div>
 
-<div class="stat-value">
+<div class="stat-value" id="statPipeline">
 ₸84.5m
 </div>
 
@@ -667,7 +850,7 @@ Pipeline
 Проекты
 </div>
 
-<div class="stat-value">
+<div class="stat-value" id="statProjects">
 5
 </div>
 
@@ -676,258 +859,18 @@ Pipeline
 </div>
 
 
-<!-- DIRECTORS + EVENTS -->
-
 <div class="two-column">
 
 <div class="card">
 
-<h3>Руководители</h3>
+<h3>
+Руководители
+</h3>
 
-
-<!-- ALEXEY VOLKOV -->
-
-<div class="employee" onclick="openEmployee('alexey')">
-
-<div class="employee-top">
-
-<div>
-
-<div class="employee-name">
-Алексей Волков
-</div>
-
-<div class="employee-role">
-Sales Director
-</div>
+<div id="directorList"></div>
 
 </div>
 
-<div class="online"></div>
-
-</div>
-
-
-<div class="kpi">
-
-<div class="kpi-label">
-
-<span>
-Sales KPI
-</span>
-
-<span>
-82%
-</span>
-
-</div>
-
-<div class="progress">
-
-<div class="progress-bar" style="width:82%"></div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- DMITRY -->
-
-<div class="employee" onclick="openEmployee('dmitry')">
-
-<div class="employee-top">
-
-<div>
-
-<div class="employee-name">
-Дмитрий Соколов
-</div>
-
-<div class="employee-role">
-CTO
-</div>
-
-</div>
-
-<div class="online"></div>
-
-</div>
-
-
-<div class="kpi">
-
-<div class="kpi-label">
-
-<span>
-Tech KPI
-</span>
-
-<span>
-91%
-</span>
-
-</div>
-
-<div class="progress">
-
-<div class="progress-bar" style="width:91%"></div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ANNA -->
-
-<div class="employee" onclick="openEmployee('anna')">
-
-<div class="employee-top">
-
-<div>
-
-<div class="employee-name">
-Анна Морозова
-</div>
-
-<div class="employee-role">
-CFO
-</div>
-
-</div>
-
-<div class="online"></div>
-
-</div>
-
-
-<div class="kpi">
-
-<div class="kpi-label">
-
-<span>
-Finance KPI
-</span>
-
-<span>
-76%
-</span>
-
-</div>
-
-<div class="progress">
-
-<div class="progress-bar" style="width:76%"></div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ELENA -->
-
-<div class="employee" onclick="openEmployee('elena')">
-
-<div class="employee-top">
-
-<div>
-
-<div class="employee-name">
-Елена Орлова
-</div>
-
-<div class="employee-role">
-HR Director
-</div>
-
-</div>
-
-<div class="online"></div>
-
-</div>
-
-
-<div class="kpi">
-
-<div class="kpi-label">
-
-<span>
-HR KPI
-</span>
-
-<span>
-88%
-</span>
-
-</div>
-
-<div class="progress">
-
-<div class="progress-bar" style="width:88%"></div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- MAXIM -->
-
-<div class="employee" onclick="openEmployee('maxim')">
-
-<div class="employee-top">
-
-<div>
-
-<div class="employee-name">
-Максим Петров
-</div>
-
-<div class="employee-role">
-COO
-</div>
-
-</div>
-
-<div class="online"></div>
-
-</div>
-
-
-<div class="kpi">
-
-<div class="kpi-label">
-
-<span>
-Operations KPI
-</span>
-
-<span>
-84%
-</span>
-
-</div>
-
-<div class="progress">
-
-<div class="progress-bar" style="width:84%"></div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- EVENTS -->
 
 <div class="card">
 
@@ -935,64 +878,12 @@ Operations KPI
 Последние события
 </h3>
 
-
-<div class="event">
-
-<strong>
-Новая сделка
-</strong>
-
-<p>
-Sales зарегистрировал нового клиента на ₸12.4 млн.
-</p>
-
-</div>
-
-
-<div class="event">
-
-<strong>
-Проект требует решения
-</strong>
-
-<p>
-CTO запросил дополнительный бюджет.
-</p>
-
-</div>
-
-
-<div class="event">
-
-<strong>
-HR
-</strong>
-
-<p>
-Получено 3 новых резюме.
-</p>
-
-</div>
-
-
-<div class="event">
-
-<strong>
-Финансы
-</strong>
-
-<p>
-Ожидается согласование платежа ₸2.1 млн.
-</p>
+<div id="eventList"></div>
 
 </div>
 
 </div>
 
-</div>
-
-
-<!-- COMPANY MAP -->
 
 <div class="company-map">
 
@@ -1001,7 +892,6 @@ HR
 <h3>
 Организационная структура
 </h3>
-
 
 <div class="ceo-box">
 
@@ -1015,77 +905,9 @@ Founder & CEO
 
 </div>
 
-
 <div class="connector"></div>
 
-
-<div class="departments">
-
-<div class="department">
-
-<strong>
-Sales
-</strong>
-
-<span>
-8 сотрудников
-</span>
-
-</div>
-
-
-<div class="department">
-
-<strong>
-Technology
-</strong>
-
-<span>
-9 сотрудников
-</span>
-
-</div>
-
-
-<div class="department">
-
-<strong>
-Finance
-</strong>
-
-<span>
-4 сотрудника
-</span>
-
-</div>
-
-
-<div class="department">
-
-<strong>
-HR
-</strong>
-
-<span>
-5 сотрудников
-</span>
-
-</div>
-
-
-<div class="department">
-
-<strong>
-Operations
-</strong>
-
-<span>
-10 сотрудников
-</span>
-
-</div>
-
-</div>
+<div class="departments" id="deptMap"></div>
 
 </div>
 
@@ -1105,10 +927,12 @@ Operations
 </h1>
 
 <p>
-Организационная структура Alatau Nexus.
+Общее состояние Alatau Nexus.
 </p>
 
 </div>
+
+<div class="cards" id="companyCards"></div>
 
 </section>
 
@@ -1124,8 +948,37 @@ Operations
 </h1>
 
 <p>
-36 сотрудников компании.
+Управление командой и KPI.
 </p>
+
+</div>
+
+<div class="toolbar">
+
+<div class="toolbar-left">
+
+<button class="btn primary" onclick="openEmployeeForm()">
++ Добавить сотрудника
+</button>
+
+</div>
+
+<div class="toolbar-right">
+
+<input
+id="employeeSearch"
+class="btn"
+placeholder="Поиск сотрудника..."
+oninput="renderEmployees()"
+>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div id="employeeTable"></div>
 
 </div>
 
@@ -1143,10 +996,12 @@ Operations
 </h1>
 
 <p>
-10 подразделений Alatau Nexus.
+Структура и состояние подразделений.
 </p>
 
 </div>
+
+<div class="cards" id="departmentCards"></div>
 
 </section>
 
@@ -1164,6 +1019,20 @@ CRM
 <p>
 Клиенты, сделки и воронка продаж.
 </p>
+
+</div>
+
+<div class="toolbar">
+
+<button class="btn primary" onclick="openDealForm()">
++ Новая сделка
+</button>
+
+</div>
+
+<div class="card">
+
+<div id="crmTable"></div>
 
 </div>
 
@@ -1186,6 +1055,8 @@ CRM
 
 </div>
 
+<div class="cards" id="projectCards"></div>
+
 </section>
 
 
@@ -1205,6 +1076,20 @@ CRM
 
 </div>
 
+<div class="toolbar">
+
+<button class="btn primary" onclick="openTaskForm()">
++ Поставить задачу
+</button>
+
+</div>
+
+<div class="card">
+
+<div id="taskTable"></div>
+
+</div>
+
 </section>
 
 
@@ -1219,8 +1104,20 @@ CRM
 </h1>
 
 <p>
-Бюджет, расходы, доходы и платежи.
+Доходы, расходы и денежные средства.
 </p>
+
+</div>
+
+<div class="grid" id="financeStats"></div>
+
+<div class="card">
+
+<h3>
+Последние операции
+</h3>
+
+<div id="financeTable"></div>
 
 </div>
 
@@ -1238,10 +1135,12 @@ HR
 </h1>
 
 <p>
-Кандидаты, найм и кадровые решения.
+Кандидаты и кадровые решения.
 </p>
 
 </div>
+
+<div class="cards" id="candidateCards"></div>
 
 </section>
 
@@ -1257,10 +1156,12 @@ HR
 </h1>
 
 <p>
-Решения, ожидающие внимания CEO.
+Вопросы, ожидающие решения CEO.
 </p>
 
 </div>
+
+<div id="decisionList"></div>
 
 </section>
 
@@ -1269,28 +1170,1013 @@ HR
 </div>
 
 
-<!-- EMPLOYEE MODAL -->
+<!-- MODAL -->
 
-<div class="modal" id="employeeModal">
+<div class="modal" id="modal">
 
 <div class="modal-box">
 
-<button class="close" onclick="closeEmployee()">
+<button class="close" onclick="closeModal()">
 ×
 </button>
 
+<div id="modalContent"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   INITIAL DATA
+========================================================= */
+
+const seedEmployees = {
+
+alexey: {
+id: "alexey",
+name: "Алексей Волков",
+role: "Sales Director",
+department: "Sales",
+salary: 850000,
+kpi: 82,
+workload: 76,
+experience: "4 года",
+avatar: "AV",
+goals: [
+"Выручка отдела — 82%",
+"Новые клиенты — 74%",
+"Конверсия продаж — 68%"
+]
+},
+
+dmitry: {
+id: "dmitry",
+name: "Дмитрий Соколов",
+role: "CTO",
+department: "Technology",
+salary: 1100000,
+kpi: 91,
+workload: 88,
+experience: "6 лет",
+avatar: "DS",
+goals: [
+"Стабильность платформы — 97%",
+"Сроки разработки — 91%",
+"Технический долг — под контролем"
+]
+},
+
+anna: {
+id: "anna",
+name: "Анна Морозова",
+role: "CFO",
+department: "Finance",
+salary: 950000,
+kpi: 76,
+workload: 69,
+experience: "5 лет",
+avatar: "AM",
+goals: [
+"Cash Flow — положительный",
+"Контроль расходов — 88%",
+"Дебиторская задолженность — снижение"
+]
+},
+
+elena: {
+id: "elena",
+name: "Елена Орлова",
+role: "HR Director",
+department: "HR",
+salary: 800000,
+kpi: 88,
+workload: 73,
+experience: "4 года",
+avatar: "EO",
+goals: [
+"Закрытие вакансий — 91%",
+"Текучесть — ниже 8%",
+"Employee satisfaction — 86%"
+]
+},
+
+maxim: {
+id: "maxim",
+name: "Максим Петров",
+role: "COO",
+department: "Operations",
+salary: 900000,
+kpi: 84,
+workload: 81,
+experience: "5 лет",
+avatar: "MP",
+goals: [
+"Эффективность процессов — 84%",
+"SLA — 94%",
+"Операционные расходы — в бюджете"
+]
+}
+
+};
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const defaultState = {
+
+employees: {
+...seedEmployees,
+
+emp6: {
+id: "emp6",
+name: "Ирина Ковалёва",
+role: "Sales Manager",
+department: "Sales",
+salary: 480000,
+kpi: 79,
+workload: 72,
+experience: "2 года",
+avatar: "ИК",
+goals: [
+"Продажи",
+"Новые клиенты",
+"Развитие клиентской базы"
+]
+},
+
+emp7: {
+id: "emp7",
+name: "Михаил Орлов",
+role: "Account Manager",
+department: "Sales",
+salary: 430000,
+kpi: 74,
+workload: 81,
+experience: "1 год",
+avatar: "МО",
+goals: [
+"Удержание клиентов",
+"Upsell",
+"Качество сервиса"
+]
+},
+
+emp8: {
+id: "emp8",
+name: "Роман Беляев",
+role: "Frontend Developer",
+department: "Technology",
+salary: 650000,
+kpi: 87,
+workload: 84,
+experience: "3 года",
+avatar: "РБ",
+goals: [
+"Разработка",
+"Качество кода",
+"Соблюдение сроков"
+]
+},
+
+emp9: {
+id: "emp9",
+name: "София Лебедева",
+role: "Backend Developer",
+department: "Technology",
+salary: 720000,
+kpi: 92,
+workload: 91,
+experience: "4 года",
+avatar: "СЛ",
+goals: [
+"Backend",
+"Архитектура",
+"Надёжность"
+]
+},
+
+emp10: {
+id: "emp10",
+name: "Николай Фёдоров",
+role: "Financial Analyst",
+department: "Finance",
+salary: 520000,
+kpi: 81,
+workload: 66,
+experience: "2 года",
+avatar: "НФ",
+goals: [
+"Финансовая аналитика",
+"Контроль расходов",
+"Отчётность"
+]
+},
+
+emp11: {
+id: "emp11",
+name: "Мария Волкова",
+role: "HR Manager",
+department: "HR",
+salary: 460000,
+kpi: 86,
+workload: 70,
+experience: "3 года",
+avatar: "МВ",
+goals: [
+"Подбор",
+"Адаптация",
+"Employee experience"
+]
+},
+
+emp12: {
+id: "emp12",
+name: "Артём Сидоров",
+role: "Operations Manager",
+department: "Operations",
+salary: 500000,
+kpi: 83,
+workload: 79,
+experience: "3 года",
+avatar: "АС",
+goals: [
+"Процессы",
+"SLA",
+"Операционная эффективность"
+]
+}
+
+},
+
+tasks: [
+
+{
+id: 1,
+title: "Закрыть квартальный план продаж",
+assignee: "Алексей Волков",
+priority: "Высокий",
+status: "В работе",
+due: "2026-09-25"
+},
+
+{
+id: 2,
+title: "Подготовить отчёт по инфраструктуре",
+assignee: "Дмитрий Соколов",
+priority: "Средний",
+status: "В работе",
+due: "2026-09-24"
+},
+
+{
+id: 3,
+title: "Согласовать платёж поставщику",
+assignee: "Анна Морозова",
+priority: "Высокий",
+status: "Ожидает",
+due: "2026-09-22"
+}
+
+],
+
+deals: [
+
+{
+id: 1,
+client: "Astana Digital",
+title: "Корпоративная платформа",
+amount: 12400000,
+stage: "Переговоры",
+probability: 70,
+owner: "Алексей Волков"
+},
+
+{
+id: 2,
+client: "Nomad Logistics",
+title: "Автоматизация процессов",
+amount: 18500000,
+stage: "Предложение",
+probability: 60,
+owner: "Алексей Волков"
+},
+
+{
+id: 3,
+client: "Qazaq Energy",
+title: "IT-инфраструктура",
+amount: 21600000,
+stage: "Переговоры",
+probability: 55,
+owner: "Алексей Волков"
+},
+
+{
+id: 4,
+client: "Orion Group",
+title: "CRM внедрение",
+amount: 9000000,
+stage: "Квалификация",
+probability: 40,
+owner: "Ирина Ковалёва"
+},
+
+{
+id: 5,
+client: "Steppe Bank",
+title: "Digital Workspace",
+amount: 7400000,
+stage: "Предложение",
+probability: 55,
+owner: "Ирина Ковалёва"
+},
+
+{
+id: 6,
+client: "Khan Group",
+title: "IT Support",
+amount: 5200000,
+stage: "Квалификация",
+probability: 35,
+owner: "Михаил Орлов"
+},
+
+{
+id: 7,
+client: "Arman Retail",
+title: "CRM",
+amount: 11700000,
+stage: "Переговоры",
+probability: 65,
+owner: "Михаил Орлов"
+},
+
+{
+id: 8,
+client: "Nomad Construction",
+title: "ERP Integration",
+amount: 18700000,
+stage: "Предложение",
+probability: 50,
+owner: "Алексей Волков"
+}
+
+],
+
+projects: [
+
+{
+name: "Alatau CRM",
+lead: "Дмитрий Соколов",
+status: "В разработке",
+progress: 68
+},
+
+{
+name: "Nexus Portal",
+lead: "Дмитрий Соколов",
+status: "В разработке",
+progress: 45
+},
+
+{
+name: "Sales Expansion",
+lead: "Алексей Волков",
+status: "Активен",
+progress: 72
+},
+
+{
+name: "HR Automation",
+lead: "Елена Орлова",
+status: "Планирование",
+progress: 25
+},
+
+{
+name: "Finance Control",
+lead: "Анна Морозова",
+status: "Активен",
+progress: 61
+}
+
+],
+
+candidates: [
+
+{
+name: "Данияр Ахметов",
+role: "Sales Manager",
+experience: "4 года B2B",
+status: "Интервью"
+},
+
+{
+name: "Алина Сафина",
+role: "Product Manager",
+experience: "5 лет IT",
+status: "Новый"
+},
+
+{
+name: "Тимур Нурланов",
+role: "Backend Developer",
+experience: "3 года",
+status: "Тех. интервью"
+}
+
+],
+
+finance: {
+
+revenue: 128500000,
+
+expenses: 76400000,
+
+cash: 52100000
+
+},
+
+events: [
+
+{
+title: "Новая сделка",
+text: "Sales зарегистрировал нового клиента на ₸12.4 млн."
+},
+
+{
+title: "Проект требует решения",
+text: "CTO запросил дополнительный бюджет."
+},
+
+{
+title: "HR",
+text: "Получено 3 новых резюме."
+},
+
+{
+title: "Финансы",
+text: "Ожидается согласование платежа ₸2.1 млн."
+}
+
+],
+
+decisions: [
+
+{
+id: 1,
+title: "Дополнительный бюджет для Nexus Portal",
+from: "Дмитрий Соколов",
+amount: 3500000,
+status: "Ожидает решения"
+},
+
+{
+id: 2,
+title: "Увеличение бонусного фонда Sales",
+from: "Алексей Волков",
+amount: 1800000,
+status: "Ожидает решения"
+}
+
+]
+
+};
+
+
+/* =========================================================
+   LOAD / SAVE
+========================================================= */
+
+let state;
+
+try {
+
+const saved =
+localStorage.getItem("alatauNexusState");
+
+state =
+saved
+? JSON.parse(saved)
+: defaultState;
+
+} catch {
+
+state = defaultState;
+
+}
+
+
+let sequence =
+Date.now();
+
+
+function saveState() {
+
+localStorage.setItem(
+"alatauNexusState",
+JSON.stringify(state)
+);
+
+renderAll();
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function employeeArray() {
+
+return Object.values(state.employees);
+
+}
+
+
+function money(value) {
+
+return new Intl.NumberFormat(
+"ru-RU"
+).format(value) + " ₸";
+
+}
+
+
+function initials(name) {
+
+return name
+.split(" ")
+.map(x => x[0])
+.slice(0,2)
+.join("")
+.toUpperCase();
+
+}
+
+
+function escapeHTML(value) {
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function addEvent(title,text) {
+
+state.events.unshift({
+title:title,
+text:text
+});
+
+state.events =
+state.events.slice(0,8);
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document
+.getElementById("menu")
+.addEventListener("click",function(event){
+
+const button =
+event.target.closest("button");
+
+if(!button) return;
+
+showSection(
+button.dataset.section,
+button
+);
+
+});
+
+
+function showSection(sectionId,button) {
+
+document
+.querySelectorAll(".section")
+.forEach(section => {
+
+section.classList.remove("active");
+
+});
+
+
+const section =
+document.getElementById(sectionId);
+
+if(section) {
+
+section.classList.add("active");
+
+}
+
+
+document
+.querySelectorAll(".menu button")
+.forEach(btn => {
+
+btn.classList.remove("active");
+
+});
+
+
+if(button) {
+
+button.classList.add("active");
+
+}
+
+
+const titles = {
+
+dashboard:"CEO Dashboard",
+
+company:"Компания",
+
+employees:"Сотрудники",
+
+departments:"Отделы",
+
+crm:"CRM",
+
+projects:"Проекты",
+
+tasks:"Задачи",
+
+finance:"Финансы",
+
+hr:"HR",
+
+decisions:"Центр решений"
+
+};
+
+
+document
+.getElementById("pageTitle")
+.textContent =
+titles[sectionId] || "CEO Dashboard";
+
+}
+
+
+/* =========================================================
+   RENDER DASHBOARD
+========================================================= */
+
+function renderDashboard() {
+
+const employees =
+employeeArray();
+
+const pipeline =
+state.deals.reduce(
+(sum,deal) => sum + Number(deal.amount),
+0
+);
+
+
+document
+.getElementById("statEmployees")
+.textContent =
+employees.length + 1;
+
+
+document
+.getElementById("statDeals")
+.textContent =
+state.deals.length;
+
+
+document
+.getElementById("statPipeline")
+.textContent =
+"₸" +
+(pipeline / 1000000).toFixed(1) +
+"m";
+
+
+document
+.getElementById("statProjects")
+.textContent =
+state.projects.length;
+
+
+/* DIRECTORS */
+
+const directors =
+employees.filter(employee =>
+employee.role.includes("Director") ||
+employee.role === "CTO" ||
+employee.role === "CFO" ||
+employee.role === "COO"
+);
+
+
+document
+.getElementById("directorList")
+.innerHTML =
+directors.map(employee => `
+
+<div
+class="employee"
+onclick="openEmployee('${employee.id}')"
+>
+
+<div class="employee-top">
+
+<div>
+
+<div class="employee-name">
+${escapeHTML(employee.name)}
+</div>
+
+<div class="employee-role">
+${escapeHTML(employee.role)}
+</div>
+
+</div>
+
+<div class="online"></div>
+
+</div>
+
+<div class="kpi">
+
+<div class="kpi-label">
+
+<span>
+KPI
+</span>
+
+<span>
+${employee.kpi}%
+</span>
+
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+style="width:${employee.kpi}%"
+></div>
+
+</div>
+
+</div>
+
+</div>
+
+`).join("");
+
+
+/* EVENTS */
+
+document
+.getElementById("eventList")
+.innerHTML =
+state.events
+.slice(0,5)
+.map(event => `
+
+<div class="event">
+
+<strong>
+${escapeHTML(event.title)}
+</strong>
+
+<p>
+${escapeHTML(event.text)}
+</p>
+
+</div>
+
+`)
+.join("");
+
+
+/* DEPARTMENTS */
+
+const departments = {
+
+Sales:0,
+Technology:0,
+Finance:0,
+HR:0,
+Operations:0
+
+};
+
+
+employees.forEach(employee => {
+
+if(departments[employee.department] !== undefined) {
+
+departments[employee.department]++;
+
+}
+
+});
+
+
+document
+.getElementById("deptMap")
+.innerHTML =
+Object.entries(departments)
+.map(([department,count]) => `
+
+<div class="department">
+
+<strong>
+${department}
+</strong>
+
+<span>
+${count} сотрудников
+</span>
+
+</div>
+
+`)
+.join("");
+
+}
+
+
+/* =========================================================
+   EMPLOYEES
+========================================================= */
+
+function renderEmployees() {
+
+const search =
+(
+document
+.getElementById("employeeSearch")
+?.value || ""
+)
+.toLowerCase();
+
+
+const employees =
+employeeArray()
+.filter(employee =>
+(
+employee.name +
+" " +
+employee.role +
+" " +
+employee.department
+)
+.toLowerCase()
+.includes(search)
+);
+
+
+document
+.getElementById("employeeTable")
+.innerHTML = `
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>
+Сотрудник
+</th>
+
+<th>
+Должность
+</th>
+
+<th>
+Отдел
+</th>
+
+<th>
+KPI
+</th>
+
+<th>
+Загрузка
+</th>
+
+<th>
+Зарплата
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${employees.map(employee => `
+
+<tr
+class="clickable"
+onclick="openEmployee('${employee.id}')"
+>
+
+<td>
+<strong>
+${escapeHTML(employee.name)}
+</strong>
+</td>
+
+<td>
+${escapeHTML(employee.role)}
+</td>
+
+<td>
+${escapeHTML(employee.department)}
+</td>
+
+<td>
+<span class="badge">
+${employee.kpi}%
+</span>
+</td>
+
+<td>
+${employee.workload}%
+</td>
+
+<td>
+${money(employee.salary)}
+</td>
+
+</tr>
+
+`).join("")}
+
+</tbody>
+
+</table>
+
+`;
+
+}
+
+
+/* =========================================================
+   EMPLOYEE PROFILE
+========================================================= */
+
+function openEmployee(id) {
+
+const employee =
+state.employees[id];
+
+if(!employee) {
+
+alert("Сотрудник не найден.");
+
+return;
+
+}
+
+
+openModal(`
 
 <div class="profile-header">
 
-<div class="big-avatar" id="profileAvatar">
-AV
+<div class="big-avatar">
+
+${escapeHTML(employee.avatar || initials(employee.name))}
+
 </div>
 
 <div>
 
-<h2 id="profileName"></h2>
+<h2>
+${escapeHTML(employee.name)}
+</h2>
 
-<p id="profileRole"></p>
+<p>
+${escapeHTML(employee.role)}
+·
+${escapeHTML(employee.department)}
+</p>
 
 </div>
 
@@ -1305,7 +2191,9 @@ AV
 Отдел
 </span>
 
-<strong id="profileDepartment"></strong>
+<strong>
+${escapeHTML(employee.department)}
+</strong>
 
 </div>
 
@@ -1316,7 +2204,9 @@ AV
 Зарплата
 </span>
 
-<strong id="profileSalary"></strong>
+<strong>
+${money(employee.salary)}
+</strong>
 
 </div>
 
@@ -1327,7 +2217,9 @@ AV
 KPI
 </span>
 
-<strong id="profileKpi"></strong>
+<strong>
+${employee.kpi}%
+</strong>
 
 </div>
 
@@ -1338,7 +2230,9 @@ KPI
 Загрузка
 </span>
 
-<strong id="profileWorkload"></strong>
+<strong>
+${employee.workload}%
+</strong>
 
 </div>
 
@@ -1349,7 +2243,9 @@ KPI
 Стаж
 </span>
 
-<strong id="profileExperience"></strong>
+<strong>
+${escapeHTML(employee.experience)}
+</strong>
 
 </div>
 
@@ -1375,7 +2271,15 @@ KPI
 Цели
 </h3>
 
-<div id="profileGoals"></div>
+${employee.goals
+.map(goal => `
+
+<div class="goal">
+• ${escapeHTML(goal)}
+</div>
+
+`)
+.join("")}
 
 </div>
 
@@ -1386,692 +2290,2188 @@ KPI
 Действия CEO
 </h3>
 
-
 <div class="actions">
 
-<button class="action"
-onclick="employeeAction('Написать сотруднику')">
-
+<button
+class="action"
+onclick="messageEmployee('${employee.id}')"
+>
 💬 Написать
-
 </button>
 
 
-<button class="action"
-onclick="employeeAction('Поставить задачу')">
-
+<button
+class="action"
+onclick="taskForEmployee('${employee.id}')"
+>
 ✓ Поставить задачу
-
 </button>
 
 
-<button class="action"
-onclick="employeeAction('Изменить KPI')">
-
+<button
+class="action"
+onclick="changeKPI('${employee.id}')"
+>
 📊 Изменить KPI
-
 </button>
 
 
-<button class="action"
-onclick="employeeAction('Изменить зарплату')">
-
+<button
+class="action"
+onclick="changeSalary('${employee.id}')"
+>
 ₸ Изменить зарплату
-
 </button>
 
 
-<button class="action"
-onclick="employeeAction('Повысить')">
-
+<button
+class="action"
+onclick="promoteEmployee('${employee.id}')"
+>
 ↑ Повысить
-
 </button>
 
 
-<button class="action"
-onclick="employeeAction('Перевести')">
-
+<button
+class="action"
+onclick="transferEmployee('${employee.id}')"
+>
 ↔ Перевести
-
 </button>
 
 
-<button class="action"
-onclick="employeeAction('Понизить')">
-
-↓ Понизить
-
+<button
+class="action"
+onclick="warnEmployee('${employee.id}')"
+>
+⚠ Предупредить
 </button>
 
 
-<button class="action danger"
-onclick="employeeAction('Уволить')">
-
+<button
+class="action danger"
+onclick="fireEmployee('${employee.id}')"
+>
 ✕ Уволить
-
 </button>
 
 </div>
 
 </div>
 
-</div>
-
-</div>
-
-
-<script>
-
-/* =========================
-   EMPLOYEES DATABASE
-========================= */
-
-const employees = {
-
-alexey: {
-
-name: "Алексей Волков",
-
-role: "Sales Director",
-
-department: "Sales",
-
-salary: "850 000 ₸",
-
-kpi: "82%",
-
-workload: "76%",
-
-experience: "4 года",
-
-avatar: "AV",
-
-goals: [
-
-"Выручка отдела — 82%",
-
-"Новые клиенты — 74%",
-
-"Конверсия продаж — 68%"
-
-]
-
-},
-
-
-dmitry: {
-
-name: "Дмитрий Соколов",
-
-role: "CTO",
-
-department: "Technology",
-
-salary: "1 100 000 ₸",
-
-kpi: "91%",
-
-workload: "88%",
-
-experience: "6 лет",
-
-avatar: "DS",
-
-goals: [
-
-"Стабильность платформы — 97%",
-
-"Сроки разработки — 91%",
-
-"Технический долг — под контролем"
-
-]
-
-},
-
-
-anna: {
-
-name: "Анна Морозова",
-
-role: "CFO",
-
-department: "Finance",
-
-salary: "950 000 ₸",
-
-kpi: "76%",
-
-workload: "69%",
-
-experience: "5 лет",
-
-avatar: "AM",
-
-goals: [
-
-"Cash Flow — положительный",
-
-"Контроль расходов — 88%",
-
-"Дебиторская задолженность — снижение"
-
-]
-
-},
-
-
-elena: {
-
-name: "Елена Орлова",
-
-role: "HR Director",
-
-department: "HR",
-
-salary: "800 000 ₸",
-
-kpi: "88%",
-
-workload: "73%",
-
-experience: "4 года",
-
-avatar: "EO",
-
-goals: [
-
-"Закрытие вакансий — 91%",
-
-"Текучесть — ниже 8%",
-
-"Employee satisfaction — 86%"
-
-]
-
-},
-
-
-maxim: {
-
-name: "Максим Петров",
-
-role: "COO",
-
-department: "Operations",
-
-salary: "900 000 ₸",
-
-kpi: "84%",
-
-workload: "81%",
-
-experience: "5 лет",
-
-avatar: "MP",
-
-goals: [
-
-"Эффективность процессов — 84%",
-
-"SLA — 94%",
-
-"Операционные расходы — в бюджете"
-
-]
+`);
 
 }
 
-};
 
+/* =========================================================
+   KPI
+========================================================= */
 
-/* =========================
-   OPEN EMPLOYEE
-========================= */
+function changeKPI(id) {
 
-function openEmployee(id) {
+const employee =
+state.employees[id];
 
-const employee = employees[id];
+const value =
+prompt(
+"Новый KPI от 0 до 100:",
+employee.kpi
+);
 
-if (!employee) {
+if(value === null) return;
 
-console.error("Employee not found:", id);
+const number =
+Number(value);
+
+if(
+!Number.isFinite(number) ||
+number < 0 ||
+number > 100
+) {
+
+alert(
+"Введите число от 0 до 100."
+);
 
 return;
 
 }
 
 
-document.getElementById("profileName").textContent =
-employee.name;
+employee.kpi =
+Math.round(number);
+
+addEvent(
+"KPI изменён",
+`CEO изменил KPI ${employee.name} на ${employee.kpi}%.`
+);
+
+saveState();
+
+openEmployee(id);
+
+}
 
 
-document.getElementById("profileRole").textContent =
-employee.role;
+/* =========================================================
+   SALARY
+========================================================= */
+
+function changeSalary(id) {
+
+const employee =
+state.employees[id];
+
+const value =
+prompt(
+"Новая зарплата в ₸:",
+employee.salary
+);
+
+if(value === null) return;
+
+const number =
+Number(
+String(value)
+.replace(/\s/g,"")
+);
 
 
-document.getElementById("profileDepartment").textContent =
-employee.department;
+if(
+!Number.isFinite(number) ||
+number < 0
+) {
+
+alert(
+"Введите корректную сумму."
+);
+
+return;
+
+}
 
 
-document.getElementById("profileSalary").textContent =
-employee.salary;
+employee.salary =
+Math.round(number);
 
 
-document.getElementById("profileKpi").textContent =
-employee.kpi;
+addEvent(
+"Изменение зарплаты",
+`CEO изменил зарплату ${employee.name} на ${money(employee.salary)}.`
+);
+
+saveState();
+
+openEmployee(id);
+
+}
 
 
-document.getElementById("profileWorkload").textContent =
-employee.workload;
+/* =========================================================
+   PROMOTION
+========================================================= */
+
+function promoteEmployee(id) {
+
+const employee =
+state.employees[id];
+
+if(
+employee.role.includes("Director") ||
+employee.role === "CTO" ||
+employee.role === "CFO" ||
+employee.role === "COO"
+) {
+
+alert(
+`${employee.name} уже находится на руководящей позиции.`
+);
+
+return;
+
+}
 
 
-document.getElementById("profileExperience").textContent =
-employee.experience;
+employee.role =
+employee.role + " · Senior";
 
 
-document.getElementById("profileAvatar").textContent =
-employee.avatar;
+employee.kpi =
+Math.min(
+100,
+employee.kpi + 3
+);
 
 
-const goals =
-document.getElementById("profileGoals");
+addEvent(
+"Повышение",
+`${employee.name} получил повышение.`
+);
 
 
-goals.innerHTML = "";
+saveState();
+
+openEmployee(id);
+
+}
 
 
-employee.goals.forEach(function(goal) {
+/* =========================================================
+   TRANSFER
+========================================================= */
 
-const element =
-document.createElement("div");
+function transferEmployee(id) {
+
+const employee =
+state.employees[id];
+
+const department =
+prompt(
+"Новый отдел:\n\nSales\nTechnology\nFinance\nHR\nOperations",
+employee.department
+);
 
 
-element.className = "goal";
+if(department === null) return;
 
 
-element.textContent =
-"• " + goal;
+const allowed = [
+"Sales",
+"Technology",
+"Finance",
+"HR",
+"Operations"
+];
 
 
-goals.appendChild(element);
+if(!allowed.includes(department)) {
+
+alert(
+"Введите один из предложенных отделов."
+);
+
+return;
+
+}
+
+
+employee.department =
+department;
+
+
+addEvent(
+"Перевод",
+`${employee.name} переведён в отдел ${department}.`
+);
+
+
+saveState();
+
+openEmployee(id);
+
+}
+
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+function warnEmployee(id) {
+
+const employee =
+state.employees[id];
+
+
+addEvent(
+"Предупреждение",
+`CEO вынес предупреждение ${employee.name}.`
+);
+
+
+saveState();
+
+alert(
+`Предупреждение зафиксировано для ${employee.name}.`
+);
+
+openEmployee(id);
+
+}
+
+
+/* =========================================================
+   FIRE
+========================================================= */
+
+function fireEmployee(id) {
+
+const employee =
+state.employees[id];
+
+
+if(
+!confirm(
+`Уволить ${employee.name}?`
+)
+) {
+
+return;
+
+}
+
+
+delete state.employees[id];
+
+
+addEvent(
+"Увольнение",
+`${employee.name} исключён из штата.`
+);
+
+
+saveState();
+
+closeModal();
+
+}
+
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+function messageEmployee(id) {
+
+const employee =
+state.employees[id];
+
+
+openModal(`
+
+<h2>
+Чат с ${escapeHTML(employee.name)}
+</h2>
+
+
+<div
+class="chat"
+id="chatBox"
+>
+
+<div class="msg">
+
+<strong>
+${escapeHTML(employee.name)}
+</strong>
+
+<p>
+${escapeHTML(
+generateEmployeeReply(
+employee,
+"Привет"
+)
+)}
+</p>
+
+</div>
+
+</div>
+
+
+<div style="
+display:flex;
+gap:8px;
+">
+
+<input
+id="chatInput"
+class="btn"
+style="flex:1"
+placeholder="Напишите сообщение..."
+onkeydown="
+if(event.key === 'Enter')
+sendChat('${employee.id}')
+"
+>
+
+
+<button
+class="btn primary"
+onclick="sendChat('${employee.id}')"
+>
+Отправить
+</button>
+
+</div>
+
+`);
+
+}
+
+
+function generateEmployeeReply(
+employee,
+message
+) {
+
+const text =
+message.toLowerCase();
+
+
+if(
+employee.department === "Sales"
+) {
+
+if(
+text.includes("продаж") ||
+text.includes("клиент") ||
+text.includes("сделк")
+) {
+
+const deals =
+state.deals.filter(
+deal =>
+deal.owner === employee.name
+);
+
+
+return `Сейчас у меня ${deals.length} сделок в CRM. Я вижу основной фокус в доведении активных переговоров до следующего этапа.`;
+
+}
+
+
+return `Принял. Я отвечаю за продажи и клиентов. Могу дать текущий статус воронки, проблемные сделки и план действий.`;
+
+}
+
+
+if(employee.role === "CTO") {
+
+if(
+text.includes("бюдж") ||
+text.includes("деньг")
+) {
+
+return `По Nexus Portal есть запрос на дополнительный бюджет ${money(3500000)}. Причина — расширение технического объёма проекта.`;
+
+}
+
+
+return `По технологии главный фокус сейчас — стабильность платформы, сроки разработки и технический долг. Текущий KPI: ${employee.kpi}%.`;
+
+}
+
+
+if(employee.role === "CFO") {
+
+return `По финансам: выручка ${money(state.finance.revenue)}, расходы ${money(state.finance.expenses)}, cash ${money(state.finance.cash)}.`;
+
+}
+
+
+if(employee.role === "HR Director") {
+
+return `Сейчас в HR ${state.candidates.length} активных кандидата. Могу рассказать по каждому и предложить следующий этап.`;
+
+}
+
+
+if(employee.role === "COO") {
+
+return `Операционный KPI сейчас ${employee.kpi}%, загрузка ${employee.workload}%. Основной фокус — SLA и эффективность процессов.`;
+
+}
+
+
+return `Сейчас мой KPI ${employee.kpi}%, загрузка ${employee.workload}%. Готов дать статус по своим задачам и текущим проблемам.`;
+
+}
+
+
+function sendChat(id) {
+
+const input =
+document.getElementById("chatInput");
+
+
+if(
+!input ||
+!input.value.trim()
+) {
+
+return;
+
+}
+
+
+const employee =
+state.employees[id];
+
+
+const message =
+input.value.trim();
+
+
+const box =
+document.getElementById("chatBox");
+
+
+box.innerHTML += `
+
+<div class="msg ceo-msg">
+
+<strong>
+Олег Ким
+</strong>
+
+<p>
+${escapeHTML(message)}
+</p>
+
+</div>
+
+
+<div class="msg">
+
+<strong>
+${escapeHTML(employee.name)}
+</strong>
+
+<p>
+${escapeHTML(
+generateEmployeeReply(
+employee,
+message
+)
+)}
+</p>
+
+</div>
+
+`;
+
+
+input.value = "";
+
+box.scrollTop =
+box.scrollHeight;
+
+}
+
+
+/* =========================================================
+   TASKS
+========================================================= */
+
+function taskForEmployee(id) {
+
+const employee =
+state.employees[id];
+
+openTaskForm(
+employee.name
+);
+
+}
+
+
+function openTaskForm(
+assignee = ""
+) {
+
+openModal(`
+
+<h2>
+Поставить задачу
+</h2>
+
+
+<div class="form-grid">
+
+<div class="field full">
+
+<label>
+Задача
+</label>
+
+<input
+id="taskTitle"
+placeholder="Что нужно сделать?"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Исполнитель
+</label>
+
+<select id="taskAssignee">
+
+${employeeArray()
+.map(employee => `
+
+<option
+${employee.name === assignee ? "selected" : ""}
+>
+${escapeHTML(employee.name)}
+</option>
+
+`)
+.join("")}
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Приоритет
+</label>
+
+<select id="taskPriority">
+
+<option>
+Высокий
+</option>
+
+<option selected>
+Средний
+</option>
+
+<option>
+Низкий
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Срок
+</label>
+
+<input
+id="taskDue"
+type="date"
+>
+
+</div>
+
+</div>
+
+
+<div style="margin-top:15px">
+
+<button
+class="btn primary"
+onclick="createTask()"
+>
+Создать задачу
+</button>
+
+</div>
+
+`);
+
+}
+
+
+function createTask() {
+
+const title =
+document
+.getElementById("taskTitle")
+.value
+.trim();
+
+
+const assignee =
+document
+.getElementById("taskAssignee")
+.value;
+
+
+const priority =
+document
+.getElementById("taskPriority")
+.value;
+
+
+const due =
+document
+.getElementById("taskDue")
+.value;
+
+
+if(!title) {
+
+alert(
+"Введите название задачи."
+);
+
+return;
+
+}
+
+
+state.tasks.unshift({
+
+id: ++sequence,
+
+title:title,
+
+assignee:assignee,
+
+priority:priority,
+
+status:"Ожидает",
+
+due:due
+
+});
+
+
+addEvent(
+"Новая задача",
+`CEO поставил задачу "${title}" сотруднику ${assignee}.`
+);
+
+
+saveState();
+
+closeModal();
+
+showSection(
+"tasks",
+document.querySelector(
+'[data-section="tasks"]'
+)
+);
+
+}
+
+
+function renderTasks() {
+
+const container =
+document.getElementById("taskTable");
+
+
+if(!state.tasks.length) {
+
+container.innerHTML =
+'<div class="empty">Задач пока нет.</div>';
+
+return;
+
+}
+
+
+container.innerHTML = `
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>
+Задача
+</th>
+
+<th>
+Исполнитель
+</th>
+
+<th>
+Приоритет
+</th>
+
+<th>
+Статус
+</th>
+
+<th>
+Срок
+</th>
+
+<th>
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${state.tasks.map(task => `
+
+<tr>
+
+<td>
+<strong>
+${escapeHTML(task.title)}
+</strong>
+</td>
+
+<td>
+${escapeHTML(task.assignee)}
+</td>
+
+<td>
+${escapeHTML(task.priority)}
+</td>
+
+<td>
+
+<select
+class="btn"
+onchange="
+changeTaskStatus(
+${task.id},
+this.value
+)
+"
+>
+
+<option
+${task.status === "Ожидает" ? "selected" : ""}
+>
+Ожидает
+</option>
+
+<option
+${task.status === "В работе" ? "selected" : ""}
+>
+В работе
+</option>
+
+<option
+${task.status === "Выполнено" ? "selected" : ""}
+>
+Выполнено
+</option>
+
+</select>
+
+</td>
+
+<td>
+${task.due || "—"}
+</td>
+
+<td>
+
+<button
+class="btn danger"
+onclick="deleteTask(${task.id})"
+>
+Удалить
+</button>
+
+</td>
+
+</tr>
+
+`).join("")}
+
+</tbody>
+
+</table>
+
+`;
+
+}
+
+
+function changeTaskStatus(
+id,
+status
+) {
+
+const task =
+state.tasks.find(
+item => item.id === id
+);
+
+
+if(!task) return;
+
+
+task.status =
+status;
+
+
+addEvent(
+"Статус задачи",
+`Задача "${task.title}" теперь: ${status}.`
+);
+
+
+saveState();
+
+}
+
+
+function deleteTask(id) {
+
+state.tasks =
+state.tasks.filter(
+task => task.id !== id
+);
+
+
+saveState();
+
+}
+
+
+/* =========================================================
+   CRM
+========================================================= */
+
+function renderCRM() {
+
+document
+.getElementById("crmTable")
+.innerHTML = `
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>
+Клиент
+</th>
+
+<th>
+Сделка
+</th>
+
+<th>
+Сумма
+</th>
+
+<th>
+Этап
+</th>
+
+<th>
+Вероятность
+</th>
+
+<th>
+Ответственный
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${state.deals.map(deal => `
+
+<tr>
+
+<td>
+${escapeHTML(deal.client)}
+</td>
+
+<td>
+${escapeHTML(deal.title)}
+</td>
+
+<td>
+${money(deal.amount)}
+</td>
+
+<td>
+<span class="badge">
+${escapeHTML(deal.stage)}
+</span>
+</td>
+
+<td>
+${deal.probability}%
+</td>
+
+<td>
+${escapeHTML(deal.owner)}
+</td>
+
+</tr>
+
+`).join("")}
+
+</tbody>
+
+</table>
+
+`;
+
+}
+
+
+function openDealForm() {
+
+const salesEmployees =
+employeeArray()
+.filter(
+employee =>
+employee.department === "Sales"
+);
+
+
+openModal(`
+
+<h2>
+Новая сделка
+</h2>
+
+
+<div class="form-grid">
+
+<div class="field">
+
+<label>
+Клиент
+</label>
+
+<input id="dealClient">
+
+</div>
+
+
+<div class="field">
+
+<label>
+Название сделки
+</label>
+
+<input id="dealTitle">
+
+</div>
+
+
+<div class="field">
+
+<label>
+Сумма ₸
+</label>
+
+<input
+id="dealAmount"
+type="number"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Этап
+</label>
+
+<select id="dealStage">
+
+<option>
+Квалификация
+</option>
+
+<option>
+Предложение
+</option>
+
+<option>
+Переговоры
+</option>
+
+<option>
+Контракт
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Вероятность %
+</label>
+
+<input
+id="dealProbability"
+type="number"
+value="50"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Ответственный
+</label>
+
+<select id="dealOwner">
+
+${salesEmployees.map(employee => `
+
+<option>
+${escapeHTML(employee.name)}
+</option>
+
+`)
+.join("")}
+
+</select>
+
+</div>
+
+</div>
+
+
+<div style="margin-top:15px">
+
+<button
+class="btn primary"
+onclick="createDeal()"
+>
+Создать сделку
+</button>
+
+</div>
+
+`);
+
+}
+
+
+function createDeal() {
+
+const client =
+document
+.getElementById("dealClient")
+.value
+.trim();
+
+
+const title =
+document
+.getElementById("dealTitle")
+.value
+.trim();
+
+
+const amount =
+Number(
+document
+.getElementById("dealAmount")
+.value
+);
+
+
+const stage =
+document
+.getElementById("dealStage")
+.value;
+
+
+const probability =
+Number(
+document
+.getElementById("dealProbability")
+.value
+);
+
+
+const owner =
+document
+.getElementById("dealOwner")
+.value;
+
+
+if(
+!client ||
+!title ||
+!amount
+) {
+
+alert(
+"Заполните клиента, название и сумму."
+);
+
+return;
+
+}
+
+
+state.deals.unshift({
+
+id: ++sequence,
+
+client:client,
+
+title:title,
+
+amount:amount,
+
+stage:stage,
+
+probability:probability,
+
+owner:owner
+
+});
+
+
+addEvent(
+"Новая сделка",
+`${owner} зарегистрировал сделку ${client} на ${money(amount)}.`
+);
+
+
+saveState();
+
+closeModal();
+
+showSection(
+"crm",
+document.querySelector(
+'[data-section="crm"]'
+)
+);
+
+}
+
+
+/* =========================================================
+   EMPLOYEE CREATION
+========================================================= */
+
+function openEmployeeForm() {
+
+openModal(`
+
+<h2>
+Добавить сотрудника
+</h2>
+
+
+<div class="form-grid">
+
+<div class="field">
+
+<label>
+Имя
+</label>
+
+<input id="newEmployeeName">
+
+</div>
+
+
+<div class="field">
+
+<label>
+Должность
+</label>
+
+<input id="newEmployeeRole">
+
+</div>
+
+
+<div class="field">
+
+<label>
+Отдел
+</label>
+
+<select id="newEmployeeDepartment">
+
+<option>
+Sales
+</option>
+
+<option>
+Technology
+</option>
+
+<option>
+Finance
+</option>
+
+<option>
+HR
+</option>
+
+<option>
+Operations
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Зарплата ₸
+</label>
+
+<input
+id="newEmployeeSalary"
+type="number"
+>
+
+</div>
+
+</div>
+
+
+<div style="margin-top:15px">
+
+<button
+class="btn primary"
+onclick="createEmployee()"
+>
+Добавить сотрудника
+</button>
+
+</div>
+
+`);
+
+}
+
+
+function createEmployee() {
+
+const name =
+document
+.getElementById("newEmployeeName")
+.value
+.trim();
+
+
+const role =
+document
+.getElementById("newEmployeeRole")
+.value
+.trim();
+
+
+const department =
+document
+.getElementById("newEmployeeDepartment")
+.value;
+
+
+const salary =
+Number(
+document
+.getElementById("newEmployeeSalary")
+.value
+);
+
+
+if(
+!name ||
+!role ||
+!salary
+) {
+
+alert(
+"Заполните имя, должность и зарплату."
+);
+
+return;
+
+}
+
+
+const id =
+"employee_" +
+(++sequence);
+
+
+state.employees[id] = {
+
+id:id,
+
+name:name,
+
+role:role,
+
+department:department,
+
+salary:salary,
+
+kpi:70,
+
+workload:0,
+
+experience:"0 лет",
+
+avatar:initials(name),
+
+goals:[
+"Выполнение KPI",
+"Качество работы",
+"Развитие компетенций"
+]
+
+};
+
+
+addEvent(
+"Новый сотрудник",
+`В компанию добавлен ${name}, ${role}.`
+);
+
+
+saveState();
+
+closeModal();
+
+}
+
+
+/* =========================================================
+   DEPARTMENTS
+========================================================= */
+
+function renderDepartments() {
+
+const groups = {};
+
+employeeArray()
+.forEach(employee => {
+
+if(!groups[employee.department]) {
+
+groups[employee.department] = [];
+
+}
+
+groups[employee.department]
+.push(employee);
 
 });
 
 
 document
-.getElementById("employeeModal")
+.getElementById("departmentCards")
+.innerHTML =
+Object.entries(groups)
+.map(([department,employees]) => {
+
+const avgKPI =
+Math.round(
+employees.reduce(
+(sum,employee) =>
+sum + employee.kpi,
+0
+) / employees.length
+);
+
+const avgWorkload =
+Math.round(
+employees.reduce(
+(sum,employee) =>
+sum + employee.workload,
+0
+) / employees.length
+);
+
+
+return `
+
+<div class="mini">
+
+<h4>
+${escapeHTML(department)}
+</h4>
+
+<div class="money">
+${employees.length} сотрудников
+</div>
+
+<div class="muted">
+Средний KPI: ${avgKPI}%
+</div>
+
+<div class="muted">
+Средняя загрузка: ${avgWorkload}%
+</div>
+
+</div>
+
+`;
+
+})
+.join("");
+
+}
+
+
+/* =========================================================
+   COMPANY
+========================================================= */
+
+function renderCompany() {
+
+const pipeline =
+state.deals.reduce(
+(sum,deal) =>
+sum + deal.amount,
+0
+);
+
+
+document
+.getElementById("companyCards")
+.innerHTML = `
+
+<div class="mini">
+
+<h4>
+CEO
+</h4>
+
+<div class="money">
+Олег Ким
+</div>
+
+<div class="muted">
+Founder & CEO
+</div>
+
+</div>
+
+
+<div class="mini">
+
+<h4>
+Команда
+</h4>
+
+<div class="money">
+${employeeArray().length + 1}
+</div>
+
+<div class="muted">
+CEO + сотрудники
+</div>
+
+</div>
+
+
+<div class="mini">
+
+<h4>
+Pipeline
+</h4>
+
+<div class="money">
+${money(pipeline)}
+</div>
+
+<div class="muted">
+${state.deals.length} активных сделок
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================================================
+   PROJECTS
+========================================================= */
+
+function renderProjects() {
+
+document
+.getElementById("projectCards")
+.innerHTML =
+state.projects
+.map(project => `
+
+<div class="mini">
+
+<h4>
+${escapeHTML(project.name)}
+</h4>
+
+<div class="muted">
+
+${escapeHTML(project.lead)}
+·
+${escapeHTML(project.status)}
+
+</div>
+
+
+<div class="kpi">
+
+<div class="kpi-label">
+
+<span>
+Прогресс
+</span>
+
+<span>
+${project.progress}%
+</span>
+
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+style="width:${project.progress}%"
+></div>
+
+</div>
+
+</div>
+
+</div>
+
+`)
+.join("");
+
+}
+
+
+/* =========================================================
+   FINANCE
+========================================================= */
+
+function renderFinance() {
+
+const finance =
+state.finance;
+
+
+document
+.getElementById("financeStats")
+.innerHTML = `
+
+<div class="card">
+
+<div class="stat-title">
+Выручка
+</div>
+
+<div class="stat-value">
+${money(finance.revenue)}
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Расходы
+</div>
+
+<div class="stat-value">
+${money(finance.expenses)}
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Операционная разница
+</div>
+
+<div class="stat-value">
+${money(
+finance.revenue -
+finance.expenses
+)}
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="stat-title">
+Cash
+</div>
+
+<div class="stat-value">
+${money(finance.cash)}
+</div>
+
+</div>
+
+`;
+
+
+document
+.getElementById("financeTable")
+.innerHTML = `
+
+<table class="table">
+
+<tbody>
+
+<tr>
+
+<td>
+Ожидаемый платёж
+</td>
+
+<td>
+${money(2100000)}
+</td>
+
+<td>
+<span class="badge">
+Ожидает
+</span>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Бюджет Nexus Portal
+</td>
+
+<td>
+${money(3500000)}
+</td>
+
+<td>
+<span class="badge">
+На согласовании
+</span>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+`;
+
+}
+
+
+/* =========================================================
+   HR
+========================================================= */
+
+function renderHR() {
+
+document
+.getElementById("candidateCards")
+.innerHTML =
+state.candidates
+.map((candidate,index) => `
+
+<div class="mini">
+
+<h4>
+${escapeHTML(candidate.name)}
+</h4>
+
+<div>
+${escapeHTML(candidate.role)}
+</div>
+
+<div class="muted">
+${escapeHTML(candidate.experience)}
+</div>
+
+<p>
+
+<span class="badge">
+${escapeHTML(candidate.status)}
+</span>
+
+</p>
+
+<button
+class="btn"
+onclick="openCandidate(${index})"
+>
+Открыть
+</button>
+
+</div>
+
+`)
+.join("");
+
+}
+
+
+function openCandidate(index) {
+
+const candidate =
+state.candidates[index];
+
+
+openModal(`
+
+<h2>
+${escapeHTML(candidate.name)}
+</h2>
+
+<p>
+${escapeHTML(candidate.role)}
+·
+${escapeHTML(candidate.experience)}
+</p>
+
+
+<div class="notice">
+
+Текущий этап:
+${escapeHTML(candidate.status)}
+
+</div>
+
+
+<button
+class="btn primary"
+onclick="hireCandidate(${index})"
+>
+Нанять
+</button>
+
+
+<button
+class="btn"
+onclick="closeModal()"
+>
+Закрыть
+</button>
+
+`);
+
+}
+
+
+function hireCandidate(index) {
+
+const candidate =
+state.candidates[index];
+
+
+const id =
+"employee_" +
+(++sequence);
+
+
+let department =
+"Technology";
+
+
+if(
+candidate.role
+.toLowerCase()
+.includes("sales")
+) {
+
+department =
+"Sales";
+
+}
+
+
+state.employees[id] = {
+
+id:id,
+
+name:candidate.name,
+
+role:candidate.role,
+
+department:department,
+
+salary:500000,
+
+kpi:70,
+
+workload:0,
+
+experience:candidate.experience,
+
+avatar:initials(candidate.name),
+
+goals:[
+"Выполнение KPI",
+"Адаптация",
+"Развитие компетенций"
+]
+
+};
+
+
+state.candidates.splice(
+index,
+1
+);
+
+
+addEvent(
+"Найм",
+`${candidate.name} принят в Alatau Nexus.`
+);
+
+
+saveState();
+
+closeModal();
+
+}
+
+
+/* =========================================================
+   DECISIONS
+========================================================= */
+
+function renderDecisions() {
+
+document
+.getElementById("decisionList")
+.innerHTML =
+state.decisions
+.map(decision => `
+
+<div
+class="card"
+style="margin-bottom:12px"
+>
+
+<h3>
+${escapeHTML(decision.title)}
+</h3>
+
+<p class="muted">
+
+Инициатор:
+${escapeHTML(decision.from)}
+
+·
+
+Сумма:
+${money(decision.amount)}
+
+</p>
+
+
+<span class="badge">
+
+${escapeHTML(decision.status)}
+
+</span>
+
+
+<div
+style="
+margin-top:12px;
+display:flex;
+gap:8px;
+"
+>
+
+<button
+class="btn primary"
+onclick="
+resolveDecision(
+${decision.id},
+'approved'
+)
+"
+>
+Одобрить
+</button>
+
+
+<button
+class="btn"
+onclick="
+resolveDecision(
+${decision.id},
+'rejected'
+)
+"
+>
+Отклонить
+</button>
+
+</div>
+
+</div>
+
+`)
+.join("");
+
+}
+
+
+function resolveDecision(
+id,
+result
+) {
+
+const decision =
+state.decisions.find(
+item => item.id === id
+);
+
+
+if(!decision) return;
+
+
+decision.status =
+result === "approved"
+? "Одобрено CEO"
+: "Отклонено CEO";
+
+
+addEvent(
+"Решение CEO",
+`${decision.title}: ${decision.status}.`
+);
+
+
+saveState();
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(content) {
+
+document
+.getElementById("modalContent")
+.innerHTML =
+content;
+
+
+document
+.getElementById("modal")
 .classList.add("active");
 
 }
 
 
-/* =========================
-   CLOSE EMPLOYEE
-========================= */
-
-function closeEmployee() {
+function closeModal() {
 
 document
-.getElementById("employeeModal")
+.getElementById("modal")
 .classList.remove("active");
 
 }
 
 
-/* =========================
-   CEO ACTIONS
-========================= */
-
-function employeeAction(action) {
-function updateEmployeeCard(employeeId) {
-
-    const cards = document.querySelectorAll(".employee");
-
-    cards.forEach(function(card) {
-
-        const onclickValue = card.getAttribute("onclick");
-
-        if (onclickValue === "openEmployee('" + employeeId + "')") {
-
-            const employee = employees[employeeId];
-
-            const percentage =
-                parseInt(employee.kpi);
-
-            const numbers =
-                card.querySelectorAll(".kpi-label span");
-
-            if (numbers.length >= 2) {
-                numbers[1].textContent =
-                    employee.kpi;
-            }
-
-            const progress =
-                card.querySelector(".progress-bar");
-
-            if (progress) {
-                progress.style.width =
-                    percentage + "%";
-            }
-
-        }
-
-    });
-
-}
-    if (action === "Изменить KPI") {
-
-        const currentEmployee =
-            document.getElementById("profileName").textContent;
-
-        let employeeId = null;
-
-        for (const id in employees) {
-
-            if (employees[id].name === currentEmployee) {
-                employeeId = id;
-                break;
-            }
-
-        }
-
-        if (!employeeId) {
-            alert("Сотрудник не найден");
-            return;
-        }
-
-        const employee = employees[employeeId];
-
-        const newKpi = prompt(
-            "Изменить KPI сотрудника " +
-            employee.name +
-            "\n\nТекущий KPI: " +
-            employee.kpi +
-            "\n\nВведите новый KPI от 0 до 100:",
-            parseInt(employee.kpi)
-        );
-
-        if (newKpi === null) {
-            return;
-        }
-
-        const value = Number(newKpi);
-
-        if (isNaN(value) || value < 0 || value > 100) {
-
-            alert("Введите число от 0 до 100.");
-
-            return;
-        }
-
-        employee.kpi = value + "%";
-
-        document.getElementById("profileKpi").textContent =
-            employee.kpi;
-
-        updateEmployeeCard(employeeId);
-
-        return;
-    }
-
-    alert(
-        "CEO: " + action +
-        "\n\nЭта функция пока не подключена."
-    );
-
-}
-
-
-/* =========================
-   NAVIGATION
-========================= */
-
-function showSection(sectionId, button) {
-
 document
-.querySelectorAll(".section")
-.forEach(function(section) {
+.getElementById("modal")
+.addEventListener(
+"click",
+function(event){
 
-section.style.display = "none";
+if(
+event.target === this
+) {
 
-});
-
-
-document
-.getElementById(sectionId)
-.style.display = "block";
-
-
-document
-.querySelectorAll(".menu button")
-.forEach(function(btn) {
-
-btn.classList.remove("active");
-
-});
-
-
-button.classList.add("active");
-
-
-const titles = {
-
-dashboard: "CEO Dashboard",
-
-company: "Компания",
-
-employees: "Сотрудники",
-
-departments: "Отделы",
-
-crm: "CRM",
-
-projects: "Проекты",
-
-tasks: "Задачи",
-
-finance: "Финансы",
-
-hr: "HR",
-
-decisions: "Центр решений"
-
-};
-
-
-document
-.getElementById("pageTitle")
-.textContent =
-titles[sectionId];
-
-}
-
-
-/* =========================
-   CLOSE MODAL BY BACKGROUND
-========================= */
-
-document
-.getElementById("employeeModal")
-.addEventListener("click", function(event) {
-
-if (event.target === this) {
-
-closeEmployee();
+closeModal();
 
 }
 
 });
 
 
-/* =========================
-   ESC CLOSE
-========================= */
+document
+.addEventListener(
+"keydown",
+function(event){
 
-document.addEventListener("keydown", function(event) {
+if(
+event.key === "Escape"
+) {
 
-if (event.key === "Escape") {
-
-closeEmployee();
+closeModal();
 
 }
 
 });
+
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll() {
+
+renderDashboard();
+
+renderEmployees();
+
+renderDepartments();
+
+renderCompany();
+
+renderCRM();
+
+renderProjects();
+
+renderTasks();
+
+renderFinance();
+
+renderHR();
+
+renderDecisions();
+
+}
+
+
+/* START */
+
+renderAll();
 
 </script>
 
-</body><script>
-
-const employees = {
-
-    alexey: {
-        name: "Алексей Волков",
-        role: "Sales Director",
-        department: "Sales",
-        salary: "850 000 ₸",
-        kpi: "82%",
-        workload: "76%",
-        experience: "4 года",
-        avatar: "AV",
-        goals: [
-            "Выручка отдела — 82%",
-            "Новые клиенты — 74%",
-            "Конверсия продаж — 68%"
-        ]
-    },
-
-    dmitry: {
-        name: "Дмитрий Соколов",
-        role: "CTO",
-        department: "Technology",
-        salary: "1 100 000 ₸",
-        kpi: "91%",
-        workload: "88%",
-        experience: "6 лет",
-        avatar: "DS",
-        goals: [
-            "Стабильность платформы — 97%",
-            "Сроки разработки — 91%",
-            "Технический долг — под контролем"
-        ]
-    },
-
-    anna: {
-        name: "Анна Морозова",
-        role: "CFO",
-        department: "Finance",
-        salary: "950 000 ₸",
-        kpi: "76%",
-        workload: "69%",
-        experience: "5 лет",
-        avatar: "AM",
-        goals: [
-            "Cash Flow — положительный",
-            "Контроль расходов — 88%",
-            "Дебиторская задолженность — снижение"
-        ]
-    },
-
-    elena: {
-        name: "Елена Орлова",
-        role: "HR Director",
-        department: "HR",
-        salary: "800 000 ₸",
-        kpi: "88%",
-        workload: "73%",
-        experience: "4 года",
-        avatar: "EO",
-        goals: [
-            "Закрытие вакансий — 91%",
-            "Текучесть — ниже 8%",
-            "Employee satisfaction — 86%"
-        ]
-    },
-
-    maxim: {
-        name: "Максим Петров",
-        role: "COO",
-        department: "Operations",
-        salary: "900 000 ₸",
-        kpi: "84%",
-        workload: "81%",
-        experience: "5 лет",
-        avatar: "MP",
-        goals: [
-            "Эффективность процессов — 84%",
-            "SLA — 94%",
-            "Операционные расходы — в бюджете"
-        ]
-    }
-
-};
-
-
-function openEmployee(id) {
-
-    const employee = employees[id];
-
-    if (!employee) {
-        alert("Сотрудник не найден");
-        return;
-    }
-
-    document.getElementById("profileName").textContent = employee.name;
-    document.getElementById("profileRole").textContent = employee.role;
-    document.getElementById("profileDepartment").textContent = employee.department;
-    document.getElementById("profileSalary").textContent = employee.salary;
-    document.getElementById("profileKpi").textContent = employee.kpi;
-    document.getElementById("profileWorkload").textContent = employee.workload;
-    document.getElementById("profileExperience").textContent = employee.experience;
-    document.getElementById("profileAvatar").textContent = employee.avatar;
-
-    const goals = document.getElementById("profileGoals");
-
-    goals.innerHTML = "";
-
-    employee.goals.forEach(function(goal) {
-
-        const element = document.createElement("div");
-
-        element.className = "goal";
-
-        element.textContent = "• " + goal;
-
-        goals.appendChild(element);
-
-    });
-
-    document.getElementById("employeeModal").classList.add("active");
-
-}
-
-
-function closeEmployee() {
-
-    document.getElementById("employeeModal").classList.remove("active");
-
-}
-
-
-function employeeAction(action) {
-
-    alert(
-        "CEO: " + action +
-        "\n\nФункция будет подключена на следующем этапе."
-    );
-
-}
-
-
-document.getElementById("employeeModal").addEventListener("click", function(event) {
-
-    if (event.target === this) {
-        closeEmployee();
-    }
-
-});
-
-</script>
+</body>
 </html>
