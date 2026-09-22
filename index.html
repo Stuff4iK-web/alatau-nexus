@@ -145,7 +145,7 @@ function seedState(){
     {id:'tech-room',name:'Tech Room',type:'group',participants:['d2','m3','m4','m10'],topic:'Продукт и разработка',last:'',updated:0,messages:[]},
     {id:'ops-room',name:'Operations Room',type:'group',participants:['d5','m7','m8','m9'],topic:'Операции',last:'',updated:0,messages:[]}
   ];
-  const state={company:{day:8,hour:9,minute:18,running:false,health:82,cash:43000000,revenue:21700000,costOfSales:6900000,expenses:8700000,profit:6100000,reputation:79,nextId:100},employees,departments:depts,clients,deals,projects,tasks,goals,candidates,decisions,events:[],chats,finance:{cash:43000000,revenue:21700000,costOfSales:6900000,operatingExpenses:8700000,profit:6100000,receivables:6800000,payroll:0,bonusAccrued:820000,burn:0},history:[],settings:{lastSaved:Date.now(),aiEnabled:false,aiAutonomy:true,aiEndpoint:'',aiModel:'gpt-5.6-luna',aiLastRun:'',aiCursor:0},selectedChat:'board'};
+  const state={company:{day:8,hour:9,minute:18,running:false,health:82,cash:43000000,revenue:21700000,costOfSales:6900000,expenses:8700000,profit:6100000,reputation:79,nextId:100},employees,departments:depts,clients,deals,projects,tasks,goals,candidates,decisions,events:[],chats,finance:{cash:43000000,revenue:21700000,costOfSales:6900000,operatingExpenses:8700000,profit:6100000,receivables:6800000,payroll:0,bonusAccrued:820000,burn:0,baseRecurringDaily:723333,history:[{day:8,revenue:21700000,cash:43000000,profit:6100000,pipeline:0}]},history:[],settings:{lastSaved:Date.now(),aiEnabled:false,aiAutonomy:true,aiEndpoint:'',aiModel:'gpt-5.6-luna',aiLastRun:'',aiCursor:0},selectedChat:'board'};
   seedRelationships(state); seedChats(state); seedEvents(state); recalcFinance(state,false); return state;
 }
 function seedRelationships(s){
@@ -184,7 +184,13 @@ function normalizeState(s){
   for(const k of Object.keys(fresh)){if(s[k]===undefined)s[k]=fresh[k]}
   if(!Array.isArray(s.employees)||s.employees.length<36)s.employees=fresh.employees;
   s.company.running=false;s.settings=s.settings||{};s.settings.aiEnabled=Boolean(s.settings.aiEnabled);s.settings.aiAutonomy=s.settings.aiAutonomy!==false;s.settings.aiEndpoint=s.settings.aiEndpoint||'';s.settings.aiModel=s.settings.aiModel||'gpt-5.6-luna';s.settings.aiLastRun=s.settings.aiLastRun||'';s.settings.aiCursor=Number.isFinite(s.settings.aiCursor)?s.settings.aiCursor:0;s.selectedChat=s.selectedChat||'board';
-  s.employees.forEach(e=>{e.memory=Array.isArray(e.memory)?e.memory:[];e.relationships=e.relationships||{};e.skills=e.skills||[];e.responsibilities=e.responsibilities||[];e.personal=e.personal||''});
+  s.employees.forEach(e=>{e.memory=Array.isArray(e.memory)?e.memory:[];e.relationships=e.relationships||{};e.skills=e.skills||[];e.responsibilities=e.responsibilities||[];e.personal=e.personal||'';e.currentTask=e.currentTask||null});
+  s.finance=s.finance||{};
+  s.finance.baseRecurringDaily=Number.isFinite(s.finance.baseRecurringDaily)?s.finance.baseRecurringDaily:723333;
+  s.finance.history=Array.isArray(s.finance.history)?s.finance.history:[];
+  if(!s.finance.history.length)s.finance.history.push({day:s.company.day,revenue:s.finance.revenue||0,cash:s.finance.cash||0,profit:s.finance.profit||0,pipeline:0});
+  s.tasks=s.tasks||[];
+  s.tasks.forEach(t=>{t.progress=Number.isFinite(t.progress)?t.progress:0;t.createdDay=Number.isFinite(t.createdDay)?t.createdDay:s.company.day});
   return s;
 }
 let state=loadState();
@@ -196,7 +202,7 @@ function navRender(){document.getElementById('nav').innerHTML=navGroups.map(g=>`
 function go(page){currentPage=page;navRender();render()}
 function setSpeed(v){speed=v;['1','2','5'].forEach(x=>document.getElementById('sp'+x).classList.toggle('active',Number(x)===v));if(state.company.running){stopTimer();startTimer()}}
 function toggleRun(){state.company.running?stopTimer():startTimer()}
-function startTimer(){state.company.running=true;save();clearInterval(simulationTimer);simulationTimer=setInterval(()=>{for(let i=0;i<speed;i++)tickHour();renderTop();const active=document.activeElement;const typing=currentPage==='messenger'&&active&&active.id==='chatText';if(currentPage==='dashboard'||currentPage==='observer'||(currentPage==='messenger'&&!typing))renderPage();},3500);updateTopbar()}
+function startTimer(){state.company.running=true;save();clearInterval(simulationTimer);simulationTimer=setInterval(()=>{for(let i=0;i<speed;i++)tickHour();renderTop();const active=document.activeElement;const editing=active&&['INPUT','TEXTAREA','SELECT'].includes(active.tagName);if(currentPage==='messenger'){if(!editing)refreshChatMessages()}else if(!editing){renderPage()}},3500);updateTopbar()}
 function stopTimer(){state.company.running=false;clearInterval(simulationTimer);simulationTimer=null;save();updateTopbar()}
 function updateTopbar(){document.getElementById('timePill').textContent=nowLabel();document.getElementById('healthPill').textContent='Здоровье '+state.company.health+'%';document.getElementById('healthPill').className='pill '+(state.company.health>=80?'good-text':state.company.health<60?'danger-text':'warning-text');const b=document.getElementById('runBtn');b.textContent=state.company.running?'Ⅱ Пауза':'▶ Запустить';b.classList.toggle('paused',state.company.running);['1','2','5'].forEach(x=>document.getElementById('sp'+x).classList.toggle('active',Number(x)===speed))}
 function render(){updateTopbar();document.getElementById('pageTitle').textContent=pageMeta[currentPage][0];document.getElementById('pageSubtitle').textContent=pageMeta[currentPage][1];renderPage()}
@@ -291,7 +297,7 @@ function healthFactors(){const k=avg(activeEmployees().map(e=>e.kpi));const m=av
 
 function renderEmployees(){const q=employeeFilter==='all'?activeEmployees().filter(e=>e.type!=='ceo'):activeEmployees().filter(e=>e.type===employeeFilter);return `<div class="toolbar"><input id="empSearch" placeholder="Поиск сотрудника…" oninput="filterEmployees(this.value)"><select onchange="employeeFilter=this.value;renderPage()"><option value="all" ${employeeFilter==='all'?'selected':''}>Все</option><option value="director" ${employeeFilter==='director'?'selected':''}>Директора</option><option value="manager" ${employeeFilter==='manager'?'selected':''}>Руководители</option><option value="employee" ${employeeFilter==='employee'?'selected':''}>Сотрудники</option></select><button class="btn primary" onclick="openCreateEmployee()">+ Сотрудник</button></div><div id="employeeList" class="employee-grid">${q.map(empCard).join('')}</div>`}
 function filterEmployees(term){const t=term.toLowerCase();document.getElementById('employeeList').innerHTML=activeEmployees().filter(e=>e.type!=='ceo'&&(e.name.toLowerCase().includes(t)||e.role.toLowerCase().includes(t)||e.department.toLowerCase().includes(t))).map(empCard).join('')}
-function empCard(e){const d=department(e.department);return `<div class="emp"><div class="emp-head"><div class="avatar small">${initials(e.name)}</div><div style="min-width:0"><div class="emp-name">${esc(e.name)}</div><div class="emp-role">${esc(e.role)}</div></div></div><div style="margin-top:7px"><span class="badge blue">${esc(d?.name||e.department)}</span> ${e.workload>85?'<span class="badge red">перегрузка</span>':e.motivation<65?'<span class="badge yellow">мотивация</span>':''}</div><div class="emp-meta"><div class="meta"><span>KPI</span><b>${e.kpi}%</b></div><div class="meta"><span>Motivation</span><b>${e.motivation}%</b></div><div class="meta"><span>Workload</span><b>${e.workload}%</b></div><div class="meta"><span>Salary</span><b>${moneyShort(e.salary)} ₸</b></div></div><div class="emp-actions"><button class="btn" onclick="openEmployee('${e.id}')">Профиль</button><button class="btn" onclick="startChat('${e.id}')">Написать</button></div></div>`}
+function empCard(e){const d=department(e.department),ct=e.currentTask&&task(e.currentTask),dealCtx=ct&&ct.dealId?deal(ct.dealId):null;return `<div class="emp"><div class="emp-head"><div class="avatar small">${initials(e.name)}</div><div style="min-width:0"><div class="emp-name">${esc(e.name)}</div><div class="emp-role">${esc(e.role)}</div></div></div><div style="margin-top:7px"><span class="badge blue">${esc(d?.name||e.department)}</span> ${e.workload>85?'<span class="badge red">перегрузка</span>':e.motivation<65?'<span class="badge yellow">мотивация</span>':''}</div><div class="emp-meta"><div class="meta"><span>KPI</span><b>${Math.round(e.kpi)}%</b></div><div class="meta"><span>Мотивация</span><b>${Math.round(e.motivation)}%</b></div><div class="meta"><span>Нагрузка</span><b>${Math.round(e.workload)}%</b></div><div class="meta"><span>Зарплата</span><b>${moneyShort(e.salary)} ₸</b></div></div><div class="small muted" style="margin-top:7px">${ct?`Сейчас: <b>${esc(ct.title)}</b>${dealCtx?` · ${esc(client(dealCtx.clientId)?.name||'')}`:''}`:'Свободен · ожидает следующую задачу'}</div><div class="emp-actions"><button class="btn" onclick="openEmployee('${e.id}')">Профиль</button><button class="btn" onclick="startChat('${e.id}')">Написать</button></div></div>`}
 
 function renderDepartments(){return `<div class="dept-grid">${state.departments.map(d=>{const head=employee(d.managerId);const members=activeEmployees().filter(e=>e.department===d.id);const dir=employee(d.directorId);return `<div class="card"><div class="dept-head"><div><b style="font-size:12px">${esc(d.name)}</b><div class="small muted">${esc(d.mission)}</div></div><span class="badge blue">${members.length} людей</span></div><div class="small" style="margin-top:9px">Director: <span class="link" onclick="openEmployee('${dir.id}')">${esc(dir.name)}</span></div><div class="small" style="margin-top:4px">Manager: ${head?`<span class="link" onclick="openEmployee('${head.id}')">${esc(head.name)}</span>`:'—'}</div><div class="dept-list">${members.slice(0,8).map(e=>`<span class="person-chip">${esc(e.name)}</span>`).join('')}</div></div>`}).join('')}</div>`}
 
@@ -304,7 +310,7 @@ function renderProjects(){return `<div class="toolbar"><button class="btn primar
 function renderTasks(){const cols=[['Open','Открытые'],['In Progress','В работе'],['Done','Готово']];return `<div class="toolbar"><button class="btn primary" onclick="openCreateTask()">+ Задача</button><button class="btn" onclick="showOverdue()">Просроченные</button></div><div class="task-grid">${cols.map(([s,label])=>`<div class="task-col"><h3><span>${label}</span><span class="badge">${state.tasks.filter(t=>t.status===s).length}</span></h3>${state.tasks.filter(t=>t.status===s).map(taskCard).join('')||'<div class="empty">Пусто</div>'}</div>`).join('')}</div>`}
 function taskCard(t){const o=employee(t.ownerId),d=t.dealId&&deal(t.dealId),p=t.projectId&&project(t.projectId);const overdue=t.status!=='Done'&&t.due<0;return `<div class="task"><div class="task-title">${esc(t.title)}</div><div class="task-meta">${esc(o?.name||'—')} · ${t.priority} · due ${t.due>=0?`Day +${t.due}`:'просрочено'}</div><div style="margin-top:7px">${overdue?'<span class="badge red">OVERDUE</span> ':''}${d?`<span class="badge blue">${esc(d.name)}</span> `:''}${p?`<span class="badge purple">${esc(p.name)}</span>`:''}</div><div class="actions" style="margin-top:7px">${t.status!=='Done'?`<button class="btn success" onclick="completeTask('${t.id}')">Готово</button>`:'<span class="badge green">✓ done</span>'}<button class="btn" onclick="openTask('${t.id}')">Открыть</button></div></div>`}
 
-function renderFinance(){recalcFinance(state,false);const payroll=state.finance.payroll;const margin=state.finance.revenue?Math.round(state.finance.profit/state.finance.revenue*100):0;return `<div class="finance-grid">${metric('Cash',money(state.finance.cash))}${metric('Revenue',money(state.finance.revenue))}${metric('COGS',money(state.finance.costOfSales))}${metric('OpEx',money(state.finance.operatingExpenses))}${metric('Profit',money(state.finance.profit))}${metric('Margin',margin+'%')}${metric('Payroll',money(payroll))}${metric('Receivables',money(state.finance.receivables))}</div><div class="section-title">Financial structure</div><div class="grid split"><div class="card"><div class="grid" style="gap:8px">${[['Revenue',state.finance.revenue],['COGS',-state.finance.costOfSales],['Payroll',-payroll],['Other Opex',-(state.finance.operatingExpenses-payroll)],['Profit',state.finance.profit]].map(x=>`<div style="display:flex;justify-content:space-between;font-size:11px"><span>${x[0]}</span><b class="${x[1]<0?'danger-text':'good-text'}">${money(x[1])}</b></div>`).join('')}</div></div><div class="card"><div class="section-title" style="margin:0 0 8px">Budget pressures</div>${budgetPressure()}</div></div>`}
+function renderFinance(){recalcFinance(state,false);const payroll=state.finance.payroll;const margin=state.finance.revenue?Math.round(state.finance.profit/state.finance.revenue*100):0;const hist=state.finance.history.slice(-7);return `<div class="finance-grid">${metric('Cash',money(state.finance.cash))}${metric('Revenue',money(state.finance.revenue))}${metric('COGS',money(state.finance.costOfSales))}${metric('OpEx',money(state.finance.operatingExpenses))}${metric('Profit',money(state.finance.profit))}${metric('Margin',margin+'%')}${metric('Payroll',money(payroll))}${metric('Receivables',money(state.finance.receivables))}</div><div class="section-title">Движение финансов по дням</div><div class="card"><div class="table-wrap"><table class="table"><tr><th>День</th><th>Выручка</th><th>Cash</th><th>Прибыль</th><th>Pipeline</th></tr>${hist.map(h=>`<tr><td>${h.day}</td><td>${money(h.revenue)}</td><td>${money(h.cash)}</td><td>${money(h.profit)}</td><td>${money(h.pipeline)}</td></tr>`).join('')}</table></div></div><div class="section-title">Financial structure</div><div class="grid split"><div class="card"><div class="grid" style="gap:8px">${[['Revenue',state.finance.revenue],['COGS',-state.finance.costOfSales],['Payroll',-payroll],['Other Opex',-(state.finance.operatingExpenses-payroll)],['Profit',state.finance.profit]].map(x=>`<div style="display:flex;justify-content:space-between;font-size:11px"><span>${x[0]}</span><b class="${x[1]<0?'danger-text':'good-text'}">${money(x[1])}</b></div>`).join('')}</div></div><div class="card"><div class="section-title" style="margin:0 0 8px">Budget pressures</div>${budgetPressure()}</div></div>`}
 function metric(a,b){return `<div class="metric"><span>${a}</span><b>${b}</b></div>`}
 function budgetPressure(){const payroll=state.finance.payroll;const cashCoverage=payroll?state.finance.cash/(payroll):0;return `<div class="notice">Текущий payroll: <b>${money(payroll)}</b> / месяц</div><div style="height:7px"></div><div class="notice">Cash coverage payroll: <b>${cashCoverage.toFixed(1)}×</b></div><div style="height:7px"></div><div class="notice">Receivables: <b>${money(state.finance.receivables)}</b></div>`}
 
@@ -453,19 +459,164 @@ function hireCandidate(id){const c=state.candidates.find(x=>x.id===id);if(!c||c.
 
 function resolveDecision(id,choice){const d=state.decisions.find(x=>x.id===id);if(!d||d.status!=='pending')return;const opt=d.options.find(x=>x[0]===choice);d.status='resolved';d.resolution=opt?opt[1]:'Решено';if(id==='dec1'){const dealX=deal('deal1');const pctDisc=opt?opt[3]:0;dealX.prob=Math.min(95,dealX.prob+(pctDisc?7:0));dealX.margin=Math.max(0,dealX.margin-dealX.value*pctDisc/100);if(pctDisc)remember(employee('d1'),'CEO согласовал скидку '+pctDisc+'% для NovaTech.')}if(id==='dec2'){const p=project('p2');if(opt&&opt[3]){p.progress=Math.min(100,p.progress+4);p.risk=Math.min(100,p.risk+8);employee('m3').workload=Math.min(100,employee('m3').workload+12)}else{p.risk=Math.max(0,p.risk-3)}}if(id==='dec3'&&opt&&opt[3]){addEvent('♙','Hiring request opened','CEO открыл вакансию Senior Account Manager.','hr','CEO');state.candidates.push({id:'cand'+state.company.nextId++,name:'Виктор Савин',role:'Senior Account Manager',score:82,experience:6,skills:['B2B','KAM','Negotiation'],salary:410000,status:'Screening',notes:'Кандидат добавлен автоматически по решению HR.'})}if(d.options.some(o=>o[0]==='deal_review')&&opt&&opt[3]){const target=state.deals.find(x=>d.title.includes(x.name));if(target){target.prob=Math.min(95,target.prob+12);target.history.push({day:state.company.day,text:'CEO инициировал review; вероятность +12 п.п.'})}}if(d.options.some(o=>o[0]==='project_resource')&&opt&&opt[3]){const target=state.projects.find(x=>d.title.includes(x.name));if(target){target.risk=Math.max(0,target.risk-15);const m=employee(target.managerId);if(m)m.workload=Math.max(0,m.workload-6)}}if(d.options.some(o=>o[0]==='cash')&&opt&&opt[3]){state.finance.operatingExpenses=Math.max(0,state.finance.operatingExpenses-500000);state.finance.cash+=1000000}state.employees.filter(e=>e.type==='director').forEach(e=>remember(e,'CEO принял решение: '+d.resolution));addEvent('⚖','CEO decision',`${d.title}: ${d.resolution}.`,'decision','CEO','good');recalcFinance(state);save();renderPage();toast('Решение применено','good')}
 
-function recalcFinance(s,emit=true){const payroll=s.employees.filter(e=>e.status==='active'&&e.type!=='ceo').reduce((a,e)=>a+e.salary,0);const revenueWon=s.deals.filter(d=>d.stage==='Won').reduce((a,d)=>a+d.value*.92,0);const pipelineBooked=s.deals.filter(d=>!['Lost'].includes(d.stage)).reduce((a,d)=>a+(d.stage==='Won'?0:d.value*d.prob*.12/100),0);s.finance.payroll=payroll;s.finance.revenue=Math.max(32000000+revenueWon,pipelineBooked+20000000);s.finance.costOfSales=Math.round(s.finance.revenue*.32);const projectRun=s.projects.reduce((a,p)=>a+p.budget*.015,0);s.finance.operatingExpenses=Math.round(payroll+projectRun+2200000+s.finance.bonusAccrued*.05);s.finance.profit=s.finance.revenue-s.finance.costOfSales-s.finance.operatingExpenses;s.finance.burn=Math.max(0,s.finance.operatingExpenses-s.finance.revenue/2);s.finance.receivables=Math.max(0,6800000+s.deals.filter(d=>d.stage==='Won').reduce((a,d)=>a+d.value*.4,0)-s.company.day*10000);s.company.revenue=s.finance.revenue;s.company.profit=s.finance.profit;s.company.cash=s.finance.cash;updateGoals(s);if(emit)updateHealth(s)}
-function updateGoals(s){const g=x=>s.goals.find(y=>y.id===x);if(!g('g1'))return;g('g1').value=s.finance.revenue;g('g2').value=calcWinRate(s);g('g3').value=s.projects.length?Math.round(s.projects.filter(p=>p.status==='Done'||p.risk<25).length/s.projects.length*100):0;g('g4').value=s.finance.revenue?Math.round(s.finance.profit/s.finance.revenue*100):0;g('g5').value=Math.min(100,Math.round(s.employees.filter(e=>e.status==='active').length/36*100));g('g6').value=avg(s.clients.map(c=>c.health))}
-function updateHealth(s){const k=avg(activeEmployees().filter(e=>e.type!=='ceo').map(e=>e.kpi));const m=avg(activeEmployees().filter(e=>e.type!=='ceo').map(e=>e.motivation));const risk=s.projects.filter(p=>p.risk>30).length;const overdue=s.tasks.filter(t=>t.status!=='Done'&&t.due<0).length;const clientH=avg(s.clients.map(c=>c.health));s.company.health=Math.max(0,Math.min(100,Math.round(k*.27+m*.25+clientH*.2+Math.max(0,100-risk*10)*.14+Math.max(0,100-overdue*8)*.14))) }
+function recalcFinance(s,emit=true){
+  const payroll=s.employees.filter(e=>e.status==='active'&&e.type!=='ceo').reduce((a,e)=>a+e.salary,0);
+  const revenue=Math.max(0,Number(s.finance.revenue)||0);
+  s.finance.payroll=Math.round(payroll);
+  s.finance.costOfSales=Math.round(revenue*.25);
+  const projectRun=s.projects.reduce((a,p)=>a+p.budget*.012,0);
+  s.finance.operatingExpenses=Math.round(payroll*.55+projectRun+2000000+s.finance.bonusAccrued*.04);
+  s.finance.profit=Math.round(revenue-s.finance.costOfSales-s.finance.operatingExpenses);
+  s.finance.burn=Math.max(0,Math.round(s.finance.operatingExpenses/30));
+  s.finance.receivables=Math.max(0,Math.round(6800000+s.deals.filter(d=>d.stage==='Won').reduce((a,d)=>a+d.value*.4,0)-Math.max(0,s.company.day-8)*25000));
+  s.company.revenue=s.finance.revenue;
+  s.company.profit=s.finance.profit;
+  s.company.cash=s.finance.cash;
+  updateGoals(s);
+  if(emit)updateHealth(s);
+}
+function updateGoals(s){const g=x=>s.goals.find(y=>y.id===x);if(!g('g1'))return;g('g1').value=Math.round(s.finance.revenue);g('g2').value=calcWinRate(s);g('g3').value=s.projects.length?Math.round(s.projects.filter(p=>p.status==='Done'||p.risk<25).length/s.projects.length*100):0;g('g4').value=s.finance.revenue?Math.round(s.finance.profit/s.finance.revenue*100):0;g('g5').value=Math.min(100,Math.round(s.employees.filter(e=>e.status==='active').length/36*100));g('g6').value=Math.max(0,Math.min(100,Math.round(avg(s.clients.map(c=>c.health)))))}
+function updateHealth(s){const k=avg(activeEmployees().filter(e=>e.type!=='ceo').map(e=>e.kpi));const m=avg(activeEmployees().filter(e=>e.type!=='ceo').map(e=>e.motivation));const risk=s.projects.filter(p=>p.risk>30).length;const overdue=s.tasks.filter(t=>t.status!=='Done'&&t.due<0).length;const clientH=avg(s.clients.map(c=>c.health));s.company.health=Math.max(0,Math.min(100,Math.round(k*.27+m*.25+clientH*.2+Math.max(0,100-risk*10)*.14+Math.max(0,100-overdue*8)*.14)))}
+function processFinanceHour(){
+  const f=state.finance;
+  const hourlyRevenue=(Number(f.baseRecurringDaily)||723333)/24;
+  const monthlyOpex=(Number(f.payroll)||0)+(state.projects.reduce((a,p)=>a+p.budget*.012,0))+2000000+(Number(f.bonusAccrued)||0)*.04;
+  const hourlyOpex=monthlyOpex/720;
+  const hourlyCogs=hourlyRevenue*.25;
+  f.revenue+=hourlyRevenue;
+  f.cash=Math.max(0,f.cash+(hourlyRevenue*.65)-hourlyOpex-hourlyCogs);
+}
+function createSystemTask(title,ownerId,dealId=null,projectId=null,priority='Normal',due=2){
+  const duplicate=state.tasks.some(t=>t.status!=='Done'&&t.ownerId===ownerId&&t.title===title);
+  if(duplicate)return;
+  const t={id:'sys'+state.company.nextId++,title,ownerId,dealId,projectId,priority,status:'Open',due,createdDay:state.company.day,progress:0};
+  state.tasks.push(t);
+  const e=employee(ownerId);
+  if(e)remember(e,'Новая рабочая задача: '+title);
+  addEvent('☑','Создана рабочая задача',`${e?.name||'Сотрудник'}: ${title}.`,'employee',e?.name||'Система','info');
+}
+function processTasksEngine(){
+  state.tasks.filter(t=>t.status!=='Done').forEach(t=>{
+    const e=employee(t.ownerId);
+    if(!e||e.status!=='active')return;
+    if(t.status==='Open'&&!e.currentTask&&e.workload<92){
+      t.status='In Progress';
+      t.progress=0;
+      e.currentTask=t.id;
+      e.workload=Math.min(100,e.workload+4);
+      addEvent('▶','Employee started task',`${e.name} начал работу: ${t.title}.`,'employee',e.name,'info');
+    }
+    if(t.status==='In Progress'){
+      const efficiency=Math.max(.55,.72+(e.kpi-75)/120-(e.workload>85?.20:0));
+      t.progress=Math.min(100,t.progress+efficiency*6);
+      e.workload=Math.min(100,e.workload+.35);
+      if(t.progress>=100)completeTaskInternal(t.id);
+    }
+    if(t.due<0&&t.status!=='Done'&&t.due%2===0)addEvent('⚠','Task overdue',`${t.title} · владелец ${e.name}.`,'employee',e.name,'warn');
+  });
+}
+function completeTaskInternal(id){
+  const t=task(id);if(!t||t.status==='Done')return;
+  t.status='Done';t.progress=100;
+  const e=employee(t.ownerId);
+  if(e){if(e.currentTask===t.id)e.currentTask=null;e.workload=Math.max(15,e.workload-5);e.kpi=Math.min(100,e.kpi+1);remember(e,'Завершил задачу: '+t.title);}
+  if(t.dealId){const d=deal(t.dealId);if(d&&!['Won','Lost'].includes(d.stage)){d.prob=Math.min(95,d.prob+6);d.lastActionDay=state.company.day;d.history.push({day:state.company.day,text:'Связанная задача завершена; вероятность +6 п.п.'});}}
+  if(t.projectId){const p=project(t.projectId);if(p){p.progress=Math.min(100,p.progress+4);p.risk=Math.max(0,p.risk-1);}}
+  addEvent('✓','Employee completed task',`${e?.name||'Сотрудник'} завершил: ${t.title}.`,'employee',e?.name||'System','good');
+}
+function processDealsEngine(){
+  const stageWait={Lead:2,Contacted:2,Discovery:3,Proposal:3,Negotiation:7};
+  state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).forEach(d=>{
+    const o=employee(d.ownerId),c=client(d.clientId);if(!o||!c)return;
+    const daysSince=Math.max(0,state.company.day-(Number(d.lastActionDay)||d.createdDay||state.company.day));
+    const riskPenalty=o.workload>88?1.2:0;
+    const healthEffect=(c.health-70)/25;
+    if(state.company.hour===12||state.company.hour===18){
+      const momentum=(o.kpi-70)/35+healthEffect-riskPenalty;
+      d.prob=Math.max(5,Math.min(95,d.prob+momentum*.45));
+    }
+    if(daysSince<stageWait[d.stage])return;
+    const quality=d.prob+(o.kpi-70)*.25+(c.health-70)*.15-o.workload*.08;
+    const roll=((state.company.day*37+state.company.hour*11+d.id.charCodeAt(4)*17)%100);
+    if(d.stage==='Lead'&&d.prob>=20&&roll<78){
+      d.stage='Contacted';d.prob=Math.min(95,d.prob+4);d.lastActionDay=state.company.day;d.history.push({day:state.company.day,text:'Первичный контакт с клиентом.'});addEvent('⌁','CRM progression',`${d.name} → Contacted.`,'crm',o.name,'good');createSystemTask('Провести follow-up по '+d.name,o.id,d.id,null,'Normal',2);
+    }else if(d.stage==='Contacted'&&d.prob>=28&&roll<72){
+      d.stage='Discovery';d.prob=Math.min(95,d.prob+5);d.lastActionDay=state.company.day;d.history.push({day:state.company.day,text:'Квалификация подтверждена; назначен discovery.'});addEvent('⌁','CRM progression',`${d.name} → Discovery.`,'crm',o.name,'good');createSystemTask('Провести discovery: '+d.name,o.id,d.id,null,'High',2);
+    }else if(d.stage==='Discovery'&&d.prob>=38&&roll<68){
+      d.stage='Proposal';d.prob=Math.min(95,d.prob+5);d.lastActionDay=state.company.day;d.history.push({day:state.company.day,text:'Подготовлено коммерческое предложение.'});addEvent('⌁','CRM progression',`${d.name} → Proposal.`,'crm',o.name,'good');createSystemTask('Подготовить КП для '+d.name,o.id,d.id,null,'High',3);
+    }else if(d.stage==='Proposal'&&d.prob>=50&&roll<62){
+      d.stage='Negotiation';d.prob=Math.min(95,d.prob+5);d.lastActionDay=state.company.day;d.history.push({day:state.company.day,text:'Начались переговоры.'});addEvent('⌁','CRM progression',`${d.name} → Negotiation.`,'crm',o.name,'good');createSystemTask('Согласовать коммерческие условия: '+d.name,o.id,d.id,null,'High',3);
+    }else if(d.stage==='Negotiation'&&d.prob>=78&&quality>75&&o.workload<90&&c.health>58&&roll<16){
+      d.stage='Won';d.prob=100;d.lastActionDay=state.company.day;c.health=Math.min(100,c.health+5);const realized=d.value*.92;state.finance.revenue+=realized;state.finance.cash+=d.value*.45;state.finance.receivables+=d.value*.47;d.history.push({day:state.company.day,text:'Сделка выиграна; 92% стоимости признано как выручка.'});addEvent('✅','Deal won',`${d.name} закрыта на ${money(d.value)}.`,'crm',o.name,'good');createSystemTask('Передать '+d.name+' в delivery / customer success',o.managerId||'d1',d.id,null,'Normal',3);
+    }else if(d.stage==='Negotiation'&&d.prob<22&&daysSince>=6&&roll>88){
+      d.stage='Lost';d.prob=0;d.lastActionDay=state.company.day;d.history.push({day:state.company.day,text:'Сделка потеряна: клиент не подтвердил коммерческие условия.'});c.health=Math.max(0,c.health-4);addEvent('✕','Deal lost',`${d.name} потеряна.`,'crm',o.name,'warn');createSystemTask('Разобрать причину проигрыша: '+d.name,o.managerId||'d1',d.id,null,'Normal',3);
+    }
+  });
+}
+function processProjectsEngine(){
+  state.projects.filter(p=>p.status!=='Done').forEach(p=>{
+    const m=employee(p.managerId);if(!m)return;
+    let delta=.55+(m.kpi/100);
+    if(m.workload>88)delta-=.7;
+    if(p.risk>40)delta-=.45;
+    const beforeBucket=Math.floor(p.progress/10);
+    p.progress=Math.min(100,p.progress+Math.max(.1,delta));
+    const afterBucket=Math.floor(p.progress/10);
+    if(afterBucket>beforeBucket&&p.progress<100){
+      createSystemTask('Проверить milestone проекта: '+p.name,m.id,null,p.id,'Normal',2);
+      p.lastTaskBucket=afterBucket;
+    }
+    if(p.progress>=100){p.status='Done';p.risk=0;addEvent('▣','Project completed',`${p.name} завершён системой.`,'project',m.name,'good');createSystemTask('Подготовить post-project review: '+p.name,m.id,null,p.id,'Normal',3);}
+    else if(p.risk>45&&state.company.day%2===0){addEvent('⚠','Project risk',`${p.name}: риск ${p.risk}%.`,'project',m.name,'warn');createSystemTask('Снять риск проекта: '+p.name,m.id,null,p.id,'High',2);}
+  });
+}
+function dayBoundary(){
+  state.tasks.forEach(t=>{if(t.status!=='Done')t.due--;});
+  state.employees.forEach(e=>{if(e.type!=='ceo')e.energy=Math.min(100,e.energy+20);});
+  const pipeline=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).reduce((a,d)=>a+d.value*d.prob/100,0);
+  state.finance.history.push({day:state.company.day,revenue:Math.round(state.finance.revenue),cash:Math.round(state.finance.cash),profit:Math.round(state.finance.profit),pipeline:Math.round(pipeline)});
+  if(state.finance.history.length>31)state.finance.history.shift();
 
-function tickHour(){advanceClock(60);processPeople();processTasksEngine();processDealsEngine();processProjectsEngine();processClients();processDirectors();recalcFinance(state);state.finance.cash=Math.max(0,state.finance.cash-state.finance.operatingExpenses/720);state.company.cash=state.finance.cash;save();runAutonomousAI();}
+  // Живой рабочий цикл: руководители получают регулярные задачи,
+  // но только в пределах своей реальной зоны ответственности.
+  if(state.company.day%2===0){
+    const recurring=[
+      ['d1','Провести разбор pipeline и приоритетов продаж'],
+      ['d2','Провести delivery review проектов и технических рисков'],
+      ['d3','Обновить cash forecast и контроль маржи'],
+      ['d4','Провести review нагрузки команды и кадровых рисков'],
+      ['d5','Провести операционный review SLA и клиентских рисков']
+    ];
+    recurring.forEach(([owner,title])=>createSystemTask(`${title} · День ${state.company.day}`,owner,null,null,'High',2));
+  }
+
+  if(state.company.day%3===0){
+    state.employees.filter(e=>e.type==='manager'&&e.status==='active').forEach(m=>{
+      const dept=department(m.department);
+      createSystemTask(`Командный статус и план работ · ${dept?.name||m.department} · День ${state.company.day}`,m.id,null,null,'Normal',3);
+    });
+  }
+
+  addEvent('🌅','Новый игровой день',`День ${state.company.day} начался. Выручка ${money(state.finance.revenue)}, cash ${money(state.finance.cash)}, pipeline ${money(pipeline)}.`,'system','Система','info');
+}
+function tickHour(){
+  advanceClock(60);
+  processPeople();
+  processTasksEngine();
+  processDealsEngine();
+  processProjectsEngine();
+  processClients();
+  processDirectors();
+  processFinanceHour();
+  recalcFinance(state);
+  state.company.cash=state.finance.cash;
+  save();
+  runAutonomousAI();
+}
 function advanceClock(minutes){state.company.minute+=minutes;while(state.company.minute>=60){state.company.minute-=60;state.company.hour++;}if(state.company.hour>=24){state.company.hour=0;state.company.day++;dayBoundary()}}
-function dayBoundary(){state.tasks.forEach(t=>{if(t.status!=='Done')t.due--;});state.employees.forEach(e=>{if(e.type!=='ceo')e.energy=Math.min(100,e.energy+20);});addEvent('🌅','New company day','Компания начала новый игровой день.','system','System');}
+
 function advanceDayManual(){for(let i=0;i<24;i++)tickHour();go('dashboard');}
 function processPeople(){activeEmployees().filter(e=>e.type!=='ceo').forEach(e=>{const oldM=e.motivation; if(e.workload>85){e.motivation=Math.max(25,e.motivation-1);e.energy=Math.max(20,e.energy-2);e.kpi=Math.max(40,e.kpi-(e.workload>95?1:0))}else if(e.workload<60&&e.kpi>80){e.motivation=Math.min(100,e.motivation+0.3)}else if(e.energy<35){e.motivation=Math.max(35,e.motivation-.2)}e.workload=Math.max(15,e.workload-(e.status==='active'?1:0));if(Math.abs(oldM-e.motivation)>=2)addEvent('◌','Employee state changed',`${e.name}: motivation ${Math.round(e.motivation)}%, workload ${Math.round(e.workload)}%.`,'employee',e.name,e.motivation<50?'warn':'info')})}
-function processTasksEngine(){state.tasks.filter(t=>t.status!=='Done').forEach(t=>{const e=employee(t.ownerId);if(!e)return;const pressure=t.priority==='High'?2:1;if(e.workload<95){if(t.status==='Open'&&((state.company.day+t.title.length)%4===0))t.status='In Progress';if(t.status==='In Progress'&&((state.company.hour+t.title.length)%7===0)){completeTaskInternal(t.id)}}e.workload=Math.min(100,e.workload+(t.status==='Open'?0.4:pressure*.15));if(t.due<0&&t.status!=='Done'&&t.due%2===0)addEvent('⚠','Task overdue',`${t.title} · owner ${e.name}.`,'employee',e.name,'warn')})}
-function completeTaskInternal(id){const t=task(id);if(!t||t.status==='Done')return;t.status='Done';const e=employee(t.ownerId);if(e){e.workload=Math.max(0,e.workload-5);e.kpi=Math.min(100,e.kpi+1)}if(t.dealId){const d=deal(t.dealId);if(d&&!['Won','Lost'].includes(d.stage)){d.prob=Math.min(95,d.prob+3);d.history.push({day:state.company.day,text:'Связанная задача автоматически завершена.'})}}addEvent('✓','Employee completed task',`${e?.name||'Employee'} завершил ${t.title}.`,'employee',e?.name||'System','good')}
-function processDealsEngine(){state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).forEach(d=>{const o=employee(d.ownerId);const c=client(d.clientId);if(!o||!c)return;const manager=employee(o.managerId);const base=o.kpi>85?1:.3;const loadPenalty=o.workload>85?1.7:0;if(d.stage==='Lead'&&d.prob>25&&state.company.day%3===0){d.stage='Contacted';d.prob+=5;d.history.push({day:state.company.day,text:'Лид квалифицирован.'});addEvent('⌁','CRM progression',`${d.name} перешла в Contacted.`,'crm',o.name,'good')}else if(d.stage==='Contacted'&&d.prob>35&&state.company.hour%5===0){d.stage='Discovery';d.prob=Math.min(90,d.prob+3);d.history.push({day:state.company.day,text:'Discovery назначен.'})}else if(d.stage==='Discovery'&&d.prob>42&&state.company.day%4===0){d.stage='Proposal';d.prob=Math.min(92,d.prob+2);d.history.push({day:state.company.day,text:'Proposal подготовлен.'})}else if(d.stage==='Proposal'&&d.prob>55&&state.company.day%5===0){d.stage='Negotiation';d.prob=Math.min(95,d.prob+3);d.history.push({day:state.company.day,text:'Начались переговоры.'})}else if(d.stage==='Negotiation'&&d.prob>78&&o.workload<88&&c.health>70&&state.company.day%6===0){d.stage='Won';d.prob=100;c.health=Math.min(100,c.health+5);state.finance.revenue+=d.value;state.finance.cash+=d.value*.45;addEvent('✅','Deal won',`${d.name} закрыта без вмешательства CEO.`,'crm',o.name,'good')}else{d.prob=Math.max(5,Math.min(95,d.prob+Math.round(base*.6-loadPenalty*.5)));if(c.health<60)d.prob=Math.max(5,d.prob-2)}})}
-function processProjectsEngine(){state.projects.filter(p=>p.status!=='Done').forEach(p=>{const m=employee(p.managerId);if(!m)return;let delta=.6+(m.kpi/100);if(m.workload>88)delta-=.8;if(p.risk>40)delta-=.5;p.progress=Math.min(100,p.progress+Math.max(0,delta));if(p.progress>=100){p.status='Done';p.risk=0;addEvent('▣','Project completed',`${p.name} завершён системой.`,'project',m.name,'good')}else if(p.risk>45&&state.company.day%3===0)addEvent('⚠','Project risk',`${p.name}: risk ${p.risk}%, менеджеру нужен ресурс.`,'project',m.name,'warn')})}
 function processClients(){state.clients.forEach(c=>{const deals=state.deals.filter(d=>d.clientId===c.id&&!['Lost'].includes(d.stage));const open=deals.some(d=>!['Won','Lost'].includes(d.stage));const projectCount=state.projects.filter(p=>p.clientId===c.id&&p.status!=='Done').length;const cs=state.employees.filter(e=>e.department==='customer_success');const avgLoad=cs.length?avg(cs.map(e=>e.workload)):50;if(open)c.health=Math.max(40,Math.min(100,c.health+(avgLoad<80?.15:-.35)));if(projectCount&&avg(state.projects.filter(p=>p.clientId===c.id).map(p=>p.risk))>35)c.health=Math.max(30,c.health-.4);if(c.health<55&&state.company.day%2===0){const owner=cs[0];if(owner)addEvent('♥','Client health alert',`${c.name} health ${Math.round(c.health)}%. Требуется intervention.`,'client',owner.name,'warn')}})}
 function processDirectors(){const sales=employee('d1'),cto=employee('d2'),cfo=employee('d3'),hr=employee('d4'),coo=employee('d5');const hot=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).sort((a,b)=>a.prob-b.prob)[0];if(hot&&hot.prob<30&&!state.decisions.some(d=>d.status==='pending'&&d.title.includes(hot.name))){state.decisions.push({id:'dec'+state.company.nextId++,title:`${hot.name} в зоне риска`,source:'Sales Director',risk:'revenue',status:'pending',summary:`Вероятность сделки упала до ${hot.prob}%. Sales Director предлагает вмешательство.`,options:[['approve','Назначить CEO review','deal_review',1],['hold','Пока наблюдать','deal_review',0]]});addEvent('⚖','Director proposed decision',`Александр Волков поднял вопрос по ${hot.name}.`,'decision','Александр Волков','warn');remember(sales,'Я поднял для CEO риск по сделке '+hot.name)}const highRisk=state.projects.find(p=>p.risk>45);if(highRisk&&!state.decisions.some(d=>d.status==='pending'&&d.title.includes(highRisk.name))){state.decisions.push({id:'dec'+state.company.nextId++,title:`Ресурс для ${highRisk.name}`,source:'CTO',risk:'delivery',status:'pending',summary:`Проект ${highRisk.name} имеет риск ${highRisk.risk}%. CTO предлагает временно усилить команду.`,options:[['approve','Дать ресурс','project_resource',1],['hold','Не менять состав','project_resource',0]]});addEvent('⚖','CTO proposed decision',`Мария Соколова запросила ресурс на ${highRisk.name}.`,'decision','Мария Соколова','warn');remember(cto,'Я подняла вопрос о ресурсе для '+highRisk.name)}if(avg(activeEmployees().filter(e=>e.department==='sales').map(e=>e.workload))>84&&!state.decisions.some(d=>d.status==='pending'&&d.source==='HR Director')){state.decisions.push({id:'dec'+state.company.nextId++,title:'Sales team перегружен',source:'HR Director',risk:'capacity',status:'pending',summary:'Средняя нагрузка Sales превысила 84%. Нужен кадровый ответ.',options:[['approve','Открыть вакансию','hire_request',1],['hold','Перераспределить задачи','hire_request',0]]});addEvent('⚖','HR proposed decision','Елена Морозова зафиксировала перегрузку Sales.','decision','Елена Морозова','warn');remember(hr,'Я подготовила CEO кадровое решение по Sales')}if(state.finance.cash<25000000&&!state.decisions.some(d=>d.status==='pending'&&d.source==='CFO')){state.decisions.push({id:'dec'+state.company.nextId++,title:'Cash buffer снизился',source:'CFO',risk:'cash',status:'pending',summary:'CFO предлагает замедлить необязательные расходы.',options:[['approve','Заморозить часть Opex','cash',1],['hold','Продолжить план','cash',0]]});addEvent('⚖','CFO proposed decision','Дмитрий Орлов поднял вопрос по cash buffer.','decision','Дмитрий Орлов','warn');remember(cfo,'Я поднял вопрос о cash buffer для CEO')}const overdue=state.tasks.filter(t=>t.status!=='Done'&&t.due<0).length;if(overdue>4){coo.workload=Math.min(100,coo.workload+2);if(state.company.day%2===0)addEvent('◉','COO monitoring operations',`Просроченные задачи: ${overdue}. COO начинает перераспределение.`,'employee',coo.name,'warn')}}
 
@@ -1163,5 +1314,1202 @@ window.addEventListener('beforeunload',save);
 
 // ALATAU AI HOTFIX END
 </script>
+<script>
+/* ALATAU NEXUS — YEAR-LONG LIVE COMPANY ENGINE */
+(function(){
+  'use strict';
+
+  const YEAR_ENGINE_VERSION = 12;
+
+  const oldSeedState = seedState;
+
+  function hash(n){
+    const x = Math.sin(n * 12.9898 + 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  }
+
+  function monthOfDay(day){ return Math.floor((day - 1) / 30) + 1; }
+  function yearOfDay(day){ return Math.floor((day - 1) / 365) + 1; }
+  function dayOfWeek(day){ return ((day - 1) % 7) + 1; } // 1=Mon
+  function isWorkday(day){ const w = dayOfWeek(day); return w <= 5; }
+  function moneyRate(v){ return Math.round(v * 100) / 100; }
+
+  function chooseLeastLoaded(items){
+    const list = (items||[]).map(x=>typeof x==='string'?employee(x):x).filter(Boolean).filter(e=>e.status==='active');
+    const loadScore=e=>{
+      const queue=state.tasks.filter(t=>t.status!=='Done'&&t.ownerId===e.id).length;
+      const active=e.currentTask?1:0;
+      return queue*8 + active*12 + e.workload*0.35;
+    };
+    return list.sort((a,b)=>(loadScore(a)-loadScore(b))||(b.kpi-a.kpi))[0] || null;
+  }
+
+  function salesOwners(){
+    return activeEmployees().filter(e=>['sales','bizdev'].includes(e.department) && e.type!=='ceo');
+  }
+
+  function techOwners(){
+    return activeEmployees().filter(e=>['engineering','qa','product'].includes(e.department));
+  }
+
+  function customerOwners(){
+    return activeEmployees().filter(e=>e.department==='customer_success');
+  }
+
+  function ensureWorldState(s){
+    s.world = s.world || {};
+    const w = s.world;
+    w.version = YEAR_ENGINE_VERSION;
+    w.leadSeq = Number(w.leadSeq)||0;
+    w.lastLeadDay = Number.isFinite(w.lastLeadDay)?w.lastLeadDay:0;
+    w.lastStandupDay = Number.isFinite(w.lastStandupDay)?w.lastStandupDay:0;
+    w.lastBoardDay = Number.isFinite(w.lastBoardDay)?w.lastBoardDay:0;
+    w.lastIssueDay = Number.isFinite(w.lastIssueDay)?w.lastIssueDay:0;
+    w.lastOpsDay = Number.isFinite(w.lastOpsDay)?w.lastOpsDay:0;
+    w.lastMonthReview = Number.isFinite(w.lastMonthReview)?w.lastMonthReview:0;
+    w.leadsCreated = Number(w.leadsCreated)||0;
+    w.leadsQualified = Number(w.leadsQualified)||0;
+    w.dealsWon = Number(w.dealsWon)||0;
+    w.dealsLost = Number(w.dealsLost)||0;
+    w.decisionsExpired = Number(w.decisionsExpired)||0;
+    w.decisionsCreated = Number(w.decisionsCreated)||0;
+    w.recurringRevenueDaily = Number(w.recurringRevenueDaily)||0;
+    w.oneTimeRevenue = Number(w.oneTimeRevenue)||0;
+    w.contracts = Array.isArray(w.contracts)?w.contracts:[];
+    w.yearly = w.yearly || {startRevenue:s.finance.revenue||0,startCash:s.finance.cash||0};
+    w.lastDailySnapshot = Number(w.lastDailySnapshot)||0;
+    w.lastMessageDay = w.lastMessageDay || {};
+    w.lastDecisionDay = Number.isFinite(w.lastDecisionDay)?w.lastDecisionDay:0;
+    w.decisionYear = Number(w.decisionYear)||yearOfDay(s.company.day);
+    w.decisionsCreatedYear = Number(w.decisionsCreatedYear)||0;
+
+    s.clients.forEach(c=>{
+      if(!Number.isFinite(c.lastContactDay)) c.lastContactDay = s.company.day;
+      if(!Number.isFinite(c.lastIssueDay)) c.lastIssueDay = 0;
+      if(!Number.isFinite(c.renewalDay)) c.renewalDay = s.company.day + 330 + Math.round(hash(Number(String(c.id).replace(/\D/g,'')||1))*30);
+      if(c.leadSource===undefined) c.leadSource = 'Existing network';
+      if(c.openIssue===undefined) c.openIssue = null;
+      if(c.status===undefined) c.status = 'active';
+    });
+
+    s.deals.forEach(d=>{
+      if(!Number.isFinite(d.stageStartedDay)) d.stageStartedDay = Number(d.createdDay)||1;
+      if(!Number.isFinite(d.nextActionDay)) d.nextActionDay = Number(d.lastActionDay||s.company.day)+1;
+      if(!Number.isFinite(d.lastContactDay)) d.lastContactDay = Number(d.lastActionDay||s.company.day);
+      if(!Number.isFinite(d.meetingCount)) d.meetingCount = 0;
+      if(!Number.isFinite(d.issueCount)) d.issueCount = 0;
+      if(!Number.isFinite(d.marginRate)) d.marginRate = d.value ? d.margin/d.value : .38;
+      if(!Number.isFinite(d.monthlyValue)) d.monthlyValue = d.value/12;
+      if(d.issue===undefined) d.issue = null;
+      if(d.status===undefined) d.status = 'active';
+      if(d.ownerId) d.managerId = d.managerId || employee(d.ownerId)?.managerId || 'm1';
+    });
+
+    s.projects.forEach(p=>{
+      if(!Number.isFinite(p.stageStartedDay)) p.stageStartedDay = s.company.day;
+      if(!Number.isFinite(p.lastMilestone)) p.lastMilestone = Math.floor((p.progress||0)/10)*10;
+      if(!Number.isFinite(p.monthlyBurn)) p.monthlyBurn = Math.max(25000,(p.budget||0)/Math.max(30,(p.deadline-s.company.day||30)));
+      if(!Number.isFinite(p.pendingBilling)) p.pendingBilling=0;
+      if(!Number.isFinite(p.lastIssueDay)) p.lastIssueDay = 0;
+    });
+
+    s.tasks.forEach(t=>{
+      if(!Number.isFinite(t.progress)) t.progress = t.status==='Done'?100:0;
+      if(t.kind===undefined) t.kind = t.dealId ? 'deal' : t.projectId ? 'project' : 'operations';
+      if(!Number.isFinite(t.createdDay)) t.createdDay=s.company.day;
+      if(!Number.isFinite(t.dueDay)) t.dueDay=s.company.day+(Number(t.due)||2);
+    });
+
+    s.chats.forEach(c=>{
+      c.messages = Array.isArray(c.messages)?c.messages:[];
+      c.messages = c.messages.slice(-80);
+    });
+    ensureExecutiveAndRooms(s);
+    ensureRunningEmployees(s);
+    return s;
+  }
+
+  function ensureExecutiveAndRooms(s){
+    ensureRoom(s,'board','Руководители','group',['ceo','d1','d2','d3','d4','d5'],'Ежедневная управленческая координация');
+    ensureRoom(s,'sales-room','Планёрка продаж','group',['d1','m1','m2','e01','e02','e03'],'Продажи, лиды, сделки и клиенты');
+    ensureRoom(s,'tech-room','Техническая планёрка','group',['d2','m3','m4','m10'],'Проекты, качество и технические риски');
+    ensureRoom(s,'ops-room','Операционная планёрка','group',['d5','m7','m8','m9'],'Сервис, операции, клиенты и маркетинг');
+  }
+
+  function ensureRoom(s,id,name,type,participants,topic){
+    if(!s.chats.some(c=>c.id===id)) s.chats.push({id,name,type,participants:[...participants],topic,last:'',updated:0,messages:[]});
+  }
+
+  function ensureRunningEmployees(s){
+    activeEmployees().filter(e=>e.type!=='ceo').forEach(e=>{
+      if(e.currentTask && !task(e.currentTask)) e.currentTask=null;
+      e.memory=Array.isArray(e.memory)?e.memory:[];
+      e.relationships=e.relationships||{};
+    });
+  }
+
+  function createYearSeed(){
+    const s = oldSeedState();
+    s.company.day=1;
+    s.company.hour=8;
+    s.company.minute=30;
+    s.company.running=false;
+    s.company.health=84;
+    s.company.reputation=80;
+    s.finance.cash=45000000;
+    s.finance.revenue=0;
+    s.finance.costOfSales=0;
+    s.finance.operatingExpenses=0;
+    s.finance.profit=0;
+    s.finance.receivables=0;
+    s.finance.payroll=0;
+    s.finance.bonusAccrued=0;
+    s.finance.history=[];
+    s.finance.baseRecurringDaily=0;
+    s.finance.burn=0;
+    s.events=[];
+    s.history=[];
+    s.decisions=[];
+    s.settings = Object.assign({},s.settings||{}, {aiEnabled:false,aiAutonomy:false,aiEndpoint:'',aiModel:'',aiLastRun:'',aiCursor:0});
+
+    s.deals.forEach((d,i)=>{
+      d.stageStartedDay=Math.max(1,Math.min(3,d.createdDay||1));
+      d.createdDay=Math.max(1,d.createdDay||1);
+      d.lastActionDay=Math.max(1,d.lastActionDay||1);
+      d.lastContactDay=d.lastActionDay;
+      d.nextActionDay=Math.max(2,d.lastActionDay+1);
+      d.meetingCount=0;
+      d.issueCount=0;
+      d.issue=null;
+      d.marginRate=d.marginRate||.38;
+      d.margin=d.value*d.marginRate;
+      d.monthlyValue=d.value/12;
+      d.status='active';
+      d.history=[{day:1,text:'Сделка перенесена в годовой режим симуляции.'}];
+    });
+
+    s.tasks.forEach(t=>{
+      t.status='Open';
+      t.progress=0;
+      t.createdDay=1;
+      t.dueDay=1+(Number(t.due)||2);
+      t.kind=t.kind|| (t.dealId?'deal':t.projectId?'project':'operations');
+    });
+
+    s.projects.forEach(p=>{
+      p.progress = Math.max(10,Math.min(70,p.progress||20));
+      p.status='In Progress';
+      p.risk=Math.max(8,Math.min(35,p.risk||20));
+      p.stageStartedDay=1;
+      p.lastMilestone=Math.floor(p.progress/10)*10;
+      p.deadline=1+45+Math.round(hash(Number(String(p.id).replace(/\D/g,'')||1))*45);
+      p.lastIssueDay=0;
+      p.monthlyBurn=Math.max(25000,p.budget/Math.max(45,p.deadline));
+    });
+
+    s.chats.forEach(c=>{c.messages=[];c.last='';c.updated=0});
+    ensureWorldState(s);
+    ensureExecutiveAndRooms(s);
+    addEventState(s,'🚀','Компания начала годовой цикл','Система','День 1: бизнес работает с полной операционной связкой — продажи, проекты, финансы, HR и обслуживание клиентов.','system','Система','good');
+    addMessageState(s,'board','d1','Коллеги, начинаем год. На ближайшие недели — держим под контролем NovaTech, Orion и Qadam.','employee');
+    addMessageState(s,'board','d3','Я беру cash forecast и маржу под ежедневный контроль.','employee');
+    addMessageState(s,'sales-room','m1','Планёрка 09:00. По каждой активной сделке хочу видеть следующий конкретный шаг, а не просто процент вероятности.','employee');
+    recalcYearFinance(s);
+    snapshotYear(s);
+    return s;
+  }
+
+  function addEventState(s,icon,title,actor,text,category='system',owner='Система',severity='info'){
+    s.events.unshift({id:'ev'+s.company.nextId++,day:s.company.day,hour:s.company.hour,minute:s.company.minute,icon,title,text,category,actor:owner||actor,severity});
+    s.events=s.events.slice(0,650);
+  }
+
+  function addMessageState(s,chatId,author,text,kind='employee'){
+    const c=s.chats.find(x=>x.id===chatId); if(!c) return;
+    c.messages.push({id:'m'+s.company.nextId++,author,text,time:timeLabel(),day:s.company.day,kind});
+    c.messages=c.messages.slice(-80);
+    c.last=text;
+    c.updated=s.company.day*1440+s.company.hour*60+s.company.minute;
+  }
+
+  function ensureDealRoom(d){
+    const key='deal-room-'+d.id;
+    let c=state.chats.find(x=>x.id===key);
+    if(c) return c;
+    const owner=employee(d.ownerId), manager=owner&&employee(owner.managerId), clientObj=client(d.clientId);
+    const participants=[d.ownerId,manager?.id,'d1'];
+    if(['Technology','Finance'].includes(clientObj?.industry)) participants.push('d2');
+    if((d.value||0)>=10000000) participants.push('d3');
+    if(['Won','Negotiation'].includes(d.stage)) participants.push('m8');
+    const unique=[...new Set(participants.filter(Boolean))];
+    c={id:key,name:`${clientObj?.name||'Клиент'} · ${d.name}`,type:'group',participants:['ceo',...unique.filter(x=>x!=='ceo')],topic:'Работа по клиенту',last:'',updated:0,messages:[]};
+    state.chats.push(c);
+    addMessageState(state,key,d.ownerId,`Открываю рабочую комнату по ${clientObj?.name||'клиенту'}. Текущий этап — ${stageNames[d.stage]}, вероятность ${Math.round(d.prob)}%.`,'employee');
+    return c;
+  }
+
+  function sayInDeal(d,author,text){
+    const c=ensureDealRoom(d);
+    addMessageState(state,c.id,author,text,'employee');
+  }
+
+  function dealOwner(d){return employee(d.ownerId)}
+  function dealManager(d){const o=dealOwner(d);return o ? employee(o.managerId) : employee('m1')}
+
+  function createWorkTask(title,ownerId,dealId=null,projectId=null,priority='Normal',dueDays=2,kind='operations'){
+    const owner=employee(ownerId); if(!owner||owner.status!=='active') return null;
+    const same=state.tasks.find(t=>t.status!=='Done'&&t.ownerId===ownerId&&t.title===title);
+    if(same) return same;
+    const t={id:'wrk'+state.company.nextId++,title,ownerId,dealId,projectId,priority,status:'Open',due:dueDays,createdDay:state.company.day,dueDay:state.company.day+dueDays,progress:0,kind};
+    state.tasks.push(t);
+    if(state.tasks.length>2500){
+      const removable=state.tasks.findIndex(x=>x.status==='Done');
+      if(removable>=0) state.tasks.splice(removable,1);
+    }
+    remember(owner,'Новая рабочая задача: '+title);
+    return t;
+  }
+
+  function stageTask(d){
+    const o=dealOwner(d), clientObj=client(d.clientId);
+    if(!o) return;
+    const titles={
+      Lead:'Квалифицировать лид и найти ЛПР',
+      Contacted:'Провести discovery-встречу с '+(clientObj?.name||'клиентом'),
+      Discovery:'Подготовить коммерческое предложение для '+(clientObj?.name||'клиента'),
+      Proposal:'Обсудить предложение и зафиксировать возражения '+(clientObj?.name||'клиента'),
+      Negotiation:'Согласовать финальные коммерческие условия с '+(clientObj?.name||'клиентом')
+    };
+    if(titles[d.stage]) createWorkTask(titles[d.stage],o.id,d.id,null,d.stage==='Negotiation'?'High':'Normal',d.stage==='Negotiation'?4:3,'deal-stage');
+  }
+
+  function advanceDealStageYear(d,newStage,reason){
+    if(!d||['Won','Lost'].includes(d.stage)) return;
+    const old=d.stage;
+    d.stage=newStage;
+    d.stageStartedDay=state.company.day;
+    d.lastActionDay=state.company.day;
+    d.lastContactDay=state.company.day;
+    d.nextActionDay=state.company.day+1;
+    const stageBoost={Contacted:7,Discovery:8,Proposal:8,Negotiation:7,Won:0,Lost:0}[newStage]||0;
+    d.prob=Math.min(95,d.prob+stageBoost);
+    d.next={Contacted:'Провести discovery-встречу',Discovery:'Подготовить КП',Proposal:'Зафиксировать возражения клиента',Negotiation:'Согласовать финальные условия',Won:'Передать в delivery',Lost:'Разобрать причину проигрыша'}[newStage]||d.next;
+    d.history.unshift({day:state.company.day,text:`${stageNames[newStage]}. ${reason||''}`.trim()});
+    const o=dealOwner(d), clientObj=client(d.clientId);
+    addEvent('⌁','Движение сделки',`${d.name}: ${stageNames[old]} → ${stageNames[newStage]}. Ответственный: ${o?.name||'—'}.`,'crm',o?.name||'Sales','good');
+    if(o) remember(o,`Сделка ${d.name} перешла в этап ${stageNames[newStage]}.`);
+    if(o) sayInDeal(d,o.id,`Обновление по ${clientObj?.name||'клиенту'}: мы перешли в этап «${stageNames[newStage]}». Следующий шаг — ${d.next||'зафиксировать новый контакт'}.`);
+    const manager=dealManager(d);
+    if(manager) sayInDeal(d,manager.id,`Принял. Давайте держать следующий шаг на контроле и не оставлять клиента без ответа.`);
+    if(newStage==='Negotiation' && d.value>=10000000){sayInDeal(d,'d3',`Вижу крупную сделку ${d.name}. Просьба держать маржу и условия оплаты под контролем.`)}
+    stageTask(d);
+  }
+
+  function closeWonYear(d){
+    if(!d || d.stage==='Won') return;
+    d.stage='Won';d.prob=100;d.closedDay=state.company.day;d.lastActionDay=state.company.day;d.stageStartedDay=state.company.day;d.issue=null;
+    const c=client(d.clientId),o=dealOwner(d);
+    if(c){c.health=Math.min(100,(c.health||70)+5);c.status='active';c.lastContactDay=state.company.day;c.renewalDay=state.company.day+330;c.renewalLeadCreated=false;}
+    d.marginRate=Math.max(.18,Number(d.marginRate)||.38);
+    d.margin=d.value*d.marginRate;
+    state.world.dealsWon++;
+    const setupFee=Math.round(d.value*.40);
+    const setupCash=Math.round(setupFee*.65);
+    const setupReceivable=Math.max(0,setupFee-setupCash);
+    const contract={id:'ctr'+state.company.nextId++,dealId:d.id,clientId:d.clientId,startDay:state.company.day,endDay:state.company.day+365,monthlyValue:Math.max(260000,d.value*.075),setupFee,setupCash,setupReceivable,collected:0,active:true};
+    state.world.contracts.push(contract);
+    state.world.recurringRevenueDaily+=contract.monthlyValue/30;
+    // Подписание приносит setup-fee: часть сразу, часть в дебиторку.
+    state.finance.revenue += setupFee;
+    state.finance.cash += setupCash;
+    state.finance.receivables += setupReceivable;
+    state.world.oneTimeRevenue += setupFee;
+    addEvent('✅','Сделка выиграна',`${d.name} закрыта на ${money(d.value)}. Ответственный: ${o?.name||'—'}. Запущен следующий этап — delivery.`,'crm',o?.name||'Sales','good');
+    sayInDeal(d,o?.id||'d1',`Подписали. Передаю клиента в delivery и Customer Success. Дальше начинаем исполнение обязательств.`);
+    sayInDeal(d,'m8',`Принял клиента в Customer Success. Сегодня зафиксируем ожидания и ближайший review.`);
+    createProjectFromWonDeal(d);
+    createWorkTask(`Передать ${c?.name||'клиента'} в delivery / Customer Success`,dealManager(d)?.id||'d1',d.id,null,'High',2,'handover');
+  }
+
+  function closeLostYear(d,reason){
+    if(!d||d.stage==='Lost') return;
+    d.stage='Lost';d.prob=0;d.closedDay=state.company.day;d.lastActionDay=state.company.day;d.issue=null;
+    const c=client(d.clientId),o=dealOwner(d);
+    if(c)c.health=Math.max(35,(c.health||70)-6);
+    state.world.dealsLost++;
+    addEvent('✕','Сделка потеряна',`${d.name}: ${reason||'клиент не продолжил переговоры'}.`,'crm',o?.name||'Sales','warn');
+    sayInDeal(d,o?.id||'d1',`К сожалению, не закрыли. Причина: ${reason||'не подтверждены условия'}. Я соберу разбор и зафиксирую выводы.`);
+    createWorkTask(`Разобрать причину проигрыша ${d.name}`,dealManager(d)?.id||'d1',d.id,null,'Normal',3,'postmortem');
+  }
+
+  function createProjectFromWonDeal(d){
+    if(state.projects.some(p=>p.relatedDealId===d.id)) return;
+    const c=client(d.clientId);
+    const manager = c?.industry==='Technology' || c?.industry==='Finance' ? (employee('m3')||employee('m10')) : (employee('m8')||employee('m7'));
+    const duration=45+Math.round(hash(state.company.day+d.value%97)*45);
+    const p={id:'p'+state.company.nextId++,name:(c?.name||'Клиент')+' · Реализация проекта',clientId:d.clientId,managerId:manager?.id||'m7',progress:0,status:'In Progress',budget:Math.round(d.value*.34),risk:15+Math.round(hash(state.company.day+d.value%31)*20),deadline:state.company.day+duration,relatedDealId:d.id,stageStartedDay:state.company.day,lastMilestone:0,lastIssueDay:0,monthlyBurn:Math.max(30000,d.value*.34/duration),billingPlan:[.30,.35,.35],billedStages:[]};
+    state.projects.push(p);
+    d.projectId=p.id;
+    addEvent('▣','Создан проект',`${p.name} стартовал после победы сделки ${d.name}. Руководитель: ${manager?.name||'—'}.`,'project',manager?.name||'Operations','info');
+    createWorkTask(`Сформировать план проекта ${p.name}`,p.managerId,null,p.id,'High',3,'project-start');
+    createWorkTask(`Провести kickoff с ${c?.name||'клиентом'}`,employee('e17')?'e17':p.managerId,null,p.id,'High',4,'project-start');
+  }
+
+  function maybeGenerateLead(){
+    const day=state.company.day;
+    if(!isWorkday(day)) return;
+    const h=hash(day*17+state.world.leadSeq*7);
+    const active=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).length;
+    // Постоянный входящий поток: обычно 1 лид в рабочий день, иногда 2.
+    // Поток замедляется только при реально перегруженном pipeline.
+    if(active>=55 && h>.20) return;
+    if(h>.39) return;
+    const count=h<.10 ? 2 : 1;
+    for(let n=0;n<count;n++) createLead(day,n);
+  }
+
+  function createLead(day,index=0){
+    state.world.leadSeq++;
+    const industries=[
+      ['Technology','Высокий'],['Finance','Высокий'],['Retail','Средний'],['Logistics','Средний'],['Hospitality','Низкий'],['Construction','Средний'],['FMCG','Низкий'],['Healthcare','Средний'],['Education','Низкий']
+    ];
+    const names=['Atlas Digital','Vertex Systems','Steppe Retail','Nomad Logistics','Aurora Hospitality','Prime Build','Berkut Foods','Medline Central','Orbis Education','Qazaq Energy'];
+    const idx=(state.world.leadSeq+index)%names.length;
+    const industry=industries[idx % industries.length];
+    const base=2_800_000 + Math.round(hash(day*31+idx*19)*12_500_000);
+    let c=state.clients.find(x=>x.status!=='lost' && !state.deals.some(d=>d.clientId===x.id&&!['Won','Lost'].includes(d.stage)) && x.health>55 && hash(day+x.name.length)>.35);
+    if(!c){
+      const cid='cx'+state.world.leadSeq;
+      c={id:cid,name:names[idx]+' '+(2000+state.world.leadSeq),industry:industry[0],tier:industry[1],lifetimeValue:base,health:65+Math.round(hash(day*7+idx)*28),contact:'Новый ЛПР',nextAction:'Квалифицировать',lastContactDay:day,lastIssueDay:0,renewalDay:day+365,leadSource:['Сайт','Партнёр','Outbound','Рекомендация'][Math.floor(hash(day*11+idx)*4)],openIssue:null,status:'prospect'};
+      state.clients.push(c);
+    }
+    const owner=chooseLeastLoaded(salesOwners());
+    if(!owner)return;
+    const value=Math.round(base*(c.tier==='High'?1.12:c.tier==='Medium'?1:.82));
+    const d={id:'deal'+state.company.nextId++,name:`${c.name} · Новый запрос`,clientId:c.id,ownerId:owner.id,managerId:owner.managerId||'m1',value,stage:'Lead',prob:25+Math.round(hash(day*13+index)*16),marginRate:.38,margin:value*.38,next:'Квалифицировать лид',createdDay:day,lastActionDay:day,lastContactDay:day,nextActionDay:day+1,stageStartedDay:day,meetingCount:0,issueCount:0,issue:null,status:'active',history:[{day,text:`Новый лид из источника «${c.leadSource||'Сеть'}». Ответственный — ${owner.name}.`}],source:c.leadSource||'Сеть'};
+    state.deals.push(d);
+    state.world.leadsCreated++;
+    if(c.status==='prospect') c.status='active';
+    ensureDealRoom(d);
+    createWorkTask(`Квалифицировать новый лид: ${c.name}`,owner.id,d.id,null,'High',2,'deal-stage');
+    addEvent('◉','Новый лид',`${c.name}: ${money(value)} · ${d.prob}% · ответственный ${owner.name}.`,'crm',owner.name,'info');
+    sayInDeal(d,owner.id,`Новый лид пришёл сегодня. Я беру его в работу: сначала найду ЛПР, проверю потребность и зафиксирую следующий шаг.`);
+    if(owner.managerId) sayInDeal(d,owner.managerId,`Принял. Дай мне первый статус после контакта с ЛПР.`);
+    if(state.company.day%7===1) addMessageState(state,'sales-room',owner.id,`Новый лид: ${c.name}. Беру на себя, первый контакт сегодня.`,'employee');
+  }
+
+  function generateDealProblem(d){
+    if(!d||['Won','Lost'].includes(d.stage)||d.issue) return;
+    if(d.stage==='Lead'||d.stage==='Contacted') return;
+    const age=state.company.day-(d.lastIssueDay||d.stageStartedDay||state.company.day);
+    if(age<7)return;
+    const trigger=hash(state.company.day*23 + String(d.id).length*11 + d.value%101);
+    if(trigger>.22)return;
+    const c=client(d.clientId),o=dealOwner(d);
+    const issues=[
+      {key:'discount',title:'Клиент просит дополнительную скидку',severity:2,summary:`${c?.name||'Клиент'} готов двигаться, но просит снизить цену на 4–6%.`,options:[['A','Согласовать 5% скидки','discount_deep',-5],['B','Предложить 2% + сервис','discount_light',1],['C','Держать цену и усилить ценность','hold_price',-2]],tradeoffs:{A:'Выше шанс закрытия, ниже маржа.',B:'Компромисс: небольшая скидка и дополнительная нагрузка.',C:'Маржа сохраняется, но сделка может затянуться.'}},
+      {key:'scope',title:'Клиент расширил scope',severity:2,summary:`${c?.name||'Клиент'} просит дополнительные функции до подписания. Engineering оценивает это как дополнительный объём.`,options:[['A','Взять scope в текущий бюджет','scope_full',-8],['B','Разбить scope на этапы','scope_split',3],['C','Отложить дополнительный scope','scope_hold',-3]],tradeoffs:{A:'Быстрее закрытие, выше производственная нагрузка.',B:'Баланс сроков и ценности, но нужно управлять ожиданиями.',C:'Защита команды, но часть ценности может уйти конкуренту.'}},
+      {key:'legal',title:'Юристы клиента прислали новые условия',severity:1,summary:`Нужно согласовать договорные формулировки и SLA. Каждый вариант влияет на срок сделки.`,options:[['A','Принять большую часть правок','legal_accept',4],['B','Вернуть с компромиссным SLA','legal_balance',2],['C','Держать исходную позицию','legal_hold',-4]],tradeoffs:{A:'Быстрее к подписанию, выше обязательства.',B:'Средний путь по срокам и рискам.',C:'Сохраняет позицию компании, но увеличивает задержку.'}},
+      {key:'deadline',title:'Клиент хочет ускорить запуск',severity:2,summary:`Клиент просит запуск раньше согласованного срока. COO и CTO видят риск перегрузки команды.`,options:[['A','Ускорить за счёт ресурса','deadline_fast',6],['B','Запустить сокращённый MVP','deadline_mvp',4],['C','Сохранить текущий срок','deadline_keep',-3]],tradeoffs:{A:'Выше шанс удержать клиента, выше себестоимость.',B:'Баланс между сроком и объёмом.',C:'Команда защищена, но клиент может быть недоволен.'}}
+    ];
+    const issue=issues[Math.floor(trigger*issues.length)%issues.length];
+    d.issue={key:issue.key,title:issue.title,summary:issue.summary,createdDay:state.company.day,severity:issue.severity,tradeoffs:issue.tradeoffs};
+    d.issueCount=(d.issueCount||0)+1;
+    d.lastIssueDay=state.company.day;
+    d.prob=Math.max(8,d.prob-(issue.severity*4));
+    d.history.unshift({day:state.company.day,text:`Проблема клиента: ${issue.title}`});
+    if(c)c.health=Math.max(35,c.health-issue.severity*2);
+    sayInDeal(d,o?.id||'d1',`У клиента новая проблема: ${issue.title.toLowerCase()}. Нужно решить, как идём дальше.`);
+    if(issue.key==='deadline') sayInDeal(d,'d2',`Я вижу технический риск. Ускорение возможно, но только с явным решением по ресурсам.`);
+    if(issue.key==='discount') sayInDeal(d,'d3',`Перед любым снижением цены хочу видеть влияние на маржу и cash.`);
+    if(issue.key==='scope') sayInDeal(d,'d2',`Дополнительный scope лучше зафиксировать отдельно, иначе срок проекта поползёт.`);
+    addEvent('⚠','Проблема с клиентом',`${d.name}: ${issue.title}. Требуется управленческое решение.`,'client',o?.name||'Sales','warn');
+    const high=(d.value>=10000000 || issue.severity>=2);
+    if(high) createIssueDecision(d,issue);
+    else createWorkTask(`Разобрать проблему клиента: ${issue.title}`,dealManager(d)?.id||'d1',d.id,null,'High',3,'client-issue');
+  }
+
+  function canCreateYearDecision(minGap=6){
+    const yr=yearOfDay(state.company.day);
+    if(state.world.decisionYear!==yr){
+      state.world.decisionYear=yr;
+      state.world.decisionsCreatedYear=0;
+      state.world.lastDecisionDay=0;
+    }
+    return state.company.day-(state.world.lastDecisionDay||0)>=minGap && (state.world.decisionsCreatedYear||0)<24;
+  }
+
+  function createIssueDecision(d,issue){
+    const existing=state.decisions.find(x=>x.status==='pending'&&x.dealId===d.id&&x.yearProblem===issue.key);
+    if(existing)return;
+    // CEO получает управленческие запросы регулярно, но не превращаем компанию в спам из 100 решений.
+    if(!canCreateYearDecision(6)) return;
+    const dopt=issue.key==='discount' ? issue.options : issue.options;
+    const dec={
+      id:'yd'+state.company.nextId++,title:`${client(d.clientId)?.name||'Клиент'} · ${issue.title}`,source:'Sales Director',risk:issue.key,status:'pending',summary:issue.summary,options:dopt,optionDetails:issue.tradeoffs,createdDay:state.company.day,dueDay:state.company.day+4,dealId:d.id,yearDecision:true,yearProblem:issue.key,resolution:null
+    };
+    state.decisions.unshift(dec);
+    state.world.decisionsCreated=(state.world.decisionsCreated||0)+1;
+    state.world.decisionsCreatedYear=(state.world.decisionsCreatedYear||0)+1;
+    state.world.lastDecisionDay=state.company.day;
+    addEvent('⚖','Нужно решение CEO',`${dec.title}. До решения клиента нужно удержать в работе.`,'decision','Александр Волков','warn');
+    sayInDeal(d,'d1',`Олег, нужен твой выбор по проблеме. Я подготовил три варианта. Пока решение не принято, переговоры будут идти осторожно.`);
+  }
+
+  function applyYearDecision(d,choice){
+    const dealX=d.dealId?deal(d.dealId):null;
+    const choiceMap={
+      discount_deep:{prob:10,margin:-.05,health:2,workload:4,text:'Согласовали 5% скидки. Вероятность сделки выросла, но маржа снизилась.'},
+      discount_light:{prob:6,margin:-.02,health:2,workload:2,text:'Предложили 2% скидки и сервис. Сохранили большую часть маржи.'},
+      hold_price:{prob:-3,margin:0,health:-1,workload:0,text:'Цена сохранена. Сделка может идти дольше, но маржа защищена.'},
+      scope_full:{prob:7,margin:-.04,health:1,workload:7,text:'Дополнительный scope взяли в текущую экономику. Риск нагрузки вырос.'},
+      scope_split:{prob:5,margin:-.01,health:2,workload:3,text:'Scope разбили на этапы. Клиент получил путь, команда сохранила контроль.'},
+      scope_hold:{prob:-3,margin:0,health:-2,workload:-1,text:'Дополнительный scope отложен. Команда защищена, но клиент недоволен.'},
+      legal_accept:{prob:6,margin:-.01,health:2,workload:1,text:'Большую часть правок приняли, чтобы ускорить подписание.'},
+      legal_balance:{prob:4,margin:0,health:1,workload:0,text:'Стороны согласовали компромиссный SLA.'},
+      legal_hold:{prob:-5,margin:0,health:-2,workload:0,text:'Исходная позиция сохранена, переговоры замедлились.'},
+      deadline_fast:{prob:6,margin:-.03,health:2,workload:7,text:'Запуск ускоряем за счёт ресурса. Себестоимость и нагрузка выросли.'},
+      deadline_mvp:{prob:5,margin:-.01,health:3,workload:3,text:'Предложили сокращённый MVP и сохранили управляемый срок.'},
+      deadline_keep:{prob:-3,margin:0,health:-1,workload:-1,text:'Сохранили первоначальный срок, защищая команду.'}
+    };
+    const effect=choiceMap[choice];
+    if(!effect) return;
+    if(dealX){
+      dealX.prob=Math.max(5,Math.min(95,dealX.prob+effect.prob));
+      dealX.marginRate=Math.max(.15,Math.min(.45,(dealX.marginRate||.38)+effect.margin));
+      dealX.margin=dealX.value*dealX.marginRate;
+      dealX.issue=null;
+      dealX.lastActionDay=state.company.day;
+      dealX.stageStartedDay=Math.min(dealX.stageStartedDay,state.company.day);
+      dealX.history.unshift({day:state.company.day,text:`CEO: ${effect.text}`});
+      const c=client(dealX.clientId);if(c)c.health=Math.max(30,Math.min(100,c.health+effect.health));
+      const o=dealOwner(dealX);if(o)o.workload=Math.min(100,o.workload+effect.workload);
+      sayInDeal(dealX,'d1',`CEO выбрал вариант «${choice}». ${effect.text}`);
+      if(dealX.ownerId) sayInDeal(dealX,dealX.ownerId,`Понял. Тогда действую по выбранному сценарию и дам следующий статус.`);
+      createWorkTask(`Исполнить решение CEO по ${dealX.name}`,dealManager(dealX)?.id||'d1',dealX.id,null,'High',3,'decision-followup');
+    }
+  }
+
+  function expireDecisionYear(d){
+    const dealX=d.dealId?deal(d.dealId):null;
+    d.status='expired';d.resolution='Решение не принято вовремя';
+    state.world.decisionsExpired++;
+    if(dealX){dealX.prob=Math.max(5,dealX.prob-10);dealX.issue=null;dealX.lastIssueDay=state.company.day;dealX.nextActionDay=state.company.day+2;const c=client(dealX.clientId);if(c)c.health=Math.max(30,c.health-5);dealX.history.unshift({day:state.company.day,text:'CEO не принял решение в срок; клиентский риск вырос, но команда продолжает работу.'});sayInDeal(dealX,'d1','Мы слишком долго принимали решение. Клиент почувствовал задержку; команда продолжает работу, но вернуть темп будет сложнее.');createWorkTask(`Восстановить переговоры после просроченного решения: ${dealX.name}`,dealManager(dealX)?.id||'d1',dealX.id,null,'High',3,'decision-followup');stageTask(dealX);}
+    addEvent('⏰','Решение просрочено',`${d.title}: CEO не принял решение до установленного срока.`,'decision','Система','warn');
+  }
+
+  function processYearDecisions(){
+    state.decisions.filter(d=>d.yearDecision&&d.status==='pending').forEach(d=>{
+      if(state.company.day>(d.dueDay||state.company.day+4)) expireDecisionYear(d);
+      else if(state.company.day===(d.dueDay||0)) addEvent('⏳','Срок решения сегодня',`${d.title}: сегодня последний день для решения.`,'decision','Система','warn');
+    });
+  }
+
+  function processYearTasks(){
+    state.tasks.filter(t=>t.status!=='Done').forEach(t=>{
+      const e=employee(t.ownerId); if(!e||e.status!=='active') return;
+      if(!e.currentTask && e.workload<94){
+        t.status='In Progress';e.currentTask=t.id;
+        e.workload=Math.min(100,e.workload+3);
+        addEvent('▶','Сотрудник начал работу',`${e.name}: ${t.title}.`,'employee',e.name,'info');
+      }
+      if(t.status==='In Progress'){
+        const efficiency=.10 + e.kpi/1300 + e.energy/2500 - (e.workload>88?.05:0);
+        t.progress=Math.min(100,(t.progress||0)+Math.max(.035,efficiency));
+        e.workload=Math.min(100,e.workload+.20);
+        e.energy=Math.max(20,e.energy-.08);
+        if(t.progress>=100) finishYearTask(t);
+      }
+      if(state.company.day>(t.dueDay??(t.createdDay+2)) && t.status!=='Done'){
+        t.overdue=true;
+        const overdueDays=state.company.day-(t.dueDay||0);
+        if(overdueDays===3){
+          const mgr=e.managerId?employee(e.managerId):null;
+          if(mgr) addMessageState(state,'board',mgr.id,`${e.name} просрочил задачу «${t.title}» на ${overdueDays} дня. Нужен контроль и приоритет.`,'employee');
+        }
+        if(overdueDays%3===0) addEvent('⚠','Просрочена задача',`${t.title} · ${e.name}`,'employee',e.name,'warn');
+      }
+    });
+  }
+
+  function finishYearTask(t){
+    if(t.status==='Done')return;
+    t.status='Done';t.progress=100;
+    const e=employee(t.ownerId);if(e){if(e.currentTask===t.id)e.currentTask=null;e.workload=Math.max(18,e.workload-4);e.energy=Math.max(20,e.energy-1);e.kpi=Math.min(100,e.kpi+.3);remember(e,'Завершил: '+t.title)}
+    if(t.dealId){
+      const d=deal(t.dealId);
+      if(d&&!['Won','Lost'].includes(d.stage)){
+        d.prob=Math.min(95,d.prob+4);
+        d.lastActionDay=state.company.day;
+        d.nextActionDay=state.company.day+1;
+        d.history.unshift({day:state.company.day,text:`Связанная задача выполнена: ${t.title}`});
+        if((t.kind==='deal-stage'||t.kind==='deal') && !['Lost','Won'].includes(d.stage) && state.company.day>=d.stageStartedDay+1){
+          const next={Lead:'Contacted',Contacted:'Discovery',Discovery:'Proposal',Proposal:'Negotiation'}[d.stage];
+          if(next) advanceDealStageYear(d,next,'Связанная рабочая задача завершена.');
+        }
+        if(d.stage==='Negotiation' && !d.issue && state.company.day>=d.stageStartedDay+5){
+          const age=state.company.day-d.stageStartedDay;
+          const closeChance=d.prob>=82?.28:d.prob>=68?.20:d.prob>=55?.14:d.prob>=45?.08:.025;
+          if(d.prob>=40 && hash(state.company.day*19+d.value%97)<closeChance) closeWonYear(d);
+          else if(age>18 && d.prob<45 && hash(state.company.day*29+d.value%53)<.22) closeLostYear(d,'клиент не подтвердил финальные условия');
+        }
+      }
+    }
+    if(t.dealId && ['client-issue','stalled-deal','decision-followup'].includes(t.kind)){
+      const d=deal(t.dealId);
+      if(d){
+        if(d.issue){
+          d.issue=null;
+          d.lastIssueDay=state.company.day;
+          d.prob=Math.min(95,d.prob+4);
+          d.history.unshift({day:state.company.day,text:'Проблема отработана рабочей командой; сделка снова в активном движении.'});
+          sayInDeal(d,t.ownerId,`Проблему закрыли с нашей стороны. Возвращаемся к следующему этапу и держим клиента в контакте.`);
+          addEvent('✓','Проблема клиента отработана',`${d.name}: команда закрыла рабочий вопрос.`,'client',employee(t.ownerId)?.name||'Система','good');
+          stageTask(d);
+        }
+      }
+    }
+    if(t.projectId){
+      const p=project(t.projectId);if(p){p.progress=Math.min(100,p.progress+4);p.risk=Math.max(3,p.risk-1);if(p.progress>=100)finishProjectYear(p);}
+    }
+    addEvent('✓','Сотрудник завершил задачу',`${e?.name||'Сотрудник'}: ${t.title}.`,'employee',e?.name||'Система','good');
+  }
+
+  function finishProjectYear(p){
+    if(p.status==='Done')return;
+    p.status='Done';p.progress=100;p.risk=0;
+    const m=employee(p.managerId),c=client(p.clientId);
+    addEvent('▣','Проект завершён',`${p.name} завершён. Руководитель: ${m?.name||'—'}.`,'project',m?.name||'Operations','good');
+    createWorkTask(`Провести post-project review: ${p.name}`,p.managerId,null,p.id,'Normal',3,'project-review');
+    if(c){c.health=Math.min(100,c.health+4);c.lastContactDay=state.company.day;}
+  }
+
+  function processYearDeals(){
+    state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).forEach(d=>{
+      const o=dealOwner(d),c=client(d.clientId);if(!o||!c)return;
+      if(state.company.day>=d.nextActionDay){
+        d.lastActionDay=state.company.day;
+        d.nextActionDay=state.company.day+2;
+        if(hash(state.company.day*7+d.value%89)<.58){
+          d.prob=Math.min(95,d.prob+1.2);
+          d.history.unshift({day:state.company.day,text:`Контакт по клиенту выполнен ответственным ${o.name}.`});
+          sayInDeal(d,o.id,`Связался с ${c.name}. Пока рабочий статус стабильный, продолжаю двигать следующий шаг.`);
+        } else if(hash(state.company.day*11+d.value%67)<.28){
+          d.prob=Math.max(5,d.prob-1.5);
+          sayInDeal(d,o.id,`Клиент пока не ответил. Оставляю follow-up и переношу следующий контакт.`);
+        }
+      }
+
+      const age=state.company.day-(d.stageStartedDay||d.createdDay);
+      const maxAge={Lead:7,Contacted:10,Discovery:14,Proposal:18,Negotiation:21}[d.stage]||14;
+      if(d.stage==='Lead' && age>16 && d.prob<20 && !d.issue){
+        if(hash(state.company.day*41+d.value%71)<.18) closeLostYear(d,'лид не квалифицирован и не вышел на ЛПР');
+      }
+      if(d.stage==='Discovery' && age>34 && d.prob<25 && !d.issue){
+        if(hash(state.company.day*47+d.value%61)<.15) closeLostYear(d,'клиент не подтвердил приоритет проекта');
+      }
+      if(d.stage==='Proposal' && age>40 && d.prob<30 && !d.issue){
+        if(hash(state.company.day*53+d.value%43)<.15) closeLostYear(d,'коммерческое предложение не перешло в переговоры');
+      }
+      if(age>maxAge && !d.issue){
+        if((state.company.day-(d.lastStallTaskDay||0))>=5){
+          d.lastStallTaskDay=state.company.day;
+          d.prob=Math.max(10,d.prob-1.5);
+          createWorkTask(`Разобрать затянувшийся этап ${d.name}`,dealManager(d)?.id||'d1',d.id,null,'High',2,'stalled-deal');
+        }
+        if(d.issueCount<2 && (d.prob<30 || age>maxAge+10)) generateDealProblem(d);
+      }
+
+      if(d.stage==='Negotiation' && !d.issue && d.issueCount<2 && state.company.day-(d.lastIssueDay||0)>7) generateDealProblem(d);
+      if(d.stage==='Negotiation' && !d.issue && age>=5){
+        const chance=d.prob>=82?.22:d.prob>=68?.16:d.prob>=55?.10:d.prob>=45?.045:.015;
+        if(d.prob>=45 && hash(state.company.day*61+d.value%73)<chance) closeWonYear(d);
+        else if(age>42 && d.prob<42 && hash(state.company.day*67+d.value%67)<.12) closeLostYear(d,'переговоры затянулись и приоритет клиента снизился');
+      }
+      // Рыночная динамика: если команда достаточно продвинула сделку и нет блокера,
+      // клиент может сам ответить/согласовать следующий этап. Задачи и чаты остаются
+      // доказательством работы, но pipeline не должен зависать только из-за очереди UI-задач.
+      if(!d.issue){
+        const stageFlow={
+          Lead:{delay:5,minProb:28,next:'Contacted'},
+          Contacted:{delay:6,minProb:34,next:'Discovery'},
+          Discovery:{delay:8,minProb:44,next:'Proposal'},
+          Proposal:{delay:10,minProb:54,next:'Negotiation'}
+        }[d.stage];
+        const stageAge=state.company.day-(d.stageStartedDay||d.createdDay||state.company.day);
+        if(stageFlow && stageAge>=stageFlow.delay && d.prob>=stageFlow.minProb){
+          const responseChance={Lead:.12,Contacted:.10,Discovery:.08,Proposal:.06}[d.stage];
+          if(hash(state.company.day*71+d.value%83)<responseChance){
+            advanceDealStageYear(d,stageFlow.next,'Клиент подтвердил следующий шаг после рабочего контакта.');
+          }
+        }
+      }
+
+      if(d.stage!=='Lead' && state.company.day-(d.lastContactDay||0)>=4){
+        d.lastContactDay=state.company.day;
+        if(hash(state.company.day*13+d.value%47)<.55) {
+          const other = d.stage==='Proposal' ? 'd3' : (d.stage==='Negotiation' ? 'm8' : dealManager(d)?.id);
+          if(other && employee(other)) sayInDeal(d,other,`${c.name}: держу в поле зрения. Какой следующий риск по этой сделке?`);
+        }
+      }
+    });
+  }
+
+  function billProjectMilestones(p){
+    if(!p||p.status==='Done') return;
+    const stages=[30,70,100];
+    const c=client(p.clientId);
+    stages.forEach((threshold,i)=>{
+      if(p.progress < threshold || p.billedStages?.includes(threshold)) return;
+      p.billedStages=p.billedStages||[];
+      const amount=Math.round((p.budget||0)*(p.billingPlan?.[i]??(1/stages.length)));
+      const cash=Math.round(amount*.70);
+      const receivable=amount-cash;
+      state.finance.revenue += amount;
+      state.finance.cash += cash;
+      state.finance.receivables += receivable;
+      state.world.oneTimeRevenue += amount;
+      p.pendingBilling=0;
+      p.billedStages.push(threshold);
+      addEvent('₸','Выставлен счёт по проекту',`${p.name}: milestone ${threshold}% · ${money(amount)}. Клиент: ${c?.name||'—'}.`,'finance',employee(p.managerId)?.name||'Operations','good');
+      const manager=employee(p.managerId);
+      if(manager) addMessageState(state,'ops-room',manager.id,`По ${p.name} выставили счёт ${money(amount)} после milestone ${threshold}%.`,'employee');
+    });
+  }
+
+  function processYearProjects(){
+    state.projects.filter(p=>p.status!=='Done').forEach(p=>{
+      const m=employee(p.managerId);if(!m)return;
+      const activePeople=activeEmployees().filter(e=>e.department==='engineering'||e.department==='qa'||e.department==='product');
+      const avgKpi=activePeople.length?avg(activePeople.map(e=>e.kpi)):75;
+      let delta=.025 + avgKpi/20000;
+      if(m.workload>88)delta-=.05;
+      if(p.risk>45)delta-=.06;
+      p.progress=Math.min(99.5,p.progress+Math.max(.025,delta));
+      if(Math.floor(p.progress/10)>p.lastMilestone){
+        p.lastMilestone=Math.floor(p.progress/10)*10;
+        createWorkTask(`Проверить milestone ${p.lastMilestone}% — ${p.name}`,m.id,null,p.id,'Normal',3,'project-milestone');
+        addEvent('▣','Milestone проекта',`${p.name}: достигнуто ${p.lastMilestone}% прогресса.`,'project',m.name,'info');
+        if(p.lastMilestone%20===0) addMessageState(state,'tech-room',m.id,`По ${p.name} прошли milestone ${p.lastMilestone}%. Следующий риск — ${Math.round(p.risk)}%.`,'employee');
+      }
+      if(state.company.day>=p.deadline-7 && p.progress<80)p.risk=Math.min(95,p.risk+1.1);
+      if(p.risk>48 && state.company.day-(p.lastIssueDay||0)>6){
+        p.lastIssueDay=state.company.day;
+        addEvent('⚠','Риск проекта растёт',`${p.name}: риск ${Math.round(p.risk)}%. CTO и руководитель проекта обсуждают план.`,'project',m.name,'warn');
+        addMessageState(state,'tech-room','d2',`По ${p.name} риск уже ${Math.round(p.risk)}%. Предлагаю отдельно обсудить ресурс и срок.`,'employee');
+        if(p.risk>60 && !state.decisions.some(d=>d.status==='pending'&&d.projectId===p.id) && canCreateYearDecision(6)){
+          state.world.lastDecisionDay=state.company.day; state.world.decisionsCreated=(state.world.decisionsCreated||0)+1; state.world.decisionsCreatedYear=(state.world.decisionsCreatedYear||0)+1;
+          state.decisions.unshift({id:'yp'+state.company.nextId++,title:`${p.name} · риск delivery`,source:'CTO',risk:'delivery',status:'pending',summary:`Риск ${Math.round(p.risk)}%. CEO может усилить команду, сократить scope или сохранить текущий план.`,options:[['A','Усилить команду','project_staff',1],['B','Сократить scope первого релиза','project_scope',2],['C','Сохранить текущий план','project_hold',-2]],optionDetails:{A:'Стоимость выше, срок безопаснее.',B:'Сохраняется срок, часть функций переносится.',C:'Бюджет не меняется, но риск срыва выше.'},createdDay:state.company.day,dueDay:state.company.day+4,projectId:p.id,yearDecision:true,yearProblem:'delivery'});
+          addMessageState(state,'board','d2',`Олег, по ${p.name} уже нужен выбор: ресурс, scope или сохранение плана.`,'employee');
+        }
+      }
+      billProjectMilestones(p);
+      if(p.progress>=100 || (state.company.day>=p.deadline&&p.progress>88))finishProjectYear(p);
+    });
+  }
+
+  function processYearClients(){
+    state.clients.forEach(c=>{
+      const openDeals=state.deals.filter(d=>d.clientId===c.id&&!['Lost','Won'].includes(d.stage));
+      const contracts=state.world.contracts.filter(x=>x.clientId===c.id&&x.active&&x.endDay>=state.company.day);
+      if(contracts.length)c.health=Math.min(100,c.health+(state.company.day%4===0?.06:0));
+      if(openDeals.some(d=>d.issue)) c.health=Math.max(30,c.health-.08);
+      if(c.health<48 && state.company.day-(c.lastIssueDay||0)>5){
+        c.lastIssueDay=state.company.day;
+        const cs=chooseLeastLoaded(customerOwners());
+        if(cs){
+          createWorkTask(`План восстановления клиента ${c.name}`,cs.id,null,null,'High',3,'client-recovery');
+          addEvent('♥','Клиент под риском',`${c.name}: health ${Math.round(c.health)}%. ${cs.name} получил план восстановления.`,'client',cs.name,'warn');
+          const room=state.deals.find(d=>d.clientId===c.id&&!['Lost'].includes(d.stage));if(room)sayInDeal(room,cs.id,`Вижу просадку health у ${c.name}. Я беру на себя план восстановления и дам апдейт.`);
+        }
+      }
+      if(contracts.length && state.company.day>=c.renewalDay-30 && state.company.day<c.renewalDay){
+        if(!c.renewalLeadCreated){
+          c.renewalLeadCreated=true;
+          createLeadForRenewal(c,contracts[0]);
+        }
+      }
+    });
+  }
+
+  function createLeadForRenewal(c,contract){
+    const owner=chooseLeastLoaded(customerOwners().concat(salesOwners()));
+    if(!owner)return;
+    const d={id:'deal'+state.company.nextId++,name:`${c.name} · Продление и расширение`,clientId:c.id,ownerId:owner.id,managerId:owner.managerId||'m1',value:Math.round(contract.monthlyValue*12*1.08),stage:'Discovery',prob:58,marginRate:.42,margin:Math.round(contract.monthlyValue*12*1.08*.42),next:'Провести renewal review',createdDay:state.company.day,lastActionDay:state.company.day,nextActionDay:state.company.day+2,stageStartedDay:state.company.day,meetingCount:0,issueCount:0,issue:null,status:'active',source:'Продление',history:[{day:state.company.day,text:'Запущен renewal review по действующему контракту.'}]};
+    state.deals.push(d);
+    ensureDealRoom(d);
+    createWorkTask(`Провести renewal review: ${c.name}`,owner.id,d.id,null,'High',3,'deal-stage');
+    addEvent('↻','Запущено продление клиента',`${c.name}: новый цикл сделки на ${money(d.value)}.`,'crm',owner.name,'info');
+    sayInDeal(d,owner.id,`Запускаю renewal review. Хочу не просто продлить, а понять, что можно расширить.`);
+  }
+
+  function processYearContracts(){
+    state.world.contracts.forEach(c=>{
+      if(!c.active)return;
+      if(c.endDay<state.company.day){c.active=false;state.world.recurringRevenueDaily=Math.max(0,state.world.recurringRevenueDaily-c.monthlyValue/30);return;}
+      if(state.company.day>=c.startDay+30 && state.company.day%30===0){
+        c.collected=(c.collected||0)+c.monthlyValue;
+        state.finance.receivables=Math.max(0,state.finance.receivables-c.monthlyValue*.8);
+      }
+      const clientObj=client(c.clientId);
+      if(clientObj&&clientObj.health<42&&state.company.day-c.startDay>60){
+        if(hash(state.company.day+c.id.length)<.18){
+          c.active=false;state.world.recurringRevenueDaily=Math.max(0,state.world.recurringRevenueDaily-c.monthlyValue/30);clientObj.status='at-risk';
+          addEvent('✕','Риск оттока клиента',`${clientObj.name}: контракт остановлен из-за низкого health.`,'client','Customer Success','warn');
+        }
+      }
+    });
+  }
+
+  function processYearFinance(){
+    const f=state.finance;
+    const activeContracts=state.world.contracts.filter(c=>c.active&&c.endDay>=state.company.day);
+    const recurringDaily=activeContracts.reduce((a,c)=>a+c.monthlyValue/30,0);
+    state.world.recurringRevenueDaily=recurringDaily;
+    const hourlyRevenue=recurringDaily/24;
+    let oneTime=0;
+    state.projects.forEach(p=>{
+      const pending=Number(p.pendingBilling)||0;
+      if(pending>0){ oneTime += pending/24; p.pendingBilling=Math.max(0,pending-pending/24); }
+    });
+    const recognized=hourlyRevenue+oneTime;
+    const payroll=activeEmployees().filter(e=>e.type!=='ceo').reduce((a,e)=>a+e.salary,0);
+    const hourlyPayroll=payroll/30/24;
+    const hourlyFixed=1600000/30/24;
+    const hourlyProjectBurn=state.projects.filter(p=>p.status!=='Done').reduce((a,p)=>a+p.monthlyBurn,0)/30/24;
+    const hourlyMarketing=260000/30/24;
+    const cogs=recognized*.22;
+    const cashFromRevenue=recognized*.70;
+    const receivableFromRevenue=recognized*.30;
+    f.revenue += recognized;
+    f.costOfSales += cogs;
+    f.payroll=payroll;
+    f.operatingExpenses += hourlyPayroll+hourlyFixed+hourlyProjectBurn+hourlyMarketing;
+    f.cash += cashFromRevenue-hourlyPayroll-hourlyFixed-hourlyProjectBurn-hourlyMarketing;
+    f.receivables += receivableFromRevenue;
+    if(state.company.hour===23 && state.company.day%15===0){
+      const collection=Math.min(f.receivables,f.receivables*.58);
+      f.cash += collection;
+      f.receivables -= collection;
+    }
+    f.profit=f.revenue-f.costOfSales-f.operatingExpenses;
+    f.burn=Math.max(0,Math.round(f.operatingExpenses/30));
+    if(f.cash<5000000&&!state.decisions.some(d=>d.status==='pending'&&d.yearProblem==='cash')&&canCreateYearDecision(6)){
+      state.world.lastDecisionDay=state.company.day; state.world.decisionsCreated=(state.world.decisionsCreated||0)+1; state.world.decisionsCreatedYear=(state.world.decisionsCreatedYear||0)+1;
+      state.decisions.unshift({id:'cash'+state.company.nextId++,title:'Cash pressure: нужен план',source:'CFO',risk:'cash',status:'pending',summary:`Cash опустился до ${money(f.cash)}. CEO может сократить расходную часть, ускорить сбор дебиторки или сохранить текущий план и принять риск.`,options:[['A','Снизить расходы','cash_cut',1],['B','Ускорить сбор дебиторки','cash_collect',2],['C','Сохранить текущий план','cash_hold',-3]],optionDetails:{A:'Стабильность cash, ниже темп роста.',B:'Напряжение на клиентах вырастет, но cash восстановится быстрее.',C:'Команда не меняет план, но запас прочности падает.'},createdDay:state.company.day,dueDay:state.company.day+4,yearDecision:true,yearProblem:'cash'});
+      addMessageState(state,'board','d3',`Олег, cash просел до ${money(f.cash)}. Нужен твой выбор по плану действий.`,'employee');
+    }
+  }
+
+  function processYearPeople(){
+    activeEmployees().filter(e=>e.type!=='ceo').forEach(e=>{
+      if(e.workload>88){e.motivation=Math.max(30,e.motivation-.35);e.energy=Math.max(20,e.energy-.15);}
+      else if(e.workload<55){e.motivation=Math.min(100,e.motivation+.08);e.energy=Math.min(100,e.energy+.05);}
+      if(e.energy<35)e.workload=Math.min(100,e.workload+.05);
+      e.workload=Math.max(20,e.workload-.22);
+      if(state.company.day%30===0 && e.kpi>85)e.bonus=(e.bonus||7)+1;
+      if(state.company.day%90===0 && e.kpi<55 && e.motivation<45){
+        e.loyalty=Math.max(0,e.loyalty-5);
+        addEvent('⚠','HR-риск',`${e.name}: сочетание низкого KPI и мотивации требует внимания.`,'hr',e.name,'warn');
+      }
+    });
+  }
+
+  function processDailyStandup(){
+    const day=state.company.day;
+    if(!isWorkday(day)||state.world.lastStandupDay===day)return;
+    state.world.lastStandupDay=day;
+    const activeDeals=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).sort((a,b)=>(b.value*b.prob)-(a.value*a.prob)).slice(0,3);
+    if(activeDeals.length){
+      addMessageState(state,'sales-room','m1',`Планёрка, День ${day}. Что с главными сделками на сегодня?`,'employee');
+      activeDeals.forEach((d,i)=>{
+        const o=dealOwner(d),c=client(d.clientId);
+        addMessageState(state,'sales-room',o?.id||'d1',`${c?.name||d.name}: этап «${stageNames[d.stage]}», ${Math.round(d.prob)}%, следующий шаг — ${d.next||'контакт с клиентом'}.`,'employee');
+        if(d.issue) addMessageState(state,'sales-room','d1',`По ${c?.name||d.name} есть проблема: ${d.issue.title.toLowerCase()}. Нужен план, а не просто отметка в CRM.`,'employee');
+        if(i===0 && d.issue) addMessageState(state,'sales-room','m1','Предлагаю сегодня закрыть вопрос на уровне владельца сделки и только потом двигать этап дальше.','employee');
+      });
+      addEvent('📌','Ежедневная планёрка продаж',`Обсуждались ${activeDeals.length} главных сделки.`,'employee','Иван Петров','info');
+    }
+    const projects=state.projects.filter(p=>p.status!=='Done').sort((a,b)=>b.risk-a.risk).slice(0,2);
+    if(projects.length && day%2===1){
+      addMessageState(state,'tech-room','m3',`Утренний статус: сегодня смотрим ${projects.map(p=>p.name).join(' и ')}.`,'employee');
+      projects.forEach(p=>addMessageState(state,'tech-room',p.managerId,`${p.name}: ${Math.round(p.progress)}% прогресса, риск ${Math.round(p.risk)}%, срок — день ${p.deadline}.`,'employee'));
+    }
+    const clientRisks=state.clients.filter(c=>c.health<60).slice(0,2);
+    if(clientRisks.length){
+      addMessageState(state,'ops-room','m8',`На сегодня вижу клиентские риски: ${clientRisks.map(c=>c.name+' ('+Math.round(c.health)+')').join(', ')}.`,'employee');
+      const r=clientRisks[0];
+      const related=state.deals.find(d=>d.clientId===r.id&&!['Lost'].includes(d.stage));
+      if(related){
+        addMessageState(state,'ops-room',related.ownerId,`По ${r.name} у нас есть ${related.name}: я синхронизирую Sales и Customer Success, чтобы клиент получил один понятный ответ.`,'employee');
+      }
+    }
+    if(day%4===0){
+      const active=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).sort((a,b)=>b.value-a.value).slice(0,2);
+      active.forEach(d=>{
+        const c=client(d.clientId),o=dealOwner(d);
+        if(c&&o) addMessageState(state,'sales-room','m2',`По ${c.name} хочу отдельно сверить статус с ${o.name}: мы понимаем, кто следующий касается клиента и зачем?`,'employee');
+      });
+    }
+  }
+
+  function processExecutiveBoard(){
+    const day=state.company.day;
+    if(dayOfWeek(day)!==1 || state.world.lastBoardDay===day)return;
+    state.world.lastBoardDay=day;
+    addMessageState(state,'board','d1',`Понедельник. Pipeline сейчас ${money(state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).reduce((a,d)=>a+d.value,0))}. Готов обсудить приоритеты.`,'employee');
+    addMessageState(state,'board','d2',`Проекты: ${state.projects.filter(p=>p.status!=='Done').length} активных. Основной риск — ${state.projects.slice().sort((a,b)=>b.risk-a.risk)[0]?.name||'нет критичных рисков'}.`,'employee');
+    addMessageState(state,'board','d3',`Cash ${money(state.finance.cash)}, выручка ${money(state.finance.revenue)}. Я слежу за дебиторкой.`,'employee');
+    addMessageState(state,'board','d4',`Команда ${activeEmployees().length} человек. Средняя мотивация ${Math.round(avg(activeEmployees().map(e=>e.motivation)))}%.`,'employee');
+    addMessageState(state,'board','d5',`По клиентам health в среднем ${Math.round(avg(state.clients.map(c=>c.health)))}%. Есть ${state.clients.filter(c=>c.health<60).length} клиента в зоне внимания.`,'employee');
+    addEvent('🏢','Еженедельная планёрка руководителей','Директора обсудили pipeline, delivery, cash, людей и клиентские риски.','employee','Совет директоров','info');
+  }
+
+  function processEmployeeWorkGeneration(){
+    const day=state.company.day;
+    if(day%3===0){
+      state.employees.filter(e=>e.type==='manager'&&e.status==='active').forEach(m=>{
+        if(m.currentTask)return;
+        if(['sales','bizdev'].includes(m.department) && state.tasks.filter(t=>t.status!=='Done'&&t.ownerId===m.id&&t.dealId).length>3)return;
+        const titles={sales:'Сделать командный follow-up по pipeline',bizdev:'Проверить стратегические возможности партнёрств',engineering:'Обновить технический backlog',qa:'Провести quality review',finance:'Сверить финансовый прогноз',hr:'Обновить кадровый pipeline',operations:'Проверить SLA и операционные отклонения',customer_success:'Провести клиентский health review',marketing:'Проверить входящий спрос и кампании',product:'Обновить продуктовый backlog'};
+        const title=titles[m.department]||'Сделать командный статус';
+        createWorkTask(`${title} · День ${day}`,m.id,null,null,'Normal',3,'management');
+      });
+    }
+    const lowWork=activeEmployees().filter(e=>e.type==='employee'&&!['sales','bizdev'].includes(e.department)&&e.workload<50&&e.currentTask===null);
+    lowWork.sort((a,b)=>state.tasks.filter(t=>t.status!=='Done'&&t.ownerId===a.id).length-state.tasks.filter(t=>t.status!=='Done'&&t.ownerId===b.id).length).slice(0,3).forEach(e=>{
+      const titles={sales:'Провести follow-up по активному клиенту',bizdev:'Найти новый контакт ЛПР',engineering:'Разобрать следующий backlog item',qa:'Провести regression review',finance:'Обновить финансовую сверку',hr:'Обновить кадровый pipeline',operations:'Проверить операционный процесс',customer_success:'Проверить клиента по текущим обязательствам',marketing:'Подготовить новый маркетинговый контакт',product:'Проверить пользовательский feedback'};
+      createWorkTask(`${titles[e.department]||'Рабочая задача'} · День ${day}`,e.id,null,null,'Normal',2,'operations');
+    });
+  }
+
+  function createMonthlyCEOChoice(){
+    const day=state.company.day;
+    if(day<18 || day%30!==18) return;
+    if(!canCreateYearDecision(6)) return;
+    if(state.decisions.filter(d=>d.status==='pending'&&d.yearDecision).length>=4) return;
+    const activeDeals=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).sort((a,b)=>(b.value*b.prob)-(a.value*a.prob));
+    const riskyProject=state.projects.filter(p=>p.status!=='Done').sort((a,b)=>b.risk-a.risk)[0];
+    const riskyClient=state.clients.filter(c=>c.health<62).sort((a,b)=>a.health-b.health)[0];
+    if(riskyProject && riskyProject.risk>48 && !state.decisions.some(d=>d.status==='pending'&&d.projectId===riskyProject.id)) return;
+
+    if(riskyClient){
+      state.world.decisionsCreated=(state.world.decisionsCreated||0)+1;
+      state.world.decisionsCreatedYear=(state.world.decisionsCreatedYear||0)+1;
+      state.world.lastDecisionDay=day;
+      state.decisions.unshift({
+        id:'mcd'+state.company.nextId++,title:`${riskyClient.name} · ежемесячный клиентский выбор`,source:'COO',risk:'client',status:'pending',summary:`Health клиента ${Math.round(riskyClient.health)}%. CEO должен выбрать, сколько ресурса компания готова вложить в удержание клиента.`,
+        options:[['A','Инвестировать в восстановление','monthly_client_invest',1],['B','Предложить коммерческий компромисс','monthly_client_offer',2],['C','Не менять условия','monthly_client_hold',-2]],
+        optionDetails:{A:'Больше затрат и внимания, но выше шанс удержания.',B:'Меньше cash сейчас, но выше вероятность продления.',C:'Расходов нет, но клиентский риск остаётся.'},
+        createdDay:day,dueDay:day+5,yearDecision:true,yearProblem:'monthly_strategy',targetClientId:riskyClient.id
+      });
+      addMessageState(state,'board','d5',`Олег, по ${riskyClient.name} нужен управленческий выбор. Если ничего не делать, health продолжит снижаться.`,'employee');
+      return;
+    }
+
+    const d=activeDeals[0];
+    if(d){
+      const c=client(d.clientId);
+      state.world.decisionsCreated=(state.world.decisionsCreated||0)+1;
+      state.world.decisionsCreatedYear=(state.world.decisionsCreatedYear||0)+1;
+      state.world.lastDecisionDay=day;
+      state.decisions.unshift({
+        id:'mcd'+state.company.nextId++,title:`${c?.name||d.name} · коммерческий приоритет месяца`,source:'Sales Director',risk:'revenue',status:'pending',summary:`Сделка ${d.name} находится на этапе «${stageNames[d.stage]}», ${Math.round(d.prob)}%. CEO выбирает, как компания будет расходовать ресурс на этот клиентский шанс.`,
+        options:[['A','Ускорить сделку','monthly_deal_push',1],['B','Защитить маржу','monthly_deal_margin',0],['C','Не вмешиваться','monthly_deal_hold',-1]],
+        optionDetails:{A:'Нагрузка и расходы выше, но клиент получает больше внимания.',B:'Маржа важнее скорости; возможна задержка.',C:'Команда продолжает текущий план без вмешательства CEO.'},
+        createdDay:day,dueDay:day+5,yearDecision:true,yearProblem:'monthly_strategy',dealId:d.id
+      });
+      addMessageState(state,'board','d1',`Олег, главный коммерческий вопрос месяца — ${c?.name||d.name}. Я подготовил три разных сценария.`,'employee');
+    }
+  }
+
+  function processMonthlyReview(){
+    const day=state.company.day;
+    if(day<30 || day%30!==0 || state.world.lastMonthReview===day)return;
+    state.world.lastMonthReview=day;
+    const month=Math.floor(day/30);
+    const revenueMonth=state.finance.revenue - (state.finance.history.length?state.finance.history[0].revenue:0);
+    addEvent('📊','Месячный финансовый review',`Месяц ${month}: выручка в накопленной истории ${money(revenueMonth)}, cash ${money(state.finance.cash)}, pipeline ${money(state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).reduce((a,d)=>a+d.value,0))}.`,'system','CFO','info');
+    addMessageState(state,'board','d3',`Закрываем месяц. Я подготовил финансовый review: cash ${money(state.finance.cash)}, дебиторка ${money(state.finance.receivables)}.`,'employee');
+    addMessageState(state,'board','d1',`По продажам: выиграно ${state.world.dealsWon} сделок с начала года, в pipeline сейчас ${state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).length}.`,'employee');
+    if(state.company.day%90===0){
+      addMessageState(state,'board','d1',`Квартальный review. За ${Math.round(state.company.day/30)} месяцев компания закрыла ${state.world.dealsWon} сделок, потеряла ${state.world.dealsLost}. Смотрим не только цифры, но и причины.`,'employee');
+      addMessageState(state,'board','d3',`Квартальный finance review: cash ${money(state.finance.cash)}, выручка ${money(state.finance.revenue)}, дебиторка ${money(state.finance.receivables)}.`,'employee');
+      addMessageState(state,'board','d5',`Клиентский review: ${state.clients.filter(c=>c.status!=='lost').length} активных клиентов, средний health ${Math.round(avg(state.clients.map(c=>c.health)))}%.`,'employee');
+    }
+    if(state.finance.cash<12000000 && !state.decisions.some(d=>d.status==='pending'&&d.yearProblem==='cash') && canCreateYearDecision(6)){
+      state.decisions.unshift({id:'monthcash'+state.company.nextId++,title:`Месяц ${month}: пересмотр бюджета`,source:'CFO',risk:'cash',status:'pending',summary:'Cash ниже комфортного уровня. CEO может снизить постоянные расходы, ускорить продажи или принять повышенный риск.',options:[['A','Снизить постоянные расходы','cash_cut',1],['B','Удержать текущий темп','cash_hold',0],['C','Ускорить коммерческие инвестиции','cash_growth',2]],optionDetails:{A:'Стабильность cash, ниже темп роста.',B:'Без резких изменений, но меньше запаса.',C:'Больше затрат сейчас ради роста pipeline.'},createdDay:day,dueDay:day+5,yearDecision:true,yearProblem:'cash'});
+    }
+  }
+
+  function snapshotYear(s=state){
+    const pipeline=s.deals.filter(d=>!['Won','Lost'].includes(d.stage)).reduce((a,d)=>a+d.value*d.prob/100,0);
+    s.finance.history.push({day:s.company.day,revenue:Math.round(s.finance.revenue),cash:Math.round(s.finance.cash),profit:Math.round(s.finance.profit),pipeline:Math.round(pipeline)});
+    if(s.finance.history.length>366)s.finance.history.shift();
+  }
+
+  function recalcYearFinance(s=state){
+    const payroll=s.employees.filter(e=>e.status==='active'&&e.type!=='ceo').reduce((a,e)=>a+e.salary,0);
+    s.finance.payroll=Math.round(payroll);
+    s.finance.profit=Math.round(s.finance.revenue-s.finance.costOfSales-s.finance.operatingExpenses);
+    s.finance.burn=Math.max(0,Math.round(s.finance.operatingExpenses/30));
+    s.company.revenue=s.finance.revenue;
+    s.company.profit=s.finance.profit;
+    s.company.cash=s.finance.cash;
+    updateGoals(s);
+    updateHealth(s);
+  }
+
+  function processYearDayBoundary(){
+    state.tasks.forEach(t=>{if(t.status!=='Done'){t.due=Math.max(-30,(Number(t.due)||0)-1);t.dueDay=Number.isFinite(t.dueDay)?t.dueDay:state.company.day+t.due;}});
+    state.employees.filter(e=>e.type!=='ceo').forEach(e=>e.energy=Math.min(100,e.energy+16));
+    maybeGenerateLead();
+    processDailyStandup();
+    processExecutiveBoard();
+    processEmployeeWorkGeneration();
+    processYearDecisions();
+    processYearClients();
+    processMonthlyReview();
+    createMonthlyCEOChoice();
+    if(state.company.day===365){
+      addMessageState(state,'board','ceo','Конец первого года. Подведите итоги по клиентам, сделкам, команде и cash перед переходом в следующий год.','employee');
+      addEvent('🏁','Год завершён','Компания завершила 365-дневный цикл. История сохранена и компания готова продолжить работу.','system','Система','good');
+    }
+    snapshotYear(state);
+    addEvent('🌅','Начался новый день',`День ${state.company.day}: ${state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).length} активных сделок, ${state.projects.filter(p=>p.status!=='Done').length} активных проектов, cash ${money(state.finance.cash)}.`,'system','Система','info');
+  }
+
+  function yearTickHour(){
+    state.company.minute += 60;
+    while(state.company.minute>=60){
+      state.company.minute-=60;
+      state.company.hour++;
+    }
+    if(state.company.hour>=24){
+      state.company.hour=0;
+      state.company.day++;
+      processYearDayBoundary();
+    }
+    processYearPeople();
+    processYearTasks();
+    processYearDeals();
+    processYearProjects();
+    processYearContracts();
+    processYearFinance();
+    recalcYearFinance(state);
+    if(state.company.hour===10 || state.company.hour===15){
+      const active=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).sort((a,b)=>(b.value*b.prob)-(a.value*a.prob)).filter(d=>state.company.day-(d.lastMessageDay||0)>=2).slice(0,5);
+      active.forEach((d,idx)=>{
+        const o=dealOwner(d);if(!o)return;
+        const manager=dealManager(d);
+        d.lastMessageDay=state.company.day;
+        const c=client(d.clientId);
+        sayInDeal(d,o.id,`Статус по ${c?.name||'клиенту'}: «${stageNames[d.stage]}», ${Math.round(d.prob)}%. ${d.issue?`Есть вопрос: ${d.issue.title.toLowerCase()}.`:`Следующий шаг — ${d.next||'контакт с клиентом'}.`}`);
+        if(manager && idx%2===0) sayInDeal(d,manager.id,`Вижу апдейт. Что конкретно мешает нам перейти к следующему шагу? Давайте не оставлять это до завтра.`);
+      });
+    }
+    if(state.company.hour===17 && state.company.minute===0 && isWorkday(state.company.day)){
+      addMessageState(state,'board','d5',`Конец дня ${state.company.day}. Если по клиенту есть незакрытая проблема, поднимаем её сейчас, а не переносим молча.`,'employee');
+    }
+    save();
+  }
+
+  function startYearTimer(){
+    state.company.running=true;
+    save();
+    clearInterval(simulationTimer);
+    simulationTimer=setInterval(()=>{
+      for(let i=0;i<speed;i++)yearTickHour();
+      renderTop();
+      const active=document.activeElement;
+      const editing=active&&['INPUT','TEXTAREA','SELECT'].includes(active.tagName);
+      if(currentPage==='messenger'){if(!editing)refreshChatMessages();}
+      else if(!editing)renderPage();
+    },3500);
+    updateTopbar();
+  }
+
+  window.runAutonomousAI = function(){ return Promise.resolve(); };
+  window.startTimer = startYearTimer;
+  window.stopTimer = function(){state.company.running=false;clearInterval(simulationTimer);simulationTimer=null;save();updateTopbar();};
+  window.advanceDayManual = function(){for(let i=0;i<24;i++)yearTickHour();go('dashboard');};
+  window.resetCompany = function(){if(!confirm('Сбросить компанию и начать новый год с Дня 1?'))return;state=createYearSeed();selectedChat='board';currentPage='dashboard';save();window.stopTimer();render();toast('Новый год компании начат','good');};
+  window.tickHour = yearTickHour;
+  tickHour = yearTickHour;
+
+  window.resolveDecision = function(id,choice){
+    const d=state.decisions.find(x=>x.id===id);if(!d||d.status!=='pending')return;
+    if(d.yearDecision){
+      d.status='resolved';
+      d.resolution=choice;
+      if(d.dealId){applyYearDecision(d,choice);}
+      else if(d.projectId){
+        const p=project(d.projectId);
+        if(p){
+          if(choice==='A'){p.risk=Math.max(5,p.risk-18);const t=techOwners().sort((a,b)=>a.workload-b.workload).slice(0,2);t.forEach(e=>e.workload=Math.min(100,e.workload+6));state.finance.cash=Math.max(0,state.finance.cash-450000);}
+          if(choice==='B'){p.risk=Math.max(5,p.risk-10);p.deadline=Math.min(p.deadline+7,p.deadline+14);}
+          if(choice==='C'){p.risk=Math.min(95,p.risk+8);}
+          addMessageState(state,'tech-room','d2',`CEO выбрал ${choice} по ${p.name}. Изменения внесены в план.`,'employee');
+        }
+      } else if(d.yearProblem==='cash'){
+        if(choice==='cash_cut' || choice==='A'){state.finance.operatingExpenses=Math.max(0,state.finance.operatingExpenses-700000);addMessageState(state,'board','d3','CEO выбрал сокращение постоянных расходов. Я обновляю бюджет.','employee');}
+        else if(choice==='cash_collect' || choice==='B'){state.finance.cash+=Math.min(state.finance.receivables*0.18,2000000);state.finance.receivables=Math.max(0,state.finance.receivables-2000000);addMessageState(state,'board','d3','CEO ускорил сбор дебиторки. Cash должен восстановиться быстрее.','employee');}
+        else {state.finance.cash=Math.max(0,state.finance.cash);addMessageState(state,'board','d3','CEO сохранил текущий план и принял повышенный cash-риск.','employee');}
+      } else if(d.yearProblem==='monthly_strategy'){
+        const target=d.dealId?deal(d.dealId):null;
+        const targetClient=d.targetClientId?client(d.targetClientId):(target?client(target.clientId):null);
+        if(choice==='monthly_deal_push' && target){
+          target.prob=Math.min(95,target.prob+6);target.nextActionDay=state.company.day+1;
+          state.finance.cash-=250000;state.finance.operatingExpenses+=250000;
+          createWorkTask(`Ускорить работу по ${target.name}`,dealOwner(target)?.id||'d1',target.id,null,'High',3,'decision-followup');
+          sayInDeal(target,'d1','CEO выбрал ускорение. Делаем больше контактов и не ждём следующего цикла.');
+        } else if(choice==='monthly_deal_margin' && target){
+          target.marginRate=Math.min(.5,target.marginRate+.025);target.margin=target.value*target.marginRate;target.prob=Math.max(5,target.prob-2);
+          sayInDeal(target,'d1','CEO выбрал защиту маржи. Скорость сделки не приоритет номер один.');
+        } else if(choice==='monthly_deal_hold' && target){
+          target.nextActionDay=Math.max(target.nextActionDay,state.company.day+2);
+          sayInDeal(target,'d1','CEO не вмешался. Команда продолжает текущий план.');
+        } else if(choice==='monthly_client_invest' && targetClient){
+          state.finance.cash-=500000;state.finance.operatingExpenses+=500000;targetClient.health=Math.min(100,targetClient.health+10);
+          createWorkTask(`План восстановления клиента ${targetClient.name}`,chooseLeastLoaded(customerOwners())?.id||'m8',null,null,'High',3,'client-recovery');
+          addMessageState(state,'ops-room','m8',`CEO выделил ресурс на восстановление ${targetClient.name}. Я беру контроль на себя.`,'employee');
+        } else if(choice==='monthly_client_offer' && targetClient){
+          targetClient.health=Math.min(100,targetClient.health+6);
+          if(target){target.prob=Math.min(95,target.prob+4);target.marginRate=Math.max(.15,target.marginRate-.025);target.margin=target.value*target.marginRate;}
+          addMessageState(state,'ops-room','m8',`CEO выбрал коммерческий компромисс по ${targetClient.name}. Синхронизирую Sales и Customer Success.`,'employee');
+        } else if(choice==='monthly_client_hold' && targetClient){
+          targetClient.health=Math.max(30,targetClient.health-3);
+          addMessageState(state,'ops-room','m8',`CEO оставил условия без изменений по ${targetClient.name}. Мы продолжаем работать в текущей модели.`,'employee');
+        }
+      }
+      state.employees.filter(e=>e.type==='director').forEach(e=>remember(e,'CEO принял решение по компании: '+d.title));
+      addEvent('⚖','Решение CEO',`${d.title}: выбран вариант ${choice}.`,'decision','CEO','good');
+      recalcYearFinance(state);save();renderPage();toast('Решение применено','good');
+      return;
+    }
+    // fallback to legacy decision resolver for old seed decisions
+    const oldResolver = window.__legacyResolveDecision;
+    if(oldResolver) oldResolver(id,choice);
+  };
+
+  // Keep a safe legacy resolver for the old non-year seed decisions.
+  if(!window.__legacyResolveDecision){
+    window.__legacyResolveDecision=function(id,choice){
+      const d=state.decisions.find(x=>x.id===id);if(!d||d.status!=='pending')return;const opt=d.options.find(x=>x[0]===choice);d.status='resolved';d.resolution=opt?opt[1]:'Решено';addEvent('⚖','Решение CEO',`${d.title}: ${d.resolution}.`,'decision','CEO','good');save();renderPage();toast('Решение применено','good');
+    };
+  }
+
+  window.renderDecisions = function(){
+    const pending=state.decisions.filter(d=>d.status==='pending');
+    const resolved=state.decisions.filter(d=>d.status!=='pending').slice(0,12);
+    return `<div class="card" style="margin-bottom:12px"><div class="section-title" style="margin:0">Центр решений CEO</div><div class="notice">Здесь не нужно просто нажать «решить». Выбирай между вариантами с разными последствиями. Если решение отложить, ситуация может измениться сама.</div></div><div class="decision-list">${pending.map(d=>yearDecisionCard(d)).join('')||'<div class="empty">Нет решений, ожидающих CEO.</div>'}</div><div class="section-title">История решений</div><div class="decision-list">${resolved.map(d=>yearDecisionCard(d,false)).join('')||'<div class="empty">Пока нет закрытых решений.</div>'}</div>`;
+  };
+
+  function yearDecisionCard(d,pending=d.status==='pending'){
+    const due=pending&&d.dueDay?` · срок до дня ${d.dueDay}`:'';
+    const opts=(d.options||[]).map(o=>{const detail=d.optionDetails?.[o[0]]||'';return `<div class="card" style="padding:9px;margin-top:7px;background:#0b1725"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><b>${esc(o[0])}. ${esc(o[1])}</b><div class="small muted" style="margin-top:3px">${esc(detail)}</div></div><button class="btn ${o[0]==='A'?'primary':o[0]==='B'?'success':'warn'}" onclick="resolveDecision('${d.id}','${o[0]}')">Выбрать</button></div></div>`}).join('');
+    return `<div class="decision"><div class="decision-head"><div><h3>${esc(d.title)}</h3><div class="small muted">Источник: ${esc(d.source)} · риск: ${esc(d.risk)}${due}</div></div><span class="badge ${pending?'yellow':'green'}">${pending?'Ждёт CEO':'Закрыто'}</span></div><p>${esc(d.summary)}</p>${pending?`<div>${opts}</div>`:`<div class="small muted">Решение: ${esc(d.resolution||'—')}</div>`}</div>`;
+  }
+
+  window.renderCRM = function(){
+    const all=state.deals.filter(d=>dealFilter==='all'||d.stage===dealFilter);
+    const open=state.deals.filter(d=>!['Won','Lost'].includes(d.stage));
+    const pipeline=open.reduce((a,d)=>a+d.value,0);
+    const weighted=open.reduce((a,d)=>a+d.value*d.prob/100,0);
+    return `<div class="toolbar"><select onchange="dealFilter=this.value;renderPage()"><option value="all">Все стадии</option>${stages.map(s=>`<option value="${s}" ${dealFilter===s?'selected':''}>${stageNames[s]}</option>`).join('')}</select><button class="btn" onclick="openCRMAnalytics()">Аналитика</button></div><div class="card" style="margin-bottom:10px"><div class="grid triple"><div><span class="small muted">Активный pipeline</span><div style="font-size:17px;font-weight:900">${money(pipeline)}</div></div><div><span class="small muted">Взвешенный pipeline</span><div style="font-size:17px;font-weight:900">${money(weighted)}</div></div><div><span class="small muted">Закрыто за год</span><div style="font-size:17px;font-weight:900">${state.world.dealsWon} выиграно · ${state.world.dealsLost} потеряно</div></div></div></div><div class="crm-board">${stages.map(s=>`<div class="crm-col"><h3><span>${stageNames[s]}</span><span class="badge">${state.deals.filter(d=>d.stage===s).length}</span></h3>${all.filter(d=>d.stage===s).map(yearDealCard).join('')||'<div class="empty">Пусто</div>'}</div>`).join('')}</div>`;
+  };
+
+  function yearDealCard(d){
+    const c=client(d.clientId),o=employee(d.ownerId);
+    const issue=d.issue?`<div class="badge red" style="margin-top:6px">⚠ ${esc(d.issue.title)}</div>`:'';
+    return `<div class="deal" onclick="openDeal('${d.id}')"><div class="deal-name">${esc(d.name)}</div><div class="deal-client">${esc(c?.name||'—')}</div><div class="deal-value">${moneyShort(d.value)} ₸</div><div class="deal-meta"><span>${esc(o?.name||'—')}</span><span>${Math.round(d.prob)}%</span></div><div class="progress" style="margin-top:6px"><span style="width:${Math.max(0,Math.min(100,d.prob))}%"></span></div><div class="small muted" style="margin-top:6px">Следующий шаг: ${esc(d.next||'—')}</div>${issue}</div>`;
+  }
+
+  window.renderCRM = function(){
+    const search=(window.crmSearchTerm||'').toLowerCase();
+    const filter=dealFilter||'all';
+    const matches=d=>{
+      const hay=[d.name,client(d.clientId)?.name,employee(d.ownerId)?.name].join(' ').toLowerCase();
+      return (!search||hay.includes(search))&&(filter==='all'||d.stage===filter);
+    };
+    const open=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).filter(matches);
+    const closed=state.deals.filter(d=>['Won','Lost'].includes(d.stage)).filter(matches).sort((a,b)=>(b.closedDay||0)-(a.closedDay||0)).slice(0,30);
+    const pipeline=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).reduce((a,d)=>a+d.value,0);
+    const weighted=state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).reduce((a,d)=>a+d.value*d.prob/100,0);
+    return `<div class="toolbar"><input value="${escAttr(window.crmSearchTerm||'')}" placeholder="Поиск клиента, сделки или ответственного…" oninput="window.crmSearchTerm=this.value;renderPage()"><select onchange="dealFilter=this.value;renderPage()"><option value="all">Все активные</option>${stages.filter(s=>!['Won','Lost'].includes(s)).map(s=>`<option value="${s}" ${filter===s?'selected':''}>${stageNames[s]}</option>`).join('')}</select></div><div class="card" style="margin-bottom:10px"><div class="grid triple"><div><span class="small muted">Активный pipeline</span><div style="font-size:17px;font-weight:900">${money(pipeline)}</div></div><div><span class="small muted">Взвешенный pipeline</span><div style="font-size:17px;font-weight:900">${money(weighted)}</div></div><div><span class="small muted">За год</span><div style="font-size:17px;font-weight:900">${state.world.dealsWon} выиграно · ${state.world.dealsLost} потеряно</div></div></div></div><div class="crm-board">${stages.filter(s=>!['Won','Lost'].includes(s)).map(s=>`<div class="crm-col"><h3><span>${stageNames[s]}</span><span class="badge">${open.filter(d=>d.stage===s).length}</span></h3>${open.filter(d=>d.stage===s).map(yearDealCard).join('')||'<div class="empty">Пусто</div>'}</div>`).join('')}</div><div class="section-title">Последние закрытые сделки</div><div class="card"><div class="table-wrap"><table class="table"><tr><th>Сделка</th><th>Клиент</th><th>Ответственный</th><th>Результат</th><th>День</th><th>Сумма</th></tr>${closed.map(d=>`<tr onclick="openDeal('${d.id}')" style="cursor:pointer"><td>${esc(d.name)}</td><td>${esc(client(d.clientId)?.name||'—')}</td><td>${esc(employee(d.ownerId)?.name||'—')}</td><td><span class="badge ${d.stage==='Won'?'green':'red'}">${d.stage==='Won'?'Выиграна':'Потеряна'}</span></td><td>${d.closedDay||'—'}</td><td>${money(d.value)}</td></tr>`).join('')||'<tr><td colspan="6">Закрытых сделок пока нет.</td></tr>'}</table></div></div>`;
+  };
+
+  window.openDeal = function(id){
+    const d=deal(id);if(!d)return;const c=client(d.clientId),o=employee(d.ownerId),room=ensureDealRoom(d);
+    openModal(d.name,`<div class="grid split2"><div class="card"><div class="kv"><span>Клиент</span><b>${esc(c?.name||'—')}</b></div><div class="kv"><span>Ответственный</span><b>${esc(o?.name||'—')}</b></div><div class="kv"><span>Этап</span><b>${stageNames[d.stage]}</b></div><div class="kv"><span>Стоимость</span><b>${money(d.value)}</b></div><div class="kv"><span>Вероятность</span><b>${Math.round(d.prob)}%</b></div><div class="kv"><span>Маржа</span><b>${money(d.margin)}</b></div><div class="kv"><span>Следующий шаг</span><b>${esc(d.next||'—')}</b></div><div class="kv"><span>Дней в этапе</span><b>${state.company.day-(d.stageStartedDay||d.createdDay||state.company.day)}</b></div></div><div class="card"><div class="section-title" style="margin:0 0 8px">История работы</div><div class="timeline">${d.history.slice(0,14).map(h=>`<div class="timeline-item">День ${h.day}<br>${esc(h.text)}</div>`).join('')}</div>${d.issue?`<div class="section-title">Текущая проблема</div><div class="notice"><b>${esc(d.issue.title)}</b><br>${esc(d.issue.summary)}</div>`:''}</div></div><div class="card" style="margin-top:10px"><div class="section-title" style="margin:0 0 8px">Внутренняя работа по клиенту</div><div class="small muted">Участники: ${room.participants.map(employee).filter(Boolean).map(e=>e.name).join(', ')}</div><div class="timeline" style="margin-top:8px">${room.messages.slice(-10).reverse().map(m=>`<div class="timeline-item"><b>${esc(employee(m.author)?.name||'Олег Ким')}</b> · День ${m.day} ${m.time}<br>${esc(m.text)}</div>`).join('')}</div></div><div class="actions" style="margin-top:12px"><button class="btn primary" onclick="selectedChat='${room.id}';closeModal();go('messenger')">Открыть чат клиента</button></div>`);
+  };
+
+  window.renderFinance = function(){
+    recalcYearFinance(state,false);
+    const margin=state.finance.revenue?Math.round(state.finance.profit/state.finance.revenue*100):0;
+    const hist=state.finance.history.slice(-30);
+    const last=state.finance.history.slice(-1)[0];
+    return `<div class="finance-grid">${metric('Денежные средства',money(state.finance.cash))}${metric('Накопленная выручка',money(state.finance.revenue))}${metric('Себестоимость',money(state.finance.costOfSales))}${metric('Операционные расходы',money(state.finance.operatingExpenses))}${metric('Накопленная прибыль',money(state.finance.profit))}${metric('Маржа',margin+'%')}${metric('ФОТ / месяц',money(state.finance.payroll))}${metric('Дебиторка',money(state.finance.receivables))}</div><div class="grid split" style="margin-top:12px"><div class="card"><div class="section-title" style="margin:0">Последние 30 дней</div><div class="table-wrap"><table class="table"><tr><th>День</th><th>Выручка</th><th>Cash</th><th>Прибыль</th><th>Pipeline</th></tr>${hist.map(h=>`<tr><td>${h.day}</td><td>${money(h.revenue)}</td><td>${money(h.cash)}</td><td>${money(h.profit)}</td><td>${money(h.pipeline)}</td></tr>`).join('')}</table></div></div><div class="card"><div class="section-title" style="margin:0">Годовой итог</div><div class="notice">Год: ${yearOfDay(state.company.day)} · Месяц: ${monthOfDay(state.company.day)} · День: ${state.company.day}</div><div class="notice" style="margin-top:8px">Новые лиды: <b>${state.world.leadsCreated}</b><br>Выиграно: <b>${state.world.dealsWon}</b><br>Потеряно: <b>${state.world.dealsLost}</b><br>Просрочено решений: <b>${state.world.decisionsExpired}</b></div><div class="notice" style="margin-top:8px">Recurring revenue / день: <b>${money(state.world.recurringRevenueDaily)}</b><br>Контрактов активно: <b>${state.world.contracts.filter(x=>x.active).length}</b></div></div></div><div class="section-title">Финансовая структура</div><div class="grid split"><div class="card"><div class="grid" style="gap:8px">${[['Выручка',state.finance.revenue],['Себестоимость',-state.finance.costOfSales],['ФОТ',-state.finance.payroll],['Прочие расходы',-(Math.max(0,state.finance.operatingExpenses-state.finance.payroll))],['Прибыль',state.finance.profit]].map(x=>`<div style="display:flex;justify-content:space-between;font-size:11px"><span>${x[0]}</span><b class="${x[1]<0?'danger-text':'good-text'}">${money(x[1])}</b></div>`).join('')}</div></div><div class="card"><div class="section-title" style="margin:0 0 8px">Что двигает деньги</div><div class="notice">Новая сделка → контракт → регулярная выручка → дебиторка → поступление cash.<br><br>Чем больше проектов и людей, тем выше расходная часть. Проблемы клиентов могут снижать будущую выручку.</div></div></div>`;
+  };
+
+  window.renderSettings = function(){
+    return `<div class="grid split"><div class="card"><div class="section-title" style="margin:0">Управление симуляцией</div><p class="small muted">Годовой режим работает непрерывно: новые лиды, сделки, проекты, задачи, планёрки, проблемы клиентов и финансовые изменения возникают по ходу времени.</p><div class="actions"><button class="btn ${state.company.running?'warn':'success'}" onclick="state.company.running?stopTimer():startTimer()">${state.company.running?'Пауза':'Запустить'} симуляцию</button><button class="btn" onclick="advanceDayManual()">Следующий день</button></div><div class="section-title">Скорость</div><div class="actions"><button class="btn ${speed===1?'primary':''}" onclick="setSpeed(1)">×1</button><button class="btn ${speed===2?'primary':''}" onclick="setSpeed(2)">×2</button><button class="btn ${speed===5?'primary':''}" onclick="setSpeed(5)">×5</button></div></div><div class="card"><div class="section-title" style="margin:0">Данные и безопасность</div><div class="notice">36 сотрудников · ${state.departments.length} отделов · ${state.clients.length} клиентов · ${state.deals.length} сделок в истории · ${state.projects.length} проектов · ${state.tasks.length} задач</div><div class="notice" style="margin-top:8px">Годовой движок: <b>v${YEAR_ENGINE_VERSION}</b><br>Текущее состояние: день ${state.company.day} · ${timeLabel()}</div><div class="actions" style="margin-top:10px"><button class="btn" onclick="exportState()">Экспорт JSON</button><button class="btn danger" onclick="resetCompany()">Сбросить и начать новый год</button></div></div></div><div class="card" style="margin-top:12px"><div class="section-title" style="margin:0">Как должен работать симулятор</div><div class="notice">Лиды поступают регулярно. У каждой сделки есть ответственный. Выполнение задач двигает этапы. По клиентам появляются проблемы. Сотрудники обсуждают эти проблемы на планёрках и в рабочих чатах. Часть ситуаций приходит к CEO как решение с несколькими вариантами последствий. Финансы меняются от контрактов, проектов, зарплат, расходов и дебиторки.</div></div>`;
+  };
+
+  nowLabel = function(){ return `Год ${yearOfDay(state.company.day)} · День ${state.company.day} · ${String(state.company.hour).padStart(2,'0')}:${String(state.company.minute).padStart(2,'0')}`; };
+  window.nowLabel = nowLabel;
+
+  addEvent = function(icon,title,text,category='system',actor='CEO',severity='info'){
+    state.events.unshift({id:'ev'+state.company.nextId++,day:state.company.day,hour:state.company.hour,minute:state.company.minute,icon,title,text,category,actor,severity});
+    state.events=state.events.slice(0,1500);
+  };
+  window.addEvent = addEvent;
+
+  // Начальная миграция текущего состояния без потери данных.
+  ensureWorldState(state);
+  if(!state.world.migratedToYearEngine){
+    state.world.migratedToYearEngine=true;
+    state.finance.history=Array.isArray(state.finance.history)?state.finance.history.slice(-366):[];
+    state.settings.aiEnabled=false;
+    state.settings.aiAutonomy=false;
+    save();
+  }
+
+  // При открытом Messenger сохраняем нормальную прокрутку, но не перерисовываем историю при вводе.
+  const style=document.createElement('style');
+  style.textContent='.messages{min-height:0;overflow-y:auto;overflow-x:hidden}.chat-window{min-height:0}.chat-input{position:relative;flex:0 0 auto}.deal .badge.red{display:block;white-space:normal}.decision .card{border-color:var(--border)}';
+  document.head.appendChild(style);
+
+  if(currentPage==='settings') renderPage();
+  else render();
+
+  // Тестовый режим: ?yearTest=1 автоматически прогоняет 365 дней без UI-ожидания.
+  window.runYearTest=function(days=365){
+    const realSave=save;
+    save=function(){};
+    try{
+      state=createYearSeed();
+      for(let i=0;i<days*24;i++) yearTickHour();
+    } finally {
+      save=realSave;
+    }
+    const activeDeals=state.deals.filter(d=>!['Won','Lost'].includes(d.stage));
+    const minCash=Math.min(...state.finance.history.map(h=>h.cash));
+    const openTasks=state.tasks.filter(t=>t.status!=='Done');
+    const report={day:state.company.day,hour:state.company.hour,employees:activeEmployees().length,clients:state.clients.length,deals:state.deals.length,activeDeals:activeDeals.length,won:state.world.dealsWon,lost:state.world.dealsLost,leads:state.world.leadsCreated,projects:state.projects.length,activeProjects:state.projects.filter(p=>p.status!=='Done').length,tasks:state.tasks.length,openTasks:openTasks.length,decisions:state.decisions.filter(d=>d.status==='pending').length,decisionsCreated:state.world.decisionsCreated||0,decisionsExpired:state.world.decisionsExpired||0,minCash:Math.round(minCash),events:state.events.length,chats:state.chats.length,messages:state.chats.reduce((a,c)=>a+c.messages.length,0),revenue:Math.round(state.finance.revenue),cash:Math.round(state.finance.cash),profit:Math.round(state.finance.profit),receivables:Math.round(state.finance.receivables),recurringDaily:Math.round(state.world.recurringRevenueDaily),avgKpi:Math.round(avg(activeEmployees().filter(e=>e.type!=='ceo').map(e=>e.kpi))),avgMotivation:Math.round(avg(activeEmployees().filter(e=>e.type!=='ceo').map(e=>e.motivation))),stageCounts:Object.fromEntries(stages.map(x=>[x,state.deals.filter(d=>d.stage===x).length])),sampleDeals:state.deals.slice(0,5).map(d=>({id:d.id,stage:d.stage,prob:Math.round(d.prob),next:d.next,stageDay:d.stageStartedDay,issue:!!d.issue})),finite:[state.finance.revenue,state.finance.cash,state.finance.profit].every(Number.isFinite)};
+    return report;
+  };
+
+  if(location.search.includes('yearTest=1')){
+    setTimeout(()=>{
+      const report=window.runYearTest(365);
+      document.body.innerHTML='<pre style="white-space:pre-wrap;font:14px monospace;padding:20px">'+esc(JSON.stringify(report,null,2))+'</pre>';
+      setTimeout(()=>window.close(),100);
+    },0);
+  }
+
+})();
+</script>
+
 </body>
 </html>
