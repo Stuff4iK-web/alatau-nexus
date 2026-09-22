@@ -6,7 +6,13 @@
 <title>Alatau Nexus — Система управления компанией</title>
 <style>
 :root{--bg:#07111d;--panel:#0d1928;--panel2:#122237;--panel3:#172b43;--border:#263c56;--text:#edf5ff;--muted:#90a4be;--blue:#5aa0ff;--green:#38d39f;--yellow:#f6c85f;--red:#ff6d78;--purple:#a486ff;--cyan:#50d7ff;--shadow:0 16px 50px rgba(0,0,0,.28)}
-*{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);overflow:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{height:100vh;display:flex}.sidebar{width:250px;flex:0 0 250px;background:#08121e;border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 12px}.brand{padding:6px 12px 18px}.brand h1{margin:0;font-size:19px}.brand h1 span{color:var(--blue)}.brand p{margin:5px 0 0;color:var(--muted);font-size:10px}.nav{display:flex;flex-direction:column;gap:4px;overflow:auto}.nav button{border:0;background:transparent;color:#9db0c7;border-radius:9px;padding:10px 12px;text-align:left;font-size:12px}.nav button:hover{background:#122236;color:white}.nav button.active{background:#173458;color:white;box-shadow:inset 0 0 0 1px #295783}.nav .label{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#657b96;padding:14px 12px 5px}.sidebar-bottom{margin-top:auto;padding:12px;border-top:1px solid var(--border)}.mini{display:flex;gap:10px;align-items:center}.avatar{width:38px;height:38px;border-radius:50%;background:#1a3557;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}.avatar.small{width:30px;height:30px;font-size:10px}.mini b{font-size:12px;display:block}.mini span{font-size:10px;color:var(--muted)}.main{min-width:0;flex:1;display:flex;flex-direction:column}.topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--border);background:#091522}.title{font-size:17px;font-weight:800}.subtitle{font-size:10px;color:var(--muted);margin-top:2px}.top-actions{display:flex;align-items:center;gap:8px}.pill{border:1px solid var(--border);background:#0f1e30;padding:7px 10px;border-radius:8px;font-size:11px;color:#cbd9eb}.run{border:1px solid #1b6a52;background:#0e3a2d;color:#5fe4b3;border-radius:8px;padding:8px 12px;font-weight:800}.run.paused{background:#3d3218;border-color:#63531e;color:#ffe083}.speed{display:flex;gap:3px}.speed button{border:1px solid var(--border);background:#101d2d;color:#a8bad0;padding:7px 8px;border-radius:6px}.speed button.active{background:#1a3351;color:white;border-color:#3c6187}.content{flex:1;overflow:auto;padding:18px}.grid{display:grid;gap:12px}.stats{grid-template-columns:repeat(7,minmax(120px,1fr))}.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 8px 20px rgba(0,0,0,.08)}.stat .label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.stat .value{font-size:22px;font-weight:900;margin-top:6px}.stat .sub{font-size:10px;color:var(--muted);margin-top:3px}.split{grid-template-columns:1.4fr .9fr}.split2{grid-template-columns:1fr 1fr}.triple{grid-template-columns:repeat(3,1fr)}.section-title{font-size:14px;font-weight:800;margin:20px 0 9px}.briefing{background:linear-gradient(135deg,#102742,#0e1827);border-color:#2c5277}.briefing h2{margin:0 0 6px;font-size:15px}.briefing p{margin:5px 0;color:#bccbde;font-size:12px}.brief-list{display:grid;gap:7px;margin-top:11px}.brief-item{display:flex;gap:8px;font-size:11px;align-items:flex-start}.dot{width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:5px;flex:0 0 6px}.toolbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:11px}.toolbar input,.toolbar select,.field input,.field select,.field textarea,.chat-input input{background:#0b1725;border:1px solid var(--border);color:white;border-radius:8px;padding:8px 10px;outline:none}.toolbar input{min-width:180px}.btn{border:1px solid var(--border);background:#13243a;color:white;border-radius:7px;padding:7px 10px;font-size:11px}.btn:hover{background:#1a304d}.btn.primary{background:var(--blue);border-color:var(--blue);color:#04101d;font-weight:800}.btn.success{background:#12382d;border-color:#1c624d;color:#66e7b6}.btn.danger{background:#421c24;border-color:#6f2b37;color:#ff9aa4}.btn.warn{background:#3e3116;border-color:#65521d;color:#ffe18a}.btn.ghost{background:transparent}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:9px 8px;border-bottom:1px solid var(--border);text-align:left;font-size:11px;white-space:nowrap}.table th{color:var(--muted);font-weight:600}.row-actions{display:flex;gap:5px;flex-wrap:wrap}.badge{display:inline-flex;align-items:center;padding:4px 7px;border-radius:999px;background:#182b42;color:#bfd1e8;font-size:9px;font-weight:800}.badge.green{background:#12372d;color:#63e6b1}.badge.red{background:#411c25;color:#ff9ca5}.badge.yellow{background:#3c3118;color:#ffe08a}.badge.blue{background:#153052;color:#82bbff}.badge.purple{background:#2a2148;color:#c0adff}.muted{color:var(--muted)}.small{font-size:10px}.progress{height:7px;background:#1a2b40;border-radius:999px;overflow:hidden}.progress>span{display:block;height:100%;background:var(--blue)}.progress.green>span{background:var(--green)}.progress.red>span{background:var(--red)}.progress.yellow>span{background:var(--yellow)}.feed{display:flex;flex-direction:column;gap:7px;max-height:380px;overflow:auto}.feed-item{display:flex;gap:9px;padding:9px;background:var(--panel2);border:1px solid var(--border);border-radius:9px}.feed-icon{width:28px;height:28px;border-radius:7px;background:#192d46;display:flex;align-items:center;justify-content:center;flex:0 0 28px}.feed-main{min-width:0;flex:1}.feed-title{font-weight:800;font-size:11px}.feed-text{margin-top:3px;font-size:10px;color:#9db0c8;line-height:1.35}.feed-time{font-size:9px;color:#68809d;white-space:nowrap}.employee-grid{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:10px}.emp{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:11px}.emp-head{display:flex;gap:9px;align-items:center}.emp-name{font-size:12px;font-weight:800}.emp-role{font-size:10px;color:var(--muted);margin-top:2px}.emp-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.meta{background:#0e1b2a;padding:7px;border-radius:7px}.meta span{display:block;color:var(--muted);font-size:8px}.meta b{font-size:11px}.emp-actions{display:flex;gap:5px;margin-top:9px}.emp-actions .btn{flex:1}.org{overflow:auto;padding-bottom:16px}.org-ceo{margin:auto;max-width:360px;background:#123459;border:1px solid #396793;border-radius:12px;padding:15px;text-align:center;cursor:pointer}.org-line{width:2px;height:18px;background:#2b4663;margin:auto}.director-row{display:grid;grid-template-columns:repeat(5,minmax(180px,1fr));gap:8px;min-width:1000px}.director-card{background:#122337;border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer}.director-card:hover{border-color:#4a719e}.dept-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.dept-card{background:#0d1a29;border:1px solid var(--border);border-radius:9px;padding:9px}.dept-head{display:flex;justify-content:space-between;align-items:center}.dept-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.person-chip{padding:4px 7px;border-radius:999px;background:#172a41;color:#c4d5e9;font-size:9px}.crm-board{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:8px;overflow:auto}.crm-col{background:#0b1725;border:1px solid var(--border);border-radius:10px;padding:8px}.crm-col h3{font-size:10px;margin:0 0 8px;display:flex;justify-content:space-between}.deal{background:#122236;border:1px solid var(--border);border-radius:8px;padding:9px;margin-bottom:7px;cursor:pointer}.deal:hover{border-color:#476f9d}.deal-name{font-size:11px;font-weight:800}.deal-client{font-size:9px;color:var(--muted);margin-top:2px}.deal-value{font-size:13px;font-weight:900;margin-top:7px}.deal-meta{display:flex;justify-content:space-between;margin-top:6px;font-size:9px;color:#8eacd0}.pipeline-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;background:#142238}.pipeline-bar span{display:block}.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.project{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:11px}.project h3{font-size:12px;margin:0}.project .line{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin:7px 0}.task-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.task-col{background:#0b1725;border:1px solid var(--border);border-radius:10px;padding:8px}.task-col h3{font-size:10px;margin:0 0 8px}.task{background:#122236;border:1px solid var(--border);border-radius:8px;padding:9px;margin-bottom:7px}.task-title{font-size:11px;font-weight:800}.task-meta{font-size:9px;color:var(--muted);margin-top:5px}.finance-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.metric{background:#0d1a29;border:1px solid var(--border);border-radius:9px;padding:10px}.metric span{display:block;color:var(--muted);font-size:9px}.metric b{display:block;font-size:15px;margin-top:4px}.goal{display:grid;grid-template-columns:1fr 130px 70px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}.messenger{height:calc(100vh - 100px);min-height:520px;display:grid;grid-template-columns:260px 1fr 250px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--panel)}.chat-list{background:#0a1523;border-right:1px solid var(--border);overflow:auto}.chat-list-head{padding:12px;border-bottom:1px solid var(--border);font-weight:800;font-size:11px}.chat-item{padding:10px 11px;border-bottom:1px solid #16263a;cursor:pointer}.chat-item:hover,.chat-item.active{background:#13253c}.chat-item strong{display:block;font-size:11px}.chat-item p{margin:3px 0 0;color:var(--muted);font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat-window{min-width:0;display:flex;flex-direction:column}.chat-head{height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;padding:0 12px}.chat-head b{font-size:11px}.chat-head span{display:block;font-size:9px;color:var(--muted)}.messages{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:7px;background:#091521}.msg{max-width:78%;align-self:flex-start}.msg.mine{align-self:flex-end}.msg-author{font-size:8px;color:#79b2f8;margin:0 0 2px 4px}.bubble{background:#14253a;border:1px solid #1e3854;border-radius:10px;padding:8px 9px;font-size:11px;line-height:1.4}.msg.mine .bubble{background:#163957;border-color:#225579}.msg-time{font-size:8px;color:#617995;margin-top:2px;text-align:right}.chat-input{border-top:1px solid var(--border);padding:9px;display:flex;gap:7px}.chat-input input{flex:1}.chat-context{background:#0a1523;border-left:1px solid var(--border);padding:12px;overflow:auto}.context-title{font-size:10px;font-weight:800;margin-bottom:8px}.context-block{padding:9px 0;border-bottom:1px solid var(--border)}.context-label{font-size:8px;color:var(--muted)}.context-value{font-size:10px;margin-top:3px;line-height:1.4}.decision-list{display:grid;gap:8px}.decision{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:11px}.decision-head{display:flex;justify-content:space-between;gap:10px}.decision h3{font-size:12px;margin:0}.decision p{font-size:10px;color:#a6b8ce;line-height:1.4}.actions{display:flex;gap:6px;flex-wrap:wrap}.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;z-index:50}.modal-backdrop.open{display:flex}.modal{width:min(760px,92vw);max-height:88vh;overflow:auto;background:#0b1725;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}.modal-head h2{margin:0;font-size:14px}.modal-body{padding:15px}.modal-actions{display:flex;gap:7px;justify-content:flex-end;margin-top:15px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:9px;color:var(--muted)}.field textarea{min-height:90px;resize:vertical}.profile{display:grid;grid-template-columns:150px 1fr;gap:14px}.profile-side{background:#101e2f;border:1px solid var(--border);border-radius:10px;padding:12px}.profile-main{display:grid;gap:9px}.kv{display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:10px;padding:7px 0;border-bottom:1px solid var(--border)}.timeline{display:flex;flex-direction:column;gap:6px}.timeline-item{font-size:10px;padding:7px 9px;border-left:2px solid #355b84;background:#0f1c2b}.notice{background:#0e1b2a;border:1px solid var(--border);padding:10px;border-radius:8px;font-size:10px;line-height:1.4}.tabs{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}.tabs button{border:1px solid var(--border);background:#101f30;color:#a9bdd4;border-radius:7px;padding:6px 9px;font-size:10px}.tabs button.active{background:#173353;color:#fff;border-color:#355f8a}.empty{padding:30px;text-align:center;color:var(--muted);font-size:11px}.danger-text{color:#ff9ba4}.good-text{color:#63e5b0}.warning-text{color:#ffe08a}.link{color:#8cc2ff;cursor:pointer}.nowrap{white-space:nowrap}.right{text-align:right}.center{text-align:center}.toast-wrap{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:7px;z-index:100;pointer-events:none}.toast{background:#112239;border:1px solid #335577;color:white;padding:9px 11px;border-radius:8px;font-size:10px;box-shadow:var(--shadow);animation:fade .2s}.toast.warn{border-color:#6a571f}.toast.danger{border-color:#70303a}.toast.good{border-color:#22624e}@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}@media(max-width:1250px){.stats{grid-template-columns:repeat(4,1fr)}.employee-grid{grid-template-columns:repeat(3,1fr)}.finance-grid{grid-template-columns:repeat(2,1fr)}.task-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:950px){.sidebar{width:190px;flex-basis:190px}.messenger{grid-template-columns:220px 1fr}.chat-context{display:none}.employee-grid{grid-template-columns:repeat(2,1fr)}.split,.split2,.triple{grid-template-columns:1fr}.project-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){body{overflow:auto}.app{min-height:100vh;height:auto}.sidebar{display:none}.main{min-height:100vh}.topbar{position:sticky;top:0;z-index:10}.content{padding:10px}.employee-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.messenger{height:calc(100vh - 90px);grid-template-columns:1fr}.chat-list{display:none}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);overflow:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{height:100vh;display:flex}.sidebar{width:250px;flex:0 0 250px;background:#08121e;border-right:1px solid var(--border);display:flex;flex-direction:column;padding:16px 12px}.brand{padding:6px 12px 18px}.brand h1{margin:0;font-size:19px}.brand h1 span{color:var(--blue)}.brand p{margin:5px 0 0;color:var(--muted);font-size:10px}.nav{display:flex;flex-direction:column;gap:4px;overflow:auto}.nav button{border:0;background:transparent;color:#9db0c7;border-radius:9px;padding:10px 12px;text-align:left;font-size:12px}.nav button:hover{background:#122236;color:white}.nav button.active{background:#173458;color:white;box-shadow:inset 0 0 0 1px #295783}.nav .label{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#657b96;padding:14px 12px 5px}.sidebar-bottom{margin-top:auto;padding:12px;border-top:1px solid var(--border)}.mini{display:flex;gap:10px;align-items:center}.avatar{width:38px;height:38px;border-radius:50%;background:#1a3557;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}.avatar.small{width:30px;height:30px;font-size:10px}.mini b{font-size:12px;display:block}.mini span{font-size:10px;color:var(--muted)}.main{min-width:0;flex:1;display:flex;flex-direction:column}.topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--border);background:#091522}.title{font-size:17px;font-weight:800}.subtitle{font-size:10px;color:var(--muted);margin-top:2px}.top-actions{display:flex;align-items:center;gap:8px}.pill{border:1px solid var(--border);background:#0f1e30;padding:7px 10px;border-radius:8px;font-size:11px;color:#cbd9eb}.run{border:1px solid #1b6a52;background:#0e3a2d;color:#5fe4b3;border-radius:8px;padding:8px 12px;font-weight:800}.run.paused{background:#3d3218;border-color:#63531e;color:#ffe083}.speed{display:flex;gap:3px}.speed button{border:1px solid var(--border);background:#101d2d;color:#a8bad0;padding:7px 8px;border-radius:6px}.speed button.active{background:#1a3351;color:white;border-color:#3c6187}.content{flex:1;overflow:auto;padding:18px}.grid{display:grid;gap:12px}.stats{grid-template-columns:repeat(7,minmax(120px,1fr))}.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 8px 20px rgba(0,0,0,.08)}.stat .label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.stat .value{font-size:22px;font-weight:900;margin-top:6px}.stat .sub{font-size:10px;color:var(--muted);margin-top:3px}.split{grid-template-columns:1.4fr .9fr}.split2{grid-template-columns:1fr 1fr}.triple{grid-template-columns:repeat(3,1fr)}.section-title{font-size:14px;font-weight:800;margin:20px 0 9px}.briefing{background:linear-gradient(135deg,#102742,#0e1827);border-color:#2c5277}.briefing h2{margin:0 0 6px;font-size:15px}.briefing p{margin:5px 0;color:#bccbde;font-size:12px}.brief-list{display:grid;gap:7px;margin-top:11px}.brief-item{display:flex;gap:8px;font-size:11px;align-items:flex-start}.dot{width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:5px;flex:0 0 6px}.toolbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:11px}.toolbar input,.toolbar select,.field input,.field select,.field textarea,.chat-input input{background:#0b1725;border:1px solid var(--border);color:white;border-radius:8px;padding:8px 10px;outline:none}.toolbar input{min-width:180px}.btn{border:1px solid var(--border);background:#13243a;color:white;border-radius:7px;padding:7px 10px;font-size:11px}.btn:hover{background:#1a304d}.btn.primary{background:var(--blue);border-color:var(--blue);color:#04101d;font-weight:800}.btn.success{background:#12382d;border-color:#1c624d;color:#66e7b6}.btn.danger{background:#421c24;border-color:#6f2b37;color:#ff9aa4}.btn.warn{background:#3e3116;border-color:#65521d;color:#ffe18a}.btn.ghost{background:transparent}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:9px 8px;border-bottom:1px solid var(--border);text-align:left;font-size:11px;white-space:nowrap}.table th{color:var(--muted);font-weight:600}.row-actions{display:flex;gap:5px;flex-wrap:wrap}.badge{display:inline-flex;align-items:center;padding:4px 7px;border-radius:999px;background:#182b42;color:#bfd1e8;font-size:9px;font-weight:800}.badge.green{background:#12372d;color:#63e6b1}.badge.red{background:#411c25;color:#ff9ca5}.badge.yellow{background:#3c3118;color:#ffe08a}.badge.blue{background:#153052;color:#82bbff}.badge.purple{background:#2a2148;color:#c0adff}.muted{color:var(--muted)}.small{font-size:10px}.progress{height:7px;background:#1a2b40;border-radius:999px;overflow:hidden}.progress>span{display:block;height:100%;background:var(--blue)}.progress.green>span{background:var(--green)}.progress.red>span{background:var(--red)}.progress.yellow>span{background:var(--yellow)}.feed{display:flex;flex-direction:column;gap:7px;max-height:380px;overflow:auto}.feed-item{display:flex;gap:9px;padding:9px;background:var(--panel2);border:1px solid var(--border);border-radius:9px}.feed-icon{width:28px;height:28px;border-radius:7px;background:#192d46;display:flex;align-items:center;justify-content:center;flex:0 0 28px}.feed-main{min-width:0;flex:1}.feed-title{font-weight:800;font-size:11px}.feed-text{margin-top:3px;font-size:10px;color:#9db0c8;line-height:1.35}.feed-time{font-size:9px;color:#68809d;white-space:nowrap}.employee-grid{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:10px}.emp{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:11px}.emp-head{display:flex;gap:9px;align-items:center}.emp-name{font-size:12px;font-weight:800}.emp-role{font-size:10px;color:var(--muted);margin-top:2px}.emp-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.meta{background:#0e1b2a;padding:7px;border-radius:7px}.meta span{display:block;color:var(--muted);font-size:8px}.meta b{font-size:11px}.emp-actions{display:flex;gap:5px;margin-top:9px}.emp-actions .btn{flex:1}.org{overflow:auto;padding-bottom:16px}.org-ceo{margin:auto;max-width:360px;background:#123459;border:1px solid #396793;border-radius:12px;padding:15px;text-align:center;cursor:pointer}.org-line{width:2px;height:18px;background:#2b4663;margin:auto}.director-row{display:grid;grid-template-columns:repeat(5,minmax(180px,1fr));gap:8px;min-width:1000px}.director-card{background:#122337;border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer}.director-card:hover{border-color:#4a719e}.dept-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.dept-card{background:#0d1a29;border:1px solid var(--border);border-radius:9px;padding:9px}.dept-head{display:flex;justify-content:space-between;align-items:center}.dept-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.person-chip{padding:4px 7px;border-radius:999px;background:#172a41;color:#c4d5e9;font-size:9px}.crm-board{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:8px;overflow:auto}.crm-col{background:#0b1725;border:1px solid var(--border);border-radius:10px;padding:8px}.crm-col h3{font-size:10px;margin:0 0 8px;display:flex;justify-content:space-between}.deal{background:#122236;border:1px solid var(--border);border-radius:8px;padding:9px;margin-bottom:7px;cursor:pointer}.deal:hover{border-color:#476f9d}.deal-name{font-size:11px;font-weight:800}.deal-client{font-size:9px;color:var(--muted);margin-top:2px}.deal-value{font-size:13px;font-weight:900;margin-top:7px}.deal-meta{display:flex;justify-content:space-between;margin-top:6px;font-size:9px;color:#8eacd0}.pipeline-bar{display:flex;height:8px;border-radius:999px;overflow:hidden;background:#142238}.pipeline-bar span{display:block}.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.project{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:11px}.project h3{font-size:12px;margin:0}.project .line{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin:7px 0}.task-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.task-col{background:#0b1725;border:1px solid var(--border);border-radius:10px;padding:8px}.task-col h3{font-size:10px;margin:0 0 8px}.task{background:#122236;border:1px solid var(--border);border-radius:8px;padding:9px;margin-bottom:7px}.task-title{font-size:11px;font-weight:800}.task-meta{font-size:9px;color:var(--muted);margin-top:5px}.finance-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.metric{background:#0d1a29;border:1px solid var(--border);border-radius:9px;padding:10px}.metric span{display:block;color:var(--muted);font-size:9px}.metric b{display:block;font-size:15px;margin-top:4px}.goal{display:grid;grid-template-columns:1fr 130px 70px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}.messenger{height:calc(100vh - 100px);min-height:520px;display:grid;grid-template-columns:260px 1fr 250px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--panel)}.chat-list{background:#0a1523;border-right:1px solid var(--border);overflow:auto}.chat-list-head{padding:12px;border-bottom:1px solid var(--border);font-weight:800;font-size:11px}.chat-item{padding:10px 11px;border-bottom:1px solid #16263a;cursor:pointer}.chat-item:hover,.chat-item.active{background:#13253c}.chat-item strong{display:block;font-size:11px}.chat-item p{margin:3px 0 0;color:var(--muted);font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat-window{min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}.chat-head{height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;padding:0 12px}.chat-head b{font-size:11px}.chat-head span{display:block;font-size:9px;color:var(--muted)}.messages{flex:1 1 auto;min-height:0;min-width:0;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:7px;background:#091521}.msg{max-width:78%;align-self:flex-start}.msg.mine{align-self:flex-end}.msg-author{font-size:8px;color:#79b2f8;margin:0 0 2px 4px}.bubble{background:#14253a;border:1px solid #1e3854;border-radius:10px;padding:8px 9px;font-size:11px;line-height:1.4}.msg.mine .bubble{background:#163957;border-color:#225579}.msg-time{font-size:8px;color:#617995;margin-top:2px;text-align:right}.chat-input{flex:0 0 auto;min-width:0;border-top:1px solid var(--border);padding:9px;display:flex;gap:7px;background:#091521}.chat-input input{flex:1 1 auto;min-width:0;width:100%;height:38px}.chat-context{background:#0a1523;border-left:1px solid var(--border);padding:12px;overflow:auto}.context-title{font-size:10px;font-weight:800;margin-bottom:8px}.context-block{padding:9px 0;border-bottom:1px solid var(--border)}.context-label{font-size:8px;color:var(--muted)}.context-value{font-size:10px;margin-top:3px;line-height:1.4}.decision-list{display:grid;gap:8px}.decision{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:11px}.decision-head{display:flex;justify-content:space-between;gap:10px}.decision h3{font-size:12px;margin:0}.decision p{font-size:10px;color:#a6b8ce;line-height:1.4}.actions{display:flex;gap:6px;flex-wrap:wrap}.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;z-index:50}.modal-backdrop.open{display:flex}.modal{width:min(760px,92vw);max-height:88vh;overflow:auto;background:#0b1725;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}.modal-head h2{margin:0;font-size:14px}.modal-body{padding:15px}.modal-actions{display:flex;gap:7px;justify-content:flex-end;margin-top:15px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:9px;color:var(--muted)}.field textarea{min-height:90px;resize:vertical}.profile{display:grid;grid-template-columns:150px 1fr;gap:14px}.profile-side{background:#101e2f;border:1px solid var(--border);border-radius:10px;padding:12px}.profile-main{display:grid;gap:9px}.kv{display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:10px;padding:7px 0;border-bottom:1px solid var(--border)}.timeline{display:flex;flex-direction:column;gap:6px}.timeline-item{font-size:10px;padding:7px 9px;border-left:2px solid #355b84;background:#0f1c2b}.notice{background:#0e1b2a;border:1px solid var(--border);padding:10px;border-radius:8px;font-size:10px;line-height:1.4}.tabs{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}.tabs button{border:1px solid var(--border);background:#101f30;color:#a9bdd4;border-radius:7px;padding:6px 9px;font-size:10px}.tabs button.active{background:#173353;color:#fff;border-color:#355f8a}.empty{padding:30px;text-align:center;color:var(--muted);font-size:11px}.danger-text{color:#ff9ba4}.good-text{color:#63e5b0}.warning-text{color:#ffe08a}.link{color:#8cc2ff;cursor:pointer}.nowrap{white-space:nowrap}.right{text-align:right}.center{text-align:center}.toast-wrap{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:7px;z-index:100;pointer-events:none}.toast{background:#112239;border:1px solid #335577;color:white;padding:9px 11px;border-radius:8px;font-size:10px;box-shadow:var(--shadow);animation:fade .2s}.toast.warn{border-color:#6a571f}.toast.danger{border-color:#70303a}.toast.good{border-color:#22624e}@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}@media(max-width:1250px){.stats{grid-template-columns:repeat(4,1fr)}.employee-grid{grid-template-columns:repeat(3,1fr)}.finance-grid{grid-template-columns:repeat(2,1fr)}.task-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:950px){.sidebar{width:190px;flex-basis:190px}.messenger{grid-template-columns:220px 1fr}.chat-context{display:none}.employee-grid{grid-template-columns:repeat(2,1fr)}.split,.split2,.triple{grid-template-columns:1fr}.project-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){body{overflow:auto}.app{min-height:100vh;height:auto}.sidebar{display:none}.main{min-height:100vh}.topbar{position:sticky;top:0;z-index:10}.content{padding:10px}.employee-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.messenger{height:calc(100vh - 90px);grid-template-columns:1fr}.chat-list{display:none}}
+
+/* Messenger layout fix: message history scrolls, composer stays visible */
+.chat-window{min-height:0;overflow:hidden;}
+.messages{min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;}
+.chat-input{position:relative;z-index:2;flex:0 0 auto;min-height:56px;}
+.chat-input input{min-width:0;flex:1 1 auto;width:100%;} 
 </style>
 </head>
 <body>
@@ -36,7 +42,7 @@ const navGroups=[
  {label:'CEO',items:[['strategy','Стратегия','◎'],['decisions','Решения','⚖'],['settings','Система','⚙']]}
 ];
 const pageMeta={dashboard:['Панель управления','Центр управления компанией'],company:['Компания','Оргструктура и состояние бизнеса'],employees:['Сотрудники','Люди, KPI, мотивация и управление'],departments:['Отделы','10 подразделений и их ответственность'],crm:['CRM','Лиды, клиенты, сделки и воронка'],projects:['Проекты','Портфель проектов и исполнение'],tasks:['Задачи','Рабочий поток компании'],finance:['Финансы','Деньги, прибыль и бюджет'],hr:['HR / Найм','Кандидаты, вакансии и кадровые решения'],messenger:['Мессенджер','Внутренние разговоры и память'],observer:['Наблюдатель','Причины, решения и последствия'],strategy:['Стратегия','Цели компании и OKR'],decisions:['Решения','Управленческие решения CEO'],settings:['Система','Сохранение, скорость и сброс']};
-let currentPage='dashboard', simulationTimer=null, speed=1, selectedChat='board', employeeFilter='all', dealFilter='all', chatDraft='';
+let currentPage='dashboard', simulationTimer=null, speed=1, selectedChat='board', employeeFilter='all', dealFilter='all', chatDraft='', aiBusy=false, aiAgentCursor=0;
 
 function money(n){return new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(Math.round(n))+' ₸'}
 function moneyShort(n){const a=Math.abs(n); if(a>=100000000)return (n/1000000).toFixed(1)+' млн'; if(a>=1000000)return (n/1000000).toFixed(1)+' млн'; if(a>=1000)return (n/1000).toFixed(0)+' тыс'; return String(Math.round(n))}
@@ -139,7 +145,7 @@ function seedState(){
     {id:'tech-room',name:'Tech Room',type:'group',participants:['d2','m3','m4','m10'],topic:'Продукт и разработка',last:'',updated:0,messages:[]},
     {id:'ops-room',name:'Operations Room',type:'group',participants:['d5','m7','m8','m9'],topic:'Операции',last:'',updated:0,messages:[]}
   ];
-  const state={company:{day:8,hour:9,minute:18,running:false,health:82,cash:43000000,revenue:21700000,costOfSales:6900000,expenses:8700000,profit:6100000,reputation:79,nextId:100},employees,departments:depts,clients,deals,projects,tasks,goals,candidates,decisions,events:[],chats,finance:{cash:43000000,revenue:21700000,costOfSales:6900000,operatingExpenses:8700000,profit:6100000,receivables:6800000,payroll:0,bonusAccrued:820000,burn:0},history:[],settings:{lastSaved:Date.now()},selectedChat:'board'};
+  const state={company:{day:8,hour:9,minute:18,running:false,health:82,cash:43000000,revenue:21700000,costOfSales:6900000,expenses:8700000,profit:6100000,reputation:79,nextId:100},employees,departments:depts,clients,deals,projects,tasks,goals,candidates,decisions,events:[],chats,finance:{cash:43000000,revenue:21700000,costOfSales:6900000,operatingExpenses:8700000,profit:6100000,receivables:6800000,payroll:0,bonusAccrued:820000,burn:0},history:[],settings:{lastSaved:Date.now(),aiEnabled:false,aiAutonomy:true,aiEndpoint:'',aiModel:'gpt-5.6-luna',aiLastRun:'',aiCursor:0},selectedChat:'board'};
   seedRelationships(state); seedChats(state); seedEvents(state); recalcFinance(state,false); return state;
 }
 function seedRelationships(s){
@@ -177,7 +183,7 @@ function normalizeState(s){
   const fresh=seedState();
   for(const k of Object.keys(fresh)){if(s[k]===undefined)s[k]=fresh[k]}
   if(!Array.isArray(s.employees)||s.employees.length<36)s.employees=fresh.employees;
-  s.company.running=false;s.settings=s.settings||{};s.selectedChat=s.selectedChat||'board';
+  s.company.running=false;s.settings=s.settings||{};s.settings.aiEnabled=Boolean(s.settings.aiEnabled);s.settings.aiAutonomy=s.settings.aiAutonomy!==false;s.settings.aiEndpoint=s.settings.aiEndpoint||'';s.settings.aiModel=s.settings.aiModel||'gpt-5.6-luna';s.settings.aiLastRun=s.settings.aiLastRun||'';s.settings.aiCursor=Number.isFinite(s.settings.aiCursor)?s.settings.aiCursor:0;s.selectedChat=s.selectedChat||'board';
   s.employees.forEach(e=>{e.memory=Array.isArray(e.memory)?e.memory:[];e.relationships=e.relationships||{};e.skills=e.skills||[];e.responsibilities=e.responsibilities||[];e.personal=e.personal||''});
   return s;
 }
@@ -247,7 +253,7 @@ function translateRenderedUI(){
     'Load':'Нагрузка','Payroll':'Фонд оплаты труда','Revenue':'Выручка','Profit':'Прибыль','Cash':'Денежные средства','Margin':'Маржа',
     'Discovery':'Диагностика','Proposal':'Предложение','Negotiation':'Переговоры','Contacted':'Контакт','Lead':'Лид','Won':'Выиграна','Lost':'Проиграна',
     'Founder & CEO':'Основатель и CEO','Owner:':'Владелец:','Source:':'Источник:','Manager:':'Руководитель:','Director:':'Директор:',
-    'Current state':'Текущее состояние','Reset':'Сбросить','Сбросить компанию':'Сбросить компанию'
+    'Current state':'Текущее состояние','Reset':'Сбросить','Сбросить компанию':'Сбросить компанию','Company OS':'Система управления компанией','ИИ сотрудников':'ИИ сотрудников','ИИ подключён':'ИИ подключён','ИИ не подключён':'ИИ не подключён','Адрес AI Worker':'Адрес AI Worker','Модель':'Модель','Включить ИИ':'Включить ИИ','Отключить ИИ':'Отключить ИИ','Сохранить':'Сохранить','Проверить связь':'Проверить связь','Директора могут самостоятельно работать через ИИ':'Директора могут самостоятельно работать через ИИ','ИИ работает через защищённый Worker.':'ИИ работает через защищённый Worker.','AI created task':'ИИ создал задачу','AI updated CRM':'ИИ обновил CRM','AI proposed decision':'ИИ предложил решение','AI event':'Событие ИИ'
   };
   const keys=Object.keys(map).sort((a,b)=>b.length-a.length);
   const replace=(text)=>{let out=text;for(const k of keys){out=out.replaceAll(k,map[k])}return out};
@@ -315,13 +321,75 @@ let observerFilter='all';
 function clearEvents(){state.events=[];save();renderPage()}
 
 function renderMessenger(){const c=state.chats.find(x=>x.id===selectedChat)||state.chats[0];return `<div class="messenger"><div class="chat-list"><div class="chat-list-head">Разговоры · ${state.chats.length}</div>${state.chats.slice().sort((a,b)=>b.updated-a.updated).map(ch=>`<div class="chat-item ${ch.id===c.id?'active':''}" onclick="chatDraft='';selectedChat='${ch.id}';renderPage()"><strong>${esc(ch.name)}</strong><p>${esc(ch.last||'Нет сообщений')}</p></div>`).join('')}</div><div class="chat-window"><div class="chat-head"><div class="avatar small">${c.type==='group'?'👥':initials(employee(c.participants.find(x=>x!=='ceo'))?.name||'Команда')}</div><div><b>${esc(c.name)}</b><span>${c.type==='group'?c.participants.length+' участников':'Личный разговор'} · можно вмешаться прямо сейчас</span></div></div><div id="messages" class="messages">${c.messages.map(messageHTML).join('')}</div><div class="chat-input"><input id="chatText" value="${escAttr(chatDraft)}" placeholder="Напишите сообщение…" oninput="chatDraft=this.value" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"><button class="btn primary" onclick="sendChat()">Отправить</button></div></div><div class="chat-context">${chatContext(c)}</div></div>`}
-function messageHTML(m){const me=m.author==='ceo';const author=me?'Олег Ким':(employee(m.author)?.name||m.author);return `<div class="msg ${me?'mine':''}"><div class="msg-author">${esc(author)}</div><div class="bubble">${esc(m.text)}</div><div class="msg-time">Day ${m.day} · ${m.time}</div></div>`}
+function messageHTML(m){const me=m.author==='ceo';const author=me?'Олег Ким':(employee(m.author)?.name||m.author);return `<div class="msg ${me?'mine':''}"><div class="msg-author">${esc(author)}</div><div class="bubble">${esc(m.text)}</div><div class="msg-time">День ${m.day} · ${m.time}</div></div>`}
 function chatContext(c){const participants=c.participants.map(employee).filter(Boolean);const pending=state.decisions.filter(d=>d.source.includes('Sales')&&c.participants.includes('d1'));const importantDeals=state.deals.filter(d=>c.participants.includes(d.ownerId)||c.participants.includes('d1')).slice(0,4);return `<div class="context-title">Контекст разговора</div><div class="context-block"><div class="context-label">Участники</div><div class="context-value">${participants.map(e=>e.name).join(', ')}</div></div><div class="context-block"><div class="context-label">Релевантные сделки</div><div class="context-value">${importantDeals.length?importantDeals.map(d=>d.name+' · '+d.prob+'%').join('<br>'):'Нет'}</div></div><div class="context-block"><div class="context-label">Решения</div><div class="context-value">${pending.length?pending.map(d=>d.title).join('<br>'):'Нет актуальных'}</div></div><div class="context-block"><div class="context-label">Правило</div><div class="context-value">Сотрудники отвечают с учётом роли, текущего состояния, памяти и предыдущих сообщений.</div></div>`}
 
-function renderSettings(){return `<div class="grid split"><div class="card"><div class="section-title" style="margin:0">Управление симуляцией</div><p class="small muted">Все изменения сохраняются автоматически в localStorage этого браузера.</p><div class="actions"><button class="btn ${state.company.running?'warn':'success'}" onclick="state.company.running?stopTimer():startTimer()">${state.company.running?'Пауза':'Запустить'} симуляцию</button><button class="btn" onclick="advanceDayManual()">Следующий день</button></div><div class="section-title">Скорость</div><div class="actions"><button class="btn ${speed===1?'primary':''}" onclick="setSpeed(1)">×1</button><button class="btn ${speed===2?'primary':''}" onclick="setSpeed(2)">×2</button><button class="btn ${speed===5?'primary':''}" onclick="setSpeed(5)">×5</button></div></div><div class="card"><div class="section-title" style="margin:0">Данные и безопасность</div><div class="notice">Current state: <b>36 employees · 10 departments · 10 clients · 8 deals · 5 projects · 20 tasks</b></div><div class="small muted" style="margin-top:8px">Последнее сохранение: ${new Date(state.settings.lastSaved||Date.now()).toLocaleTimeString('ru-RU')}</div><div class="actions" style="margin-top:10px"><button class="btn" onclick="exportState()">Экспорт JSON</button><button class="btn danger" onclick="resetCompany()">Сбросить компанию</button></div></div></div>`}
+function renderSettings(){const aiStatus=state.settings.aiEnabled&&state.settings.aiEndpoint?'ИИ подключён':'ИИ не подключён';return `<div class="grid split"><div class="card"><div class="section-title" style="margin:0">Управление симуляцией</div><p class="small muted">Компания живёт по игровому времени. Изменения сохраняются автоматически в браузере.</p><div class="actions"><button class="btn ${state.company.running?'warn':'success'}" onclick="state.company.running?stopTimer():startTimer()">${state.company.running?'Пауза':'Запустить'} симуляцию</button><button class="btn" onclick="advanceDayManual()">Следующий день</button></div><div class="section-title">Скорость</div><div class="actions"><button class="btn ${speed===1?'primary':''}" onclick="setSpeed(1)">×1</button><button class="btn ${speed===2?'primary':''}" onclick="setSpeed(2)">×2</button><button class="btn ${speed===5?'primary':''}" onclick="setSpeed(5)">×5</button></div></div><div class="card"><div class="section-title" style="margin:0">ИИ сотрудников</div><div class="notice">Статус: <b>${aiStatus}</b><br><span class="small muted">ИИ работает через защищённый Worker. API-ключ хранится только на сервере, а не в GitHub.</span></div><div class="field" style="margin-top:10px"><label>Адрес AI Worker</label><input id="aiEndpoint" value="${escAttr(state.settings.aiEndpoint)}" placeholder="https://alatau-nexus-ai.example.workers.dev"></div><div class="field" style="margin-top:8px"><label>Модель</label><input id="aiModel" value="${escAttr(state.settings.aiModel)}" placeholder="gpt-5.6-luna"></div><div class="actions" style="margin-top:9px"><button class="btn ${state.settings.aiEnabled?'success':'primary'}" onclick="toggleAI()">${state.settings.aiEnabled?'Отключить ИИ':'Включить ИИ'}</button><button class="btn" onclick="saveAISettings()">Сохранить</button><button class="btn" onclick="testAIConnection()">Проверить связь</button></div><label style="display:flex;gap:7px;align-items:center;margin-top:10px;font-size:10px;color:#a7b9cf"><input type="checkbox" id="aiAutonomy" ${state.settings.aiAutonomy?'checked':''}> Директора могут самостоятельно работать через ИИ</label></div></div><div class="grid split" style="margin-top:12px"><div class="card"><div class="section-title" style="margin:0">Данные компании</div><div class="notice">36 сотрудников · 10 отделов · 10 клиентов · 8 сделок · 5 проектов · 20 задач</div><div class="small muted" style="margin-top:8px">Последнее сохранение: ${new Date(state.settings.lastSaved||Date.now()).toLocaleTimeString('ru-RU')}</div><div class="actions" style="margin-top:10px"><button class="btn" onclick="exportState()">Экспорт JSON</button><button class="btn danger" onclick="resetCompany()">Сбросить компанию</button></div></div><div class="card"><div class="section-title" style="margin:0">Как работает ИИ</div><div class="notice">Сотрудник получает свою роль, полномочия, память, текущие задачи, CRM, финансы и историю разговоров. Модель может предложить сообщение, создать задачу, изменить сделку или вынести решение. Каждое действие дополнительно проверяется самим симулятором.</div></div></div>`}
 
 function refreshChatMessages(){const c=state.chats.find(x=>x.id===selectedChat);const box=document.getElementById('messages');if(!c||!box)return;box.innerHTML=c.messages.map(messageHTML).join('');box.scrollTop=box.scrollHeight}
-function sendChat(){const input=document.getElementById('chatText');if(!input)return;const text=input.value.trim();if(!text)return;const c=state.chats.find(x=>x.id===selectedChat);if(!c)return;chatDraft='';input.value='';pushMessage(c.id,'ceo',text,'ceo');const reactions=generateChatResponses(c,text);save();refreshChatMessages();requestAnimationFrame(()=>{const i=document.getElementById('chatText');if(i){i.focus();i.value=''}});reactions.forEach((r,i)=>setTimeout(()=>{pushMessage(c.id,r.author,r.text,'employee');const e=employee(r.author);if(e)remember(e,'CEO написал в чате: '+text.slice(0,120));save();if(currentPage==='messenger'){const active=document.activeElement; if(active&&active.id==='chatText') refreshChatMessages(); else renderPage()}},450*(i+1)))}
+async function sendChat(){
+  const input=document.getElementById('chatText');
+  if(!input)return;
+  const text=input.value.trim();
+  if(!text)return;
+  const c=state.chats.find(x=>x.id===selectedChat);
+  if(!c)return;
+  chatDraft='';input.value='';pushMessage(c.id,'ceo',text,'ceo');save();refreshChatMessages();
+  const participants=c.participants.filter(x=>x!=='ceo').map(employee).filter(Boolean);
+  const primary=participants[0];
+  if(state.settings.aiEnabled&&state.settings.aiEndpoint&&primary){
+    toast('ИИ сотрудника формирует ответ…');
+    try{
+      const result=await askAI({mode:'chat',employeeId:primary.id,message:text,chatId:c.id});
+      if(result){
+        if(result.reply)pushMessage(c.id,primary.id,result.reply,'employee');
+        applyAIActions(result.actions||[],primary.id,c.id);
+        remember(primary,'CEO написал: '+text.slice(0,140));
+        save();refreshChatMessages();
+        return;
+      }
+    }catch(e){toast('ИИ недоступен — использую встроенный режим','warn')}
+  }
+  const reactions=generateChatResponses(c,text);
+  reactions.forEach((r,i)=>setTimeout(()=>{pushMessage(c.id,r.author,r.text,'employee');const e=employee(r.author);if(e)remember(e,'CEO написал в чате: '+text.slice(0,120));save();if(currentPage==='messenger')refreshChatMessages()},450*(i+1)));
+}
+
+async function askAI({mode='chat',employeeId,message,chatId}={}){
+  const endpoint=(state.settings.aiEndpoint||'').trim().replace(/\/$/,'');
+  if(!endpoint)return null;
+  const e=employee(employeeId)||employee('d1');
+  const c=chatId?state.chats.find(x=>x.id===chatId):null;
+  const recentEvents=state.events.slice(0,10).map(x=>({day:x.day,time:`${String(x.hour).padStart(2,'0')}:${String(x.minute).padStart(2,'0')}`,title:x.title,text:x.text,category:x.category,severity:x.severity}));
+  const recentMessages=(c?.messages||[]).slice(-14).map(m=>({author:employee(m.author)?.name||'Олег Ким',text:m.text,day:m.day,time:m.time}));
+  const company={day:state.company.day,time:timeLabel(),health:Math.round(state.company.health),cash:Math.round(state.finance.cash),revenue:Math.round(state.finance.revenue),profit:Math.round(state.finance.profit),morale:avg(activeEmployees().filter(x=>x.type!=='ceo').map(x=>x.motivation)),pipeline:Math.round(state.deals.filter(d=>!['Won','Lost'].includes(d.stage)).reduce((a,d)=>a+d.value*d.prob/100,0)),pendingDecisions:pendingDecisions().map(d=>d.title),clientsAtRisk:state.clients.filter(x=>x.health<60).map(x=>({name:x.name,health:Math.round(x.health)}))};
+  const personalTasks=state.tasks.filter(t=>t.ownerId===e.id&&t.status!=='Done').slice(0,8).map(t=>({id:t.id,title:t.title,priority:t.priority,status:t.status,due:t.due,dealId:t.dealId,projectId:t.projectId}));
+  const relatedDeals=state.deals.filter(d=>d.ownerId===e.id||e.type==='director'&&d.ownerId).slice(0,8).map(d=>({id:d.id,name:d.name,client:client(d.clientId)?.name,stage:d.stage,prob:d.prob,value:d.value,next:d.next}));
+  const body={mode,employee:{id:e.id,name:e.name,role:e.role,type:e.type,department:e.department,manager:e.managerId?employee(e.managerId)?.name:'CEO',kpi:Math.round(e.kpi),motivation:Math.round(e.motivation),workload:Math.round(e.workload),energy:Math.round(e.energy),authority:e.authority,skills:e.skills,personality:e.personality,personal:e.personal,memory:e.memory.slice(0,10),responsibilities:e.responsibilities},company,context:{chat:c?{id:c.id,name:c.name,type:c.type,participants:c.participants.map(employee).filter(Boolean).map(x=>x.name),messages:recentMessages}:null,tasks:personalTasks,deals:relatedDeals,projects:state.projects.filter(p=>p.managerId===e.id).slice(0,6).map(p=>({id:p.id,name:p.name,progress:p.progress,risk:p.risk,status:p.status})),recentEvents}};
+  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),12000);
+  try{const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...body,message:message||'Проанализируй своё текущее состояние и реши, нужно ли действовать.'}),signal:controller.signal});clearTimeout(timer);if(!res.ok)throw new Error(await res.text());const data=await res.json();if(!data?.ok)throw new Error(data?.error||'AI error');return data}catch(e){clearTimeout(timer);console.error(e);return null}
+}
+function findOrCreateChatForEmployee(id){let c=state.chats.find(x=>x.type==='private'&&x.participants.includes('ceo')&&x.participants.includes(id));if(c)return c;const e=employee(id);if(!e)return null;c={id:'chat_'+id,name:e.name,type:'private',participants:['ceo',id],topic:e.role,last:'',updated:state.company.day*1440+state.company.hour*60,messages:[]};state.chats.push(c);return c}
+function applyAIActions(actions,actorId,originChatId){const actor=employee(actorId);for(const a of Array.isArray(actions)?actions.slice(0,4):[]){if(!a||!a.type)continue;
+  if(a.type==='send_message'){const chatId=a.chatId||originChatId;const c=state.chats.find(x=>x.id===chatId);if(c&&a.text)pushMessage(c.id,actorId,String(a.text).slice(0,1200),'employee');continue}
+  if(a.type==='remember'){const target=employee(a.employeeId||actorId);if(target&&a.text)remember(target,String(a.text).slice(0,240));continue}
+  if(a.type==='create_task'){const owner=employee(a.ownerId)||actor;if(!owner||owner.status!=='active')continue;const t={id:'t'+state.company.nextId++,title:String(a.title||'Новая задача').slice(0,120),ownerId:owner.id,dealId:a.dealId&&deal(a.dealId)?a.dealId:null,projectId:a.projectId&&project(a.projectId)?a.projectId:null,priority:a.priority==='High'?'High':'Normal',status:'Open',due:Math.max(0,Math.min(30,Number(a.dueDays)||2)),createdDay:state.company.day};state.tasks.push(t);owner.workload=Math.min(100,owner.workload+(t.priority==='High'?4:2));addEvent('☑','AI создал задачу',`${actor?.name||'Сотрудник'} создал задачу: ${t.title}.`,'employee',actor?.name||'AI','info');continue}
+  if(a.type==='update_deal'){const d=deal(a.dealId);if(!d||!actor)continue;const allowed=actor.type==='director'||actor.type==='manager'||d.ownerId===actor.id;if(!allowed)continue;if(['Lead','Contacted','Discovery','Proposal','Negotiation','Won','Lost'].includes(a.stage))d.stage=a.stage;d.prob=Math.max(0,Math.min(100,Number(a.prob)||d.prob));d.history.push({day:state.company.day,text:`ИИ ${actor.name} обновил сделку: ${stageNames[d.stage]} · ${d.prob}%`});addEvent('⌁','AI обновил CRM',`${actor.name}: ${d.name} → ${stageNames[d.stage]}, ${d.prob}%.`,'crm',actor.name,'info');continue}
+  if(a.type==='create_decision'){if(actor.type!=='director')continue;const options=Array.isArray(a.options)&&a.options.length?a.options.slice(0,3):[['approve','Одобрить',1],['hold','Пока наблюдать',0]];state.decisions.push({id:'dec'+state.company.nextId++,title:String(a.title||'Решение от директора').slice(0,130),source:actor.role,risk:String(a.risk||'other'),status:'pending',summary:String(a.summary||'Директор запросил решение CEO.').slice(0,500),options});addEvent('⚖','AI предложил решение',`${actor.name}: ${String(a.title||'Новое решение')}.`,'decision',actor.name,'warn');continue}
+  if(a.type==='create_event'){addEvent('◉',String(a.title||'AI-событие').slice(0,100),String(a.text||'').slice(0,400),['employee','crm','project','decision','client','hr','system'].includes(a.category)?a.category:'employee',actor?.name||'AI',['info','warn','good'].includes(a.severity)?a.severity:'info');}
+}}
+function aiHoursKey(){return `${state.company.day}-${state.company.hour}`}
+async function runAutonomousAI(){
+  if(aiBusy||!state.settings.aiEnabled||!state.settings.aiAutonomy||!state.settings.aiEndpoint||state.company.hour%6!==0)return;
+  const key=aiHoursKey();if(state.settings.aiLastRun===key)return;
+  aiBusy=true;state.settings.aiLastRun=key;
+  const directorIds=['d1','d2','d3','d4','d5'];const id=directorIds[state.settings.aiCursor%directorIds.length];state.settings.aiCursor=(state.settings.aiCursor+1)%directorIds.length;save();
+  const e=employee(id);if(!e){aiBusy=false;return}
+  try{const result=await askAI({mode:'agent',employeeId:id,message:'Проанализируй компанию на этот момент. Сделай только то, что действительно входит в твою роль и необходимо сейчас. Если действий не требуется, ничего не создавай.',chatId:'board'});if(result){applyAIActions(result.actions||[],id,'board');if(result.reply&&result.actions?.length){pushMessage('board',id,result.reply,'employee');remember(e,'Сегодня я автономно анализировал состояние компании. '+result.reply.slice(0,180))}save();if(currentPage==='messenger')refreshChatMessages();if(currentPage==='dashboard'||currentPage==='observer'||currentPage==='decisions')renderPage()}}finally{aiBusy=false}
+}
+function toggleAI(){saveAISettings();state.settings.aiEnabled=!state.settings.aiEnabled;save();renderPage();toast(state.settings.aiEnabled?'ИИ сотрудников включён':'ИИ сотрудников отключён',state.settings.aiEnabled?'good':'warn')}
+function saveAISettings(){const ep=document.getElementById('aiEndpoint');const model=document.getElementById('aiModel');const aut=document.getElementById('aiAutonomy');if(ep)state.settings.aiEndpoint=ep.value.trim();if(model)state.settings.aiModel=model.value.trim()||'gpt-5.6-luna';if(aut)state.settings.aiAutonomy=aut.checked;save();toast('Настройки ИИ сохранены','good')}
+async function testAIConnection(){saveAISettings();if(!state.settings.aiEndpoint){toast('Сначала укажи адрес AI Worker','warn');return}const result=await askAI({mode:'chat',employeeId:'d1',message:'Поздоровайся с Олегом одной естественной фразой и скажи, что связь работает.'});if(result){toast('Связь с ИИ работает','good');const c=findOrCreateChatForEmployee('d1');if(result.reply){pushMessage(c.id,'d1',result.reply,'employee');selectedChat=c.id;save();renderPage()}}else toast('Не удалось связаться с ИИ','warn')}
+
 function startChat(id){let c=state.chats.find(x=>x.id==='chat_'+id)||state.chats.find(x=>x.type==='private'&&x.participants.includes(id)&&x.participants.includes('ceo'));if(!c){const e=employee(id);if(!e)return;c={id:'chat_'+id,name:e.name,type:'private',participants:['ceo',id],topic:e.role,last:'',updated:state.company.day,messages:[]};state.chats.push(c);pushMessageState(state,c.id,id,'Олег, привет. Я на связи. Если есть вопрос — можем обсудить здесь.','employee');save()}selectedChat=c.id;go('messenger')}
 function generateChatResponses(c,text){
   const out=[];const lower=text.toLowerCase().trim();const participants=c.participants.filter(x=>x!=='ceo').map(employee).filter(Boolean);if(!participants.length)return out;
@@ -389,7 +457,7 @@ function recalcFinance(s,emit=true){const payroll=s.employees.filter(e=>e.status
 function updateGoals(s){const g=x=>s.goals.find(y=>y.id===x);if(!g('g1'))return;g('g1').value=s.finance.revenue;g('g2').value=calcWinRate(s);g('g3').value=s.projects.length?Math.round(s.projects.filter(p=>p.status==='Done'||p.risk<25).length/s.projects.length*100):0;g('g4').value=s.finance.revenue?Math.round(s.finance.profit/s.finance.revenue*100):0;g('g5').value=Math.min(100,Math.round(s.employees.filter(e=>e.status==='active').length/36*100));g('g6').value=avg(s.clients.map(c=>c.health))}
 function updateHealth(s){const k=avg(activeEmployees().filter(e=>e.type!=='ceo').map(e=>e.kpi));const m=avg(activeEmployees().filter(e=>e.type!=='ceo').map(e=>e.motivation));const risk=s.projects.filter(p=>p.risk>30).length;const overdue=s.tasks.filter(t=>t.status!=='Done'&&t.due<0).length;const clientH=avg(s.clients.map(c=>c.health));s.company.health=Math.max(0,Math.min(100,Math.round(k*.27+m*.25+clientH*.2+Math.max(0,100-risk*10)*.14+Math.max(0,100-overdue*8)*.14))) }
 
-function tickHour(){advanceClock(60);processPeople();processTasksEngine();processDealsEngine();processProjectsEngine();processClients();processDirectors();recalcFinance(state);state.finance.cash=Math.max(0,state.finance.cash-state.finance.operatingExpenses/720);state.company.cash=state.finance.cash;save();}
+function tickHour(){advanceClock(60);processPeople();processTasksEngine();processDealsEngine();processProjectsEngine();processClients();processDirectors();recalcFinance(state);state.finance.cash=Math.max(0,state.finance.cash-state.finance.operatingExpenses/720);state.company.cash=state.finance.cash;save();runAutonomousAI();}
 function advanceClock(minutes){state.company.minute+=minutes;while(state.company.minute>=60){state.company.minute-=60;state.company.hour++;}if(state.company.hour>=24){state.company.hour=0;state.company.day++;dayBoundary()}}
 function dayBoundary(){state.tasks.forEach(t=>{if(t.status!=='Done')t.due--;});state.employees.forEach(e=>{if(e.type!=='ceo')e.energy=Math.min(100,e.energy+20);});addEvent('🌅','New company day','Компания начала новый игровой день.','system','System');}
 function advanceDayManual(){for(let i=0;i<24;i++)tickHour();go('dashboard');}
@@ -417,12 +485,10 @@ function openProjectRisk(id){projectRiskAction(id)}
 navRender();render();
 window.addEventListener('beforeunload',save);
 </script>
-  <script>
-(function () {
+<script>
+/* Alatau Nexus — AI + Messenger Hotfix */
+(function(){
   'use strict';
-
-  if (window.__alatauAIHotfixLoaded) return;
-  window.__alatauAIHotfixLoaded = true;
 
   const DEFAULT_AI = {
     aiEndpoint: '',
@@ -431,1412 +497,671 @@ window.addEventListener('beforeunload',save);
     aiAutonomy: false
   };
 
-  function ensureAISettings() {
+  function ensureAISettings(){
     state.settings = Object.assign({}, DEFAULT_AI, state.settings || {});
     save();
   }
 
   ensureAISettings();
 
-  renderSettings = window.renderSettings = function () {
+  function aiSettingsCard(){
     const s = state.settings;
-    const status =
-      s.aiEnabled && s.aiEndpoint
-        ? 'ИИ включён'
-        : 'ИИ не подключён';
-
-    return `
-      <div class="grid split">
-
-        <div class="card">
-          <div class="section-title" style="margin:0">
-            Управление симуляцией
-          </div>
-
-          <p class="small muted">
-            Компания живёт по игровому времени.
-            Изменения сохраняются автоматически.
-          </p>
-
-          <div class="actions">
-            <button
-              class="btn ${state.company.running ? 'warn' : 'success'}"
-              onclick="state.company.running ? stopTimer() : startTimer()"
-            >
-              ${state.company.running ? 'Пауза' : 'Запустить'} симуляцию
-            </button>
-
-            <button
-              class="btn"
-              onclick="advanceDayManual()"
-            >
-              Следующий день
-            </button>
-          </div>
-
-          <div class="section-title">
-            Скорость
-          </div>
-
-          <div class="actions">
-            <button
-              class="btn ${speed === 1 ? 'primary' : ''}"
-              onclick="setSpeed(1)"
-            >
-              ×1
-            </button>
-
-            <button
-              class="btn ${speed === 2 ? 'primary' : ''}"
-              onclick="setSpeed(2)"
-            >
-              ×2
-            </button>
-
-            <button
-              class="btn ${speed === 5 ? 'primary' : ''}"
-              onclick="setSpeed(5)"
-            >
-              ×5
-            </button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="section-title" style="margin:0">
-            ИИ сотрудников
-          </div>
-
-          <div class="notice">
-            <b>${status}</b>
-            <br>
-            <span class="small muted">
-              ИИ работает через защищённый Cloudflare Worker.
-              API-ключ хранится только в Worker и не попадает в GitHub.
-            </span>
-          </div>
-
-          <div class="field" style="margin-top:10px">
-            <label>Адрес AI Worker</label>
-
-            <input
-              id="aiEndpoint"
-              value="${esc(s.aiEndpoint)}"
-              placeholder="https://ваш-worker.workers.dev"
-            >
-          </div>
-
-          <div class="field" style="margin-top:8px">
-            <label>Модель</label>
-
-            <input
-              id="aiModel"
-              value="${esc(s.aiModel)}"
-              placeholder="gpt-5.6-luna"
-            >
-          </div>
-
-          <label
-            style="
-              display:flex;
-              gap:7px;
-              align-items:center;
-              margin-top:10px;
-              font-size:10px;
-              color:#a7b9cf
-            "
-          >
-            <input
-              type="checkbox"
-              id="aiAutonomy"
-              ${s.aiAutonomy ? 'checked' : ''}
-            >
-
-            Директора могут самостоятельно работать через ИИ
-          </label>
-
-          <div
-            class="actions"
-            style="margin-top:10px"
-          >
-
-            <button
-              class="btn primary"
-              onclick="saveAISettings()"
-            >
-              Сохранить
-            </button>
-
-            <button
-              class="btn success"
-              onclick="toggleAI()"
-            >
-              ${s.aiEnabled ? 'Отключить ИИ' : 'Включить ИИ'}
-            </button>
-
-            <button
-              class="btn"
-              onclick="testAIConnection()"
-            >
-              Проверить связь
-            </button>
-
-          </div>
-        </div>
-
+    const status = s.aiEnabled && s.aiEndpoint ? 'ИИ включён' : 'ИИ не подключён';
+    return `<div class="card">
+      <div class="section-title" style="margin:0">ИИ сотрудников</div>
+      <div class="notice"><b>${status}</b><br><span class="small muted">ИИ работает через защищённый Cloudflare Worker. API-ключ хранится только в Worker и не попадает в GitHub.</span></div>
+      <div class="field" style="margin-top:10px">
+        <label>Адрес AI Worker</label>
+        <input id="aiEndpoint" value="${esc(s.aiEndpoint)}" placeholder="https://ваш-worker.workers.dev">
       </div>
-
-      <div
-        class="grid split"
-        style="margin-top:12px"
-      >
-
-        <div class="card">
-
-          <div class="section-title" style="margin:0">
-            Данные и безопасность
-          </div>
-
-          <div class="notice">
-            36 сотрудников ·
-            10 отделов ·
-            10 клиентов ·
-            8 сделок ·
-            5 проектов ·
-            20 задач
-          </div>
-
-          <div
-            class="small muted"
-            style="margin-top:8px"
-          >
-            Последнее сохранение:
-            ${new Date(
-              state.settings.lastSaved || Date.now()
-            ).toLocaleTimeString('ru-RU')}
-          </div>
-
-          <div
-            class="actions"
-            style="margin-top:10px"
-          >
-
-            <button
-              class="btn"
-              onclick="exportState()"
-            >
-              Экспорт JSON
-            </button>
-
-            <button
-              class="btn danger"
-              onclick="resetCompany()"
-            >
-              Сбросить компанию
-            </button>
-
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <div
-            class="section-title"
-            style="margin:0"
-          >
-            Как работает ИИ
-          </div>
-
-          <div class="notice">
-            У каждого AI-сотрудника есть должность,
-            полномочия, характер, память, задачи и
-            текущий контекст компании.
-
-            <br><br>
-
-            В личном чате ИИ отвечает от лица выбранного
-            сотрудника.
-
-            <br><br>
-
-            В автономном режиме директора могут
-            самостоятельно анализировать компанию,
-            создавать задачи, обновлять CRM,
-            предлагать решения и отправлять сообщения.
-          </div>
-
-        </div>
-
+      <div class="field" style="margin-top:8px">
+        <label>Модель</label>
+        <input id="aiModel" value="${esc(s.aiModel)}" placeholder="gpt-5.6-luna">
       </div>
-    `;
+      <label style="display:flex;gap:7px;align-items:center;margin-top:10px;font-size:10px;color:#a7b9cf">
+        <input type="checkbox" id="aiAutonomy" ${s.aiAutonomy?'checked':''}>
+        Директора могут самостоятельно работать через ИИ
+      </label>
+      <div class="actions" style="margin-top:10px">
+        <button class="btn primary" onclick="saveAISettings()">Сохранить</button>
+        <button class="btn success" onclick="toggleAI()">${s.aiEnabled?'Отключить ИИ':'Включить ИИ'}</button>
+        <button class="btn" onclick="testAIConnection()">Проверить связь</button>
+      </div>
+    </div>`;
+  }
+
+  window.renderSettings = function(){
+    return `<div class="grid split">
+      <div class="card">
+        <div class="section-title" style="margin:0">Управление симуляцией</div>
+        <p class="small muted">Компания живёт по игровому времени. Изменения сохраняются автоматически в браузере.</p>
+        <div class="actions">
+          <button class="btn ${state.company.running?'warn':'success'}" onclick="state.company.running?stopTimer():startTimer()">${state.company.running?'Пауза':'Запустить'} симуляцию</button>
+          <button class="btn" onclick="advanceDayManual()">Следующий день</button>
+        </div>
+        <div class="section-title">Скорость</div>
+        <div class="actions">
+          <button class="btn ${speed===1?'primary':''}" onclick="setSpeed(1)">×1</button>
+          <button class="btn ${speed===2?'primary':''}" onclick="setSpeed(2)">×2</button>
+          <button class="btn ${speed===5?'primary':''}" onclick="setSpeed(5)">×5</button>
+        </div>
+      </div>
+      ${aiSettingsCard()}
+    </div>
+    <div class="grid split" style="margin-top:12px">
+      <div class="card">
+        <div class="section-title" style="margin:0">Данные и безопасность</div>
+        <div class="notice">36 сотрудников · 10 отделов · 10 клиентов · 8 сделок · 5 проектов · 20 задач</div>
+        <div class="small muted" style="margin-top:8px">Последнее сохранение: ${new Date(state.settings.lastSaved||Date.now()).toLocaleTimeString('ru-RU')}</div>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn" onclick="exportState()">Экспорт JSON</button>
+          <button class="btn danger" onclick="resetCompany()">Сбросить компанию</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title" style="margin:0">Как работает ИИ</div>
+        <div class="notice">У каждого AI-сотрудника есть должность, полномочия, характер, память, задачи и текущий контекст компании. В личном чате ИИ отвечает от лица выбранного сотрудника. В автономном режиме директора могут предлагать задачи, сообщения, изменения CRM и управленческие решения.</div>
+      </div>
+    </div>`;
   };
 
-  window.saveAISettings = function () {
+  window.saveAISettings = function(){
     const endpoint = document.getElementById('aiEndpoint');
     const model = document.getElementById('aiModel');
     const autonomy = document.getElementById('aiAutonomy');
-
-    state.settings.aiEndpoint =
-      (endpoint?.value || '')
-        .trim()
-        .replace(/\/$/, '');
-
-    state.settings.aiModel =
-      (model?.value || '')
-        .trim() ||
-      DEFAULT_AI.aiModel;
-
-    state.settings.aiAutonomy =
-      !!autonomy?.checked;
-
+    state.settings.aiEndpoint = (endpoint?.value || '').trim().replace(/\/$/, '');
+    state.settings.aiModel = (model?.value || '').trim() || DEFAULT_AI.aiModel;
+    state.settings.aiAutonomy = !!autonomy?.checked;
     save();
-
-    toast(
-      'Настройки ИИ сохранены',
-      'good'
-    );
-
+    toast('Настройки ИИ сохранены','good');
     renderPage();
   };
 
-  window.toggleAI = function () {
-    const endpoint =
-      document.getElementById('aiEndpoint');
-
-    const model =
-      document.getElementById('aiModel');
-
-    const autonomy =
-      document.getElementById('aiAutonomy');
-
-    state.settings.aiEndpoint =
-      (endpoint?.value ||
-        state.settings.aiEndpoint ||
-        '')
-        .trim()
-        .replace(/\/$/, '');
-
-    state.settings.aiModel =
-      (model?.value ||
-        state.settings.aiModel ||
-        DEFAULT_AI.aiModel)
-        .trim();
-
-    state.settings.aiAutonomy =
-      !!autonomy?.checked;
-
-    if (
-      !state.settings.aiEnabled &&
-      !state.settings.aiEndpoint
-    ) {
+  window.toggleAI = function(){
+    const endpoint = document.getElementById('aiEndpoint');
+    const model = document.getElementById('aiModel');
+    const autonomy = document.getElementById('aiAutonomy');
+    state.settings.aiEndpoint = (endpoint?.value || state.settings.aiEndpoint || '').trim().replace(/\/$/, '');
+    state.settings.aiModel = (model?.value || state.settings.aiModel || DEFAULT_AI.aiModel).trim();
+    state.settings.aiAutonomy = !!autonomy?.checked;
+    if(!state.settings.aiEnabled && !state.settings.aiEndpoint){
       save();
-
-      toast(
-        'Сначала укажи адрес AI Worker',
-        'warn'
-      );
-
+      toast('Сначала укажи адрес AI Worker','warn');
       return;
     }
-
-    state.settings.aiEnabled =
-      !state.settings.aiEnabled;
-
+    state.settings.aiEnabled = !state.settings.aiEnabled;
     save();
     renderPage();
-
-    toast(
-      state.settings.aiEnabled
-        ? 'ИИ сотрудников включён'
-        : 'ИИ сотрудников отключён',
-      state.settings.aiEnabled
-        ? 'good'
-        : 'warn'
-    );
+    toast(state.settings.aiEnabled?'ИИ сотрудников включён':'ИИ сотрудников отключён', state.settings.aiEnabled?'good':'warn');
   };
 
-  function recentChatMessages(
-    chat,
-    limit = 12
-  ) {
-    return (
-      chat?.messages || []
-    )
-      .slice(-limit)
-      .map(m => ({
-        author:
-          m.author === 'ceo'
-            ? 'Олег Ким'
-            : (
-              employee(m.author)?.name ||
-              m.author
-            ),
-
-        text:
-          String(m.text || ''),
-
-        day: m.day,
-        time: m.time
-      }));
+  function recentChatMessages(chat, limit=12){
+    return (chat?.messages || []).slice(-limit).map(m=>({
+      author: m.author === 'ceo' ? 'Олег Ким' : (employee(m.author)?.name || m.author),
+      text: String(m.text || ''),
+      day: m.day,
+      time: m.time
+    }));
   }
 
-  function buildCompanyContext(
-    e,
-    chat
-  ) {
+  function buildCompanyContext(e, chat){
     return {
-      day:
-        state.company.day,
-
-      time:
-        timeLabel(),
-
-      health:
-        state.company.health,
-
-      reputation:
-        state.company.reputation,
-
-      cash:
-        state.finance.cash,
-
-      revenue:
-        state.finance.revenue,
-
-      profit:
-        state.finance.profit,
-
-      employees:
-        activeEmployees()
-          .map(x => ({
-            id: x.id,
-            name: x.name,
-            role: x.role,
-            type: x.type,
-            department: x.department,
-            kpi: x.kpi,
-            motivation: x.motivation,
-            workload: x.workload,
-            energy: x.energy
-          })),
-
-      tasks:
-        state.tasks
-          .filter(t => t.ownerId === e.id)
-          .slice(0, 12),
-
-      deals:
-        state.deals
-          .filter(
-            d =>
-              d.ownerId === e.id ||
-              e.type === 'director'
-          )
-          .slice(0, 10),
-
-      projects:
-        state.projects
-          .filter(
-            p =>
-              p.managerId === e.id ||
-              e.type === 'director'
-          )
-          .slice(0, 8),
-
-      events:
-        state.events.slice(0, 12),
-
-      chat:
-        chat
-          ? {
-              id: chat.id,
-              name: chat.name,
-              type: chat.type,
-
-              participants:
-                chat.participants
-                  .map(employee)
-                  .filter(Boolean)
-                  .map(x => x.name),
-
-              messages:
-                recentChatMessages(chat)
-            }
-          : null
+      day: state.company.day,
+      time: timeLabel(),
+      health: state.company.health,
+      reputation: state.company.reputation,
+      cash: state.finance.cash,
+      revenue: state.finance.revenue,
+      profit: state.finance.profit,
+      employees: activeEmployees().map(x=>({id:x.id,name:x.name,role:x.role,type:x.type,department:x.department,kpi:x.kpi,motivation:x.motivation,workload:x.workload,energy:x.energy})),
+      tasks: state.tasks.filter(t=>t.ownerId===e.id).slice(0,12),
+      deals: state.deals.filter(d=>d.ownerId===e.id || e.type==='director').slice(0,10),
+      projects: state.projects.filter(p=>p.managerId===e.id || e.type==='director').slice(0,8),
+      events: state.events.slice(0,12),
+      chat: chat ? {id:chat.id,name:chat.name,type:chat.type,participants:chat.participants.map(employee).filter(Boolean).map(x=>x.name),messages:recentChatMessages(chat)} : null
     };
   }
 
-  async function askAIInternal({
-    mode,
-    employeeId,
-    message,
-    chatId
-  }) {
-    const endpoint =
-      String(
-        state.settings.aiEndpoint || ''
-      ).replace(/\/$/, '');
-
-    if (
-      !endpoint ||
-      !state.settings.aiEnabled
-    ) {
-      return null;
-    }
-
-    const e =
-      employee(employeeId);
-
-    if (!e) {
-      throw new Error(
-        'Сотрудник не найден'
-      );
-    }
-
-    const chat =
-      chatId
-        ? state.chats.find(
-            x => x.id === chatId
-          )
-        : null;
+  async function askAIInternal({mode, employeeId, message, chatId}){
+    const endpoint = String(state.settings.aiEndpoint || '').replace(/\/$/,'');
+    if(!endpoint || !state.settings.aiEnabled) return null;
+    const e = employee(employeeId);
+    if(!e) throw new Error('Сотрудник не найден');
+    const c = chatId ? state.chats.find(x=>x.id===chatId) : null;
 
     const payload = {
-      mode:
-        mode || 'chat',
-
-      message:
-        String(message || '')
-          .slice(0, 2200),
-
+      mode: mode || 'chat',
+      message: String(message || '').slice(0,2200),
       employee: {
-        id: e.id,
-        name: e.name,
-        role: e.role,
-        type: e.type,
-        department: e.department,
-
-        manager:
-          e.managerId
-            ? employee(
-                e.managerId
-              )?.name
-            : 'CEO',
-
-        kpi: e.kpi,
-        motivation: e.motivation,
-        workload: e.workload,
-        energy: e.energy,
-
-        authority:
-          e.authority,
-
-        skills:
-          e.skills,
-
-        personality:
-          e.personality,
-
-        personal:
-          e.personal,
-
-        memory:
-          e.memory.slice(0, 12),
-
-        responsibilities:
-          e.responsibilities
+        id:e.id,name:e.name,role:e.role,type:e.type,department:e.department,
+        manager:e.managerId ? employee(e.managerId)?.name : 'CEO',
+        kpi:e.kpi,motivation:e.motivation,workload:e.workload,energy:e.energy,
+        authority:e.authority,skills:e.skills,personality:e.personality,
+        personal:e.personal,memory:e.memory.slice(0,12),responsibilities:e.responsibilities
       },
-
-      company:
-        buildCompanyContext(
-          e,
-          chat
-        ),
-
-      context: {
-        chat:
-          chat
-            ? recentChatMessages(
-                chat
-              )
-            : []
-      }
+      company: buildCompanyContext(e,c),
+      context: {chat:c ? recentChatMessages(c) : []}
     };
 
-    const response =
-      await fetch(
-        endpoint,
-        {
-          method: 'POST',
-
-          headers: {
-            'Content-Type':
-              'application/json'
-          },
-
-          body:
-            JSON.stringify(
-              payload
-            )
-        }
-      );
+    const res = await fetch(endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
 
     let data;
+    try { data = await res.json(); }
+    catch { throw new Error('Worker вернул некорректный ответ'); }
 
-    try {
-      data =
-        await response.json();
-    } catch {
-      throw new Error(
-        'Worker вернул некорректный ответ'
-      );
-    }
-
-    if (
-      !response.ok ||
-      data?.ok === false
-    ) {
-      throw new Error(
-        data?.error ||
-        `Worker: HTTP ${response.status}`
-      );
-    }
-
+    if(!res.ok || data?.ok===false) throw new Error(data?.error || `Worker: HTTP ${res.status}`);
     return data;
   }
 
-  window.testAIConnection =
-    async function () {
-
-      saveAISettings();
-
-      if (
-        !state.settings.aiEndpoint
-      ) {
-        toast(
-          'Сначала укажи адрес AI Worker',
-          'warn'
-        );
-
-        return;
-      }
-
-      const oldEnabled =
-        state.settings.aiEnabled;
-
-      state.settings.aiEnabled =
-        true;
-
-      try {
-
-        const result =
-          await askAIInternal({
-            mode: 'chat',
-            employeeId: 'd1',
-            chatId: 'chat_d1',
-
-            message:
-              'Поздоровайся с Олегом одной естественной фразой и скажи, что связь с ИИ работает.'
-          });
-
-        toast(
-          result?.reply
-            ? 'Связь с ИИ работает'
-            : 'Worker отвечает без текста',
-          'good'
-        );
-
-      } catch (error) {
-
-        state.settings.aiEnabled =
-          oldEnabled;
-
-        save();
-
-        toast(
-          'Ошибка ИИ: ' +
-          error.message,
-          'danger'
-        );
-      }
-    };
-
-  function applyAIAction(
-    action,
-    actorId,
-    originChatId
-  ) {
-
-    if (
-      !action ||
-      typeof action !== 'object'
-    ) {
-      return;
-    }
-
-    const actor =
-      employee(actorId);
-
-    if (
-      action.type ===
-      'remember'
-    ) {
-
-      const target =
-        employee(
-          action.employeeId
-        ) || actor;
-
-      if (
-        target &&
-        action.text
-      ) {
-
-        remember(
-          target,
-          String(
-            action.text
-          ).slice(0, 500)
-        );
-      }
-
-      return;
-    }
-
-    if (
-      action.type ===
-      'send_message'
-    ) {
-
-      const chat =
-        state.chats.find(
-          x =>
-            x.id ===
-            action.chatId
-        ) ||
-        state.chats.find(
-          x =>
-            x.id ===
-            originChatId
-        );
-
-      if (
-        chat &&
-        action.text
-      ) {
-
-        pushMessage(
-          chat.id,
-          actorId,
-          String(
-            action.text
-          ).slice(0, 1200),
-          'employee'
-        );
-      }
-
-      return;
-    }
-
-    if (
-      action.type ===
-      'create_task'
-    ) {
-
-      const owner =
-        employee(
-          action.ownerId
-        ) || actor;
-
-      if (
-        !owner ||
-        actor?.type ===
-          'employee'
-      ) {
-        return;
-      }
-
-      const task =
-        {
-          id:
-            'ai_task_' +
-            state.company.nextId++,
-
-          title:
-            String(
-              action.title ||
-              'Задача от ИИ'
-            ).slice(0, 160),
-
-          ownerId:
-            owner.id,
-
-          dealId:
-            action.dealId ||
-            null,
-
-          projectId:
-            action.projectId ||
-            null,
-
-          priority:
-            action.priority ===
-            'High'
-              ? 'High'
-              : 'Normal',
-
-          status:
-            'Open',
-
-          due:
-            Math.max(
-              1,
-              Number(
-                action.dueDays
-              ) || 1
-            ),
-
-          createdDay:
-            state.company.day
-        };
-
-      state.tasks.push(
-        task
-      );
-
-      owner.workload =
-        Math.min(
-          100,
-          owner.workload + 6
-        );
-
-      remember(
-        owner,
-        'Мне назначили задачу: ' +
-        task.title
-      );
-
-      addEvent(
-        '🤖',
-        'ИИ создал задачу',
-        `${actor.name}: ${task.title}`,
-        'employee',
-        actor.name,
-        'info'
-      );
-
-      return;
-    }
-
-    if (
-      action.type ===
-      'update_deal'
-    ) {
-
-      const d =
-        deal(
-          action.dealId
-        );
-
-      if (
-        !d ||
-        !actor
-      ) {
-        return;
-      }
-
-      if (
-        ![
-          'director',
-          'manager'
-        ].includes(
-          actor.type
-        ) &&
-        d.ownerId !==
-          actor.id
-      ) {
-        return;
-      }
-
-      if (
-        stages.includes(
-          action.stage
-        )
-      ) {
-        d.stage =
-          action.stage;
-      }
-
-      const probability =
-        Number(
-          action.prob
-        );
-
-      if (
-        Number.isFinite(
-          probability
-        )
-      ) {
-
-        d.prob =
-          Math.max(
-            0,
-            Math.min(
-              100,
-              probability
-            )
-          );
-      }
-
-      d.history.push({
-        day:
-          state.company.day,
-
-        text:
-          `ИИ ${actor.name} обновил сделку: ${
-            stageNames[d.stage]
-          } · ${d.prob}%`
+  window.testAIConnection = async function(){
+    saveAISettings();
+    if(!state.settings.aiEndpoint){toast('Сначала укажи адрес AI Worker','warn');return;}
+    const wasEnabled = state.settings.aiEnabled;
+    state.settings.aiEnabled = true;
+    try{
+      const result = await askAIInternal({
+        mode:'chat',
+        employeeId:'d1',
+        chatId:'chat_d1',
+        message:'Поздоровайся с Олегом одной естественной фразой и скажи, что связь с ИИ работает.'
       });
+      toast(result?.reply ? 'Связь с ИИ работает' : 'Worker отвечает без текста','good');
+    }catch(e){
+      state.settings.aiEnabled = wasEnabled;
+      save();
+      toast('Ошибка ИИ: '+e.message,'danger');
+    }
+  };
 
-      addEvent(
-        '⌁',
-        'ИИ обновил CRM',
-        `${actor.name}: ${d.name} → ${stageNames[d.stage]}, ${d.prob}%`,
-        'crm',
-        actor.name,
-        'info'
-      );
+  function findPrivateChat(employeeId){
+    return state.chats.find(c=>c.type==='private' && c.participants.includes('ceo') && c.participants.includes(employeeId));
+  }
 
+  function applyAIAction(action, actorId, originChatId){
+    if(!action || typeof action !== 'object') return;
+    const actor = employee(actorId);
+    if(action.type==='remember'){
+      const target = employee(action.employeeId) || actor;
+      if(target && action.text) remember(target,String(action.text).slice(0,500));
       return;
     }
-
-    if (
-      action.type ===
-      'create_decision'
-    ) {
-
-      if (
-        !actor ||
-        actor.type !==
-          'director'
-      ) {
-        return;
-      }
-
-      const title =
-        String(
-          action.title ||
-          'Решение директора'
-        );
-
-      const duplicate =
-        state.decisions.some(
-          d =>
-            d.status ===
-              'pending' &&
-            d.title ===
-              title
-        );
-
-      if (duplicate) {
-        return;
-      }
-
-      state.decisions.unshift({
-        id:
-          'ai_decision_' +
-          state.company.nextId++,
-
-        title:
-          title.slice(0, 180),
-
-        source:
-          actor.name,
-
-        summary:
-          String(
-            action.summary ||
-            'AI-директор предлагает управленческое решение.'
-          ).slice(0, 700),
-
-        options:
-          Array.isArray(
-            action.options
-          ) &&
-          action.options.length
-            ? action.options
-            : [
-                [
-                  'approve',
-                  'Одобрить',
-                  0
-                ],
-                [
-                  'hold',
-                  'Отложить',
-                  0
-                ]
-              ],
-
-        status:
-          'pending'
-      });
-
-      addEvent(
-        '⚖',
-        'ИИ предложил решение',
-        `${actor.name}: ${title}`,
-        'decision',
-        actor.name,
-        'warn'
-      );
-
+    if(action.type==='send_message'){
+      const c = state.chats.find(x=>x.id===action.chatId) || state.chats.find(x=>x.id===originChatId);
+      if(c && action.text) pushMessage(c.id,actorId,String(action.text).slice(0,1200),'employee');
       return;
     }
-
-    if (
-      action.type ===
-      'create_event'
-    ) {
-
-      addEvent(
-        '🤖',
-        String(
-          action.title ||
-          'Событие ИИ'
-        ).slice(0, 120),
-
-        String(
-          action.text ||
-          ''
-        ).slice(0, 500),
-
-        action.category ||
-          'system',
-
-        actor?.name ||
-          'ИИ',
-
-        action.severity ||
-          'info'
-      );
+    if(action.type==='create_task'){
+      const owner = employee(action.ownerId) || actor;
+      if(!owner || actor?.type==='employee') return;
+      const t={id:'ait'+state.company.nextId++,title:String(action.title||'Задача от AI').slice(0,160),ownerId:owner.id,dealId:action.dealId||null,projectId:action.projectId||null,priority:action.priority==='High'?'High':'Normal',status:'Open',due:Math.max(1,Number(action.dueDays)||1),createdDay:state.company.day};
+      state.tasks.push(t); owner.workload=Math.min(100,owner.workload+6); remember(owner,'Мне назначили задачу: '+t.title); addEvent('🤖','ИИ создал задачу',`${actor.name}: ${t.title}`,'employee',actor.name,'info');
+      return;
+    }
+    if(action.type==='update_deal'){
+      const d=deal(action.dealId); if(!d||!actor) return;
+      if(!['director','manager'].includes(actor.type) && d.ownerId!==actor.id) return;
+      if(stages.includes(action.stage)) d.stage=action.stage;
+      const p=Number(action.prob); if(Number.isFinite(p)) d.prob=Math.max(0,Math.min(100,p));
+      d.history.push({day:state.company.day,text:`ИИ ${actor.name} обновил сделку: ${stageNames[d.stage]} · ${d.prob}%`});
+      addEvent('⌁','ИИ обновил CRM',`${actor.name}: ${d.name} → ${stageNames[d.stage]}, ${d.prob}%`,'crm',actor.name,'info');
+      return;
+    }
+    if(action.type==='create_decision'){
+      if(!actor || actor.type!=='director') return;
+      const exists=state.decisions.some(d=>d.status==='pending'&&d.title===String(action.title||''));
+      if(exists) return;
+      state.decisions.unshift({id:'ai_dec'+state.company.nextId++,title:String(action.title||'Решение директора').slice(0,180),source:actor.name,summary:String(action.summary||'AI-директор предлагает управленческое решение.').slice(0,700),options:Array.isArray(action.options)&&action.options.length?action.options:[['approve','Одобрить',0],['hold','Отложить',0]],status:'pending'});
+      addEvent('⚖','ИИ предложил решение',`${actor.name}: ${action.title}`,'decision',actor.name,'warn');
+    }
+    if(action.type==='create_event'){
+      addEvent('🤖',String(action.title||'Событие ИИ').slice(0,120),String(action.text||'').slice(0,500),action.category||'system',actor?.name||'AI',action.severity||'info');
     }
   }
 
-  sendChat =
-    window.sendChat =
-      async function () {
+  window.sendChat = async function(){
+    const input=document.getElementById('chatText');
+    if(!input) return;
+    const text=input.value.trim();
+    if(!text) return;
+    const c=state.chats.find(x=>x.id===selectedChat);
+    if(!c) return;
 
-        const input =
-          document.getElementById(
-            'chatText'
-          );
+    chatDraft='';
+    input.value='';
+    pushMessage(c.id,'ceo',text,'ceo');
+    save();
+    refreshChatMessages();
+    requestAnimationFrame(()=>document.getElementById('chatText')?.focus());
 
-        if (!input) {
-          return;
+    const primaryId=c.participants.find(id=>id!=='ceo');
+    const primary=primaryId ? employee(primaryId) : null;
+    if(!primary) return;
+
+    if(state.settings.aiEnabled && state.settings.aiEndpoint){
+      toast(primary.name+' формирует ответ…');
+      try{
+        const result=await askAIInternal({mode:'chat',employeeId:primary.id,message:text,chatId:c.id});
+        if(result?.reply){
+          pushMessage(c.id,primary.id,String(result.reply).slice(0,1600),'employee');
+          remember(primary,'Олег спросил: '+text.slice(0,100)+' Ответ: '+String(result.reply).slice(0,140));
         }
-
-        const text =
-          input.value.trim();
-
-        if (!text) {
-          return;
-        }
-
-        const chat =
-          state.chats.find(
-            x =>
-              x.id ===
-              selectedChat
-          );
-
-        if (!chat) {
-          return;
-        }
-
-        chatDraft = '';
-        input.value = '';
-
-        pushMessage(
-          chat.id,
-          'ceo',
-          text,
-          'ceo'
-        );
-
+        if(Array.isArray(result?.actions)) result.actions.slice(0,4).forEach(a=>applyAIAction(a,primary.id,c.id));
         save();
         refreshChatMessages();
-
-        requestAnimationFrame(
-          () =>
-            document
-              .getElementById(
-                'chatText'
-              )
-              ?.focus()
-        );
-
-        const primaryId =
-          chat.participants.find(
-            id =>
-              id !==
-              'ceo'
-          );
-
-        const primary =
-          primaryId
-            ? employee(primaryId)
-            : null;
-
-        if (!primary) {
-          return;
+        requestAnimationFrame(()=>document.getElementById('chatText')?.focus());
+      }catch(e){
+        toast('ИИ недоступен: '+e.message,'warn');
+        const reactions=generateChatResponses(c,text);
+        if(reactions.length){
+          reactions.forEach((r,i)=>setTimeout(()=>{pushMessage(c.id,r.author,r.text,'employee');const emp=employee(r.author);if(emp)remember(emp,'CEO написал: '+text.slice(0,100));save();refreshChatMessages()},450*(i+1)));
         }
+      }
+      return;
+    }
 
-        if (
-          state.settings.aiEnabled &&
-          state.settings.aiEndpoint
-        ) {
+    const reactions=generateChatResponses(c,text);
+    reactions.forEach((r,i)=>setTimeout(()=>{
+      pushMessage(c.id,r.author,r.text,'employee');
+      const emp=employee(r.author);if(emp)remember(emp,'CEO написал: '+text.slice(0,100));
+      save();refreshChatMessages();
+    },450*(i+1)));
+  };
 
-          toast(
-            primary.name +
-            ' формирует ответ…'
-          );
+  window.runAutonomousAI = async function(){
+    if(!state.settings.aiEnabled || !state.settings.aiAutonomy || !state.settings.aiEndpoint) return;
+    const directors=activeEmployees().filter(e=>e.type==='director');
+    for(const d of directors){
+      try{
+        const result=await askAIInternal({mode:'agent',employeeId:d.id,chatId:'board',message:'Проанализируй текущее состояние компании. Действуй только в пределах своей роли. Не создавай активность без причины. Если нужно действие — предложи максимум 3 конкретных действия.'});
+        if(Array.isArray(result?.actions)) result.actions.slice(0,4).forEach(a=>applyAIAction(a,d.id,'board'));
+        if(result?.reply && result?.actions?.length) pushMessage('board',d.id,String(result.reply).slice(0,1200),'employee');
+        remember(d,'Автономный AI-анализ: '+String(result?.reply||'Без новых действий').slice(0,180));
+      }catch(e){
+        addEvent('⚠','Ошибка AI-директора',`${d.name}: ${e.message}`,'system',d.name,'warn');
+      }
+    }
+    save();
+    if(currentPage==='messenger'||currentPage==='dashboard'||currentPage==='observer'||currentPage==='decisions') renderPage();
+  };
 
-          try {
+  const originalTickHour = window.tickHour;
+  let aiLastHourKey = '';
+  window.tickHour = function(){
+    originalTickHour();
+    const key=state.company.day+'-'+state.company.hour;
+    if(state.company.running && state.settings.aiEnabled && state.settings.aiAutonomy && state.company.hour%6===0 && key!==aiLastHourKey){
+      aiLastHourKey=key;
+      runAutonomousAI();
+    }
+  };
 
-            const result =
-              await askAIInternal({
-                mode: 'chat',
-                employeeId:
-                  primary.id,
-                message:
-                  text,
-                chatId:
-                  chat.id
-              });
-
-            if (
-              result?.reply
-            ) {
-
-              pushMessage(
-                chat.id,
-                primary.id,
-                String(
-                  result.reply
-                ).slice(
-                  0,
-                  1600
-                ),
-                'employee'
-              );
-
-              remember(
-                primary,
-                'Олег спросил: ' +
-                text.slice(
-                  0,
-                  100
-                ) +
-                ' Ответ: ' +
-                String(
-                  result.reply
-                ).slice(
-                  0,
-                  140
-                )
-              );
-            }
-
-            if (
-              Array.isArray(
-                result?.actions
-              )
-            ) {
-
-              result.actions
-                .slice(0, 4)
-                .forEach(
-                  action =>
-                    applyAIAction(
-                      action,
-                      primary.id,
-                      chat.id
-                    )
-                );
-            }
-
-            save();
-            refreshChatMessages();
-
-            requestAnimationFrame(
-              () =>
-                document
-                  .getElementById(
-                    'chatText'
-                  )
-                  ?.focus()
-            );
-
-          } catch (error) {
-
-            toast(
-              'ИИ недоступен: ' +
-              error.message,
-              'warn'
-            );
-
-            const fallback =
-              generateChatResponses(
-                chat,
-                text
-              );
-
-            fallback.forEach(
-              (r, i) => {
-
-                setTimeout(
-                  () => {
-
-                    pushMessage(
-                      chat.id,
-                      r.author,
-                      r.text,
-                      'employee'
-                    );
-
-                    const e =
-                      employee(
-                        r.author
-                      );
-
-                    if (e) {
-                      remember(
-                        e,
-                        'CEO написал: ' +
-                        text.slice(
-                          0,
-                          100
-                        )
-                      );
-                    }
-
-                    save();
-                    refreshChatMessages();
-                  },
-                  450 *
-                    (i + 1)
-                );
-              }
-            );
-          }
-
-          return;
-        }
-
-        const reactions =
-          generateChatResponses(
-            chat,
-            text
-          );
-
-        reactions.forEach(
-          (r, i) => {
-
-            setTimeout(
-              () => {
-
-                pushMessage(
-                  chat.id,
-                  r.author,
-                  r.text,
-                  'employee'
-                );
-
-                const e =
-                  employee(
-                    r.author
-                  );
-
-                if (e) {
-                  remember(
-                    e,
-                    'CEO написал: ' +
-                    text.slice(
-                      0,
-                      100
-                    )
-                  );
-                }
-
-                save();
-                refreshChatMessages();
-
-              },
-              450 *
-                (i + 1)
-            );
-          }
-        );
+  // Полностью русифицируем оставшиеся названия, не трогая имена людей и данные CRM.
+  window.translateRenderedUI = (function(original){
+    return function(){
+      if(typeof original==='function') original();
+      const replacements={
+        'Dashboard':'Панель управления','Company OS':'Система управления компанией','Founder & CEO':'Основатель и CEO',
+        'Messenger':'Мессенджер','Observer':'Наблюдатель','Settings':'Система','Strategy':'Стратегия','Decisions':'Решения',
+        'Current state':'Текущее состояние','Sales Director':'Директор по продажам','CTO':'CTO','CFO':'CFO','COO':'COO',
+        'Manager':'Руководитель','Owner':'Владелец','Stage':'Этап','Probability':'Вероятность','Value':'Сумма',
+        'Salary':'Зарплата','Bonus %':'Бонус %','Workload':'Нагрузка','Motivation':'Мотивация','Authority':'Полномочия',
+        'Responsibilities':'Обязанности','Personality':'Характер','Personal':'Личное','Memory':'Память','Relationships':'Отношения',
+        'Role':'Роль','Department':'Отдел','Client':'Клиент','Project':'Проект','Progress':'Прогресс','Risk':'Риск',
+        'Status':'Статус','Priority':'Приоритет','Due':'Срок','Title':'Название','Name':'Имя','Score':'Оценка',
+        'Experience':'Опыт','Skills':'Навыки','Send':'Отправить','Write a message':'Напишите сообщение','Internal':'Внутренний'
       };
+      const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+      const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+      nodes.forEach(n=>{let t=n.nodeValue;Object.entries(replacements).forEach(([a,b])=>{t=t.replace(new RegExp('\\b'+a.replace(/[.*+?^${}()|[\\]\\\\]/g,'\\\\$&')+'\\b','g'),b)});n.nodeValue=t;});
+    };
+  })(window.translateRenderedUI);
 
-  window.runAutonomousAI =
-    async function () {
+  // Фикс: AI reply не перерисовывает страницу и не уничтожает поле ввода.
+  const originalStartTimer = window.startTimer;
+  window.startTimer = function(){
+    originalStartTimer();
+    if(currentPage==='messenger') refreshChatMessages();
+  };
 
-      if (
-        !state.settings.aiEnabled ||
-        !state.settings.aiAutonomy ||
-        !state.settings.aiEndpoint
-      ) {
-        return;
-      }
+  // После первоначальной отрисовки добавляем AI-настройки в уже открытом состоянии.
+  if(currentPage==='settings') renderPage();
+})();
 
-      const directors =
-        activeEmployees().filter(
-          e =>
-            e.type ===
-            'director'
-        );
+</script>
+<script>
+// ALATAU AI HOTFIX START
+/* Alatau Nexus — AI + Messenger Hotfix */
+(function(){
+  'use strict';
+  if(window.__alatauAIHotfixLoaded) return;
+  window.__alatauAIHotfixLoaded=true;
 
-      for (
-        const director of directors
-      ) {
+  const DEFAULT_AI = {
+    aiEndpoint: '',
+    aiModel: 'gpt-5.6-luna',
+    aiEnabled: false,
+    aiAutonomy: false
+  };
 
-        try {
+  function ensureAISettings(){
+    state.settings = Object.assign({}, DEFAULT_AI, state.settings || {});
+    save();
+  }
 
-          const result =
-            await askAIInternal({
-              mode: 'agent',
+  ensureAISettings();
 
-              employeeId:
-                director.id,
+  function aiSettingsCard(){
+    const s = state.settings;
+    const status = s.aiEnabled && s.aiEndpoint ? 'ИИ включён' : 'ИИ не подключён';
+    return `<div class="card">
+      <div class="section-title" style="margin:0">ИИ сотрудников</div>
+      <div class="notice"><b>${status}</b><br><span class="small muted">ИИ работает через защищённый Cloudflare Worker. API-ключ хранится только в Worker и не попадает в GitHub.</span></div>
+      <div class="field" style="margin-top:10px">
+        <label>Адрес AI Worker</label>
+        <input id="aiEndpoint" value="${esc(s.aiEndpoint)}" placeholder="https://ваш-worker.workers.dev">
+      </div>
+      <div class="field" style="margin-top:8px">
+        <label>Модель</label>
+        <input id="aiModel" value="${esc(s.aiModel)}" placeholder="gpt-5.6-luna">
+      </div>
+      <label style="display:flex;gap:7px;align-items:center;margin-top:10px;font-size:10px;color:#a7b9cf">
+        <input type="checkbox" id="aiAutonomy" ${s.aiAutonomy?'checked':''}>
+        Директора могут самостоятельно работать через ИИ
+      </label>
+      <div class="actions" style="margin-top:10px">
+        <button class="btn primary" onclick="saveAISettings()">Сохранить</button>
+        <button class="btn success" onclick="toggleAI()">${s.aiEnabled?'Отключить ИИ':'Включить ИИ'}</button>
+        <button class="btn" onclick="testAIConnection()">Проверить связь</button>
+      </div>
+    </div>`;
+  }
 
-              chatId:
-                'board',
+  renderSettings = window.renderSettings = function(){
+    return `<div class="grid split">
+      <div class="card">
+        <div class="section-title" style="margin:0">Управление симуляцией</div>
+        <p class="small muted">Компания живёт по игровому времени. Изменения сохраняются автоматически в браузере.</p>
+        <div class="actions">
+          <button class="btn ${state.company.running?'warn':'success'}" onclick="state.company.running?stopTimer():startTimer()">${state.company.running?'Пауза':'Запустить'} симуляцию</button>
+          <button class="btn" onclick="advanceDayManual()">Следующий день</button>
+        </div>
+        <div class="section-title">Скорость</div>
+        <div class="actions">
+          <button class="btn ${speed===1?'primary':''}" onclick="setSpeed(1)">×1</button>
+          <button class="btn ${speed===2?'primary':''}" onclick="setSpeed(2)">×2</button>
+          <button class="btn ${speed===5?'primary':''}" onclick="setSpeed(5)">×5</button>
+        </div>
+      </div>
+      ${aiSettingsCard()}
+    </div>
+    <div class="grid split" style="margin-top:12px">
+      <div class="card">
+        <div class="section-title" style="margin:0">Данные и безопасность</div>
+        <div class="notice">36 сотрудников · 10 отделов · 10 клиентов · 8 сделок · 5 проектов · 20 задач</div>
+        <div class="small muted" style="margin-top:8px">Последнее сохранение: ${new Date(state.settings.lastSaved||Date.now()).toLocaleTimeString('ru-RU')}</div>
+        <div class="actions" style="margin-top:10px">
+          <button class="btn" onclick="exportState()">Экспорт JSON</button>
+          <button class="btn danger" onclick="resetCompany()">Сбросить компанию</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title" style="margin:0">Как работает ИИ</div>
+        <div class="notice">У каждого AI-сотрудника есть должность, полномочия, характер, память, задачи и текущий контекст компании. В личном чате ИИ отвечает от лица выбранного сотрудника. В автономном режиме директора могут предлагать задачи, сообщения, изменения CRM и управленческие решения.</div>
+      </div>
+    </div>`;
+  };
 
-              message:
-                'Проанализируй текущее состояние компании. Действуй только в пределах своей роли. Не создавай активность без причины. Если нужно действие — предложи максимум 3 конкретных действия.'
-            });
+  window.saveAISettings = function(){
+    const endpoint = document.getElementById('aiEndpoint');
+    const model = document.getElementById('aiModel');
+    const autonomy = document.getElementById('aiAutonomy');
+    state.settings.aiEndpoint = (endpoint?.value || '').trim().replace(/\/$/, '');
+    state.settings.aiModel = (model?.value || '').trim() || DEFAULT_AI.aiModel;
+    state.settings.aiAutonomy = !!autonomy?.checked;
+    save();
+    toast('Настройки ИИ сохранены','good');
+    renderPage();
+  };
 
-          if (
-            Array.isArray(
-              result?.actions
-            )
-          ) {
-
-            result.actions
-              .slice(0, 4)
-              .forEach(
-                action =>
-                  applyAIAction(
-                    action,
-                    director.id,
-                    'board'
-                  )
-              );
-          }
-
-          if (
-            result?.reply &&
-            result?.actions?.length
-          ) {
-
-            pushMessage(
-              'board',
-              director.id,
-              String(
-                result.reply
-              ).slice(
-                0,
-                1200
-              ),
-              'employee'
-            );
-          }
-
-          remember(
-            director,
-            'Автономный AI-анализ: ' +
-            String(
-              result?.reply ||
-              'Новых действий нет.'
-            ).slice(
-              0,
-              180
-            )
-          );
-
-        } catch (error) {
-
-          addEvent(
-            '⚠',
-            'Ошибка AI-директора',
-            `${director.name}: ${error.message}`,
-            'system',
-            director.name,
-            'warn'
-          );
-        }
-      }
-
+  window.toggleAI = function(){
+    const endpoint = document.getElementById('aiEndpoint');
+    const model = document.getElementById('aiModel');
+    const autonomy = document.getElementById('aiAutonomy');
+    state.settings.aiEndpoint = (endpoint?.value || state.settings.aiEndpoint || '').trim().replace(/\/$/, '');
+    state.settings.aiModel = (model?.value || state.settings.aiModel || DEFAULT_AI.aiModel).trim();
+    state.settings.aiAutonomy = !!autonomy?.checked;
+    if(!state.settings.aiEnabled && !state.settings.aiEndpoint){
       save();
+      toast('Сначала укажи адрес AI Worker','warn');
+      return;
+    }
+    state.settings.aiEnabled = !state.settings.aiEnabled;
+    save();
+    renderPage();
+    toast(state.settings.aiEnabled?'ИИ сотрудников включён':'ИИ сотрудников отключён', state.settings.aiEnabled?'good':'warn');
+  };
 
-      if (
-        currentPage ===
-          'messenger' ||
-        currentPage ===
-          'dashboard' ||
-        currentPage ===
-          'observer' ||
-        currentPage ===
-          'decisions'
-      ) {
-        renderPage();
-      }
+  function recentChatMessages(chat, limit=12){
+    return (chat?.messages || []).slice(-limit).map(m=>({
+      author: m.author === 'ceo' ? 'Олег Ким' : (employee(m.author)?.name || m.author),
+      text: String(m.text || ''),
+      day: m.day,
+      time: m.time
+    }));
+  }
+
+  function buildCompanyContext(e, chat){
+    return {
+      day: state.company.day,
+      time: timeLabel(),
+      health: state.company.health,
+      reputation: state.company.reputation,
+      cash: state.finance.cash,
+      revenue: state.finance.revenue,
+      profit: state.finance.profit,
+      employees: activeEmployees().map(x=>({id:x.id,name:x.name,role:x.role,type:x.type,department:x.department,kpi:x.kpi,motivation:x.motivation,workload:x.workload,energy:x.energy})),
+      tasks: state.tasks.filter(t=>t.ownerId===e.id).slice(0,12),
+      deals: state.deals.filter(d=>d.ownerId===e.id || e.type==='director').slice(0,10),
+      projects: state.projects.filter(p=>p.managerId===e.id || e.type==='director').slice(0,8),
+      events: state.events.slice(0,12),
+      chat: chat ? {id:chat.id,name:chat.name,type:chat.type,participants:chat.participants.map(employee).filter(Boolean).map(x=>x.name),messages:recentChatMessages(chat)} : null
+    };
+  }
+
+  async function askAIInternal({mode, employeeId, message, chatId}){
+    const endpoint = String(state.settings.aiEndpoint || '').replace(/\/$/,'');
+    if(!endpoint || !state.settings.aiEnabled) return null;
+    const e = employee(employeeId);
+    if(!e) throw new Error('Сотрудник не найден');
+    const c = chatId ? state.chats.find(x=>x.id===chatId) : null;
+
+    const payload = {
+      mode: mode || 'chat',
+      message: String(message || '').slice(0,2200),
+      employee: {
+        id:e.id,name:e.name,role:e.role,type:e.type,department:e.department,
+        manager:e.managerId ? employee(e.managerId)?.name : 'CEO',
+        kpi:e.kpi,motivation:e.motivation,workload:e.workload,energy:e.energy,
+        authority:e.authority,skills:e.skills,personality:e.personality,
+        personal:e.personal,memory:e.memory.slice(0,12),responsibilities:e.responsibilities
+      },
+      company: buildCompanyContext(e,c),
+      context: {chat:c ? recentChatMessages(c) : []}
     };
 
-  let aiLastHourKey = '';
+    const res = await fetch(endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
 
-  setInterval(
-    () => {
+    let data;
+    try { data = await res.json(); }
+    catch { throw new Error('Worker вернул некорректный ответ'); }
 
-      if (
-        !state.company.running ||
-        !state.settings.aiEnabled ||
-        !state.settings.aiAutonomy ||
-        !state.settings.aiEndpoint
-      ) {
-        return;
+    if(!res.ok || data?.ok===false) throw new Error(data?.error || `Worker: HTTP ${res.status}`);
+    return data;
+  }
+
+  window.testAIConnection = async function(){
+    saveAISettings();
+    if(!state.settings.aiEndpoint){toast('Сначала укажи адрес AI Worker','warn');return;}
+    const wasEnabled = state.settings.aiEnabled;
+    state.settings.aiEnabled = true;
+    try{
+      const result = await askAIInternal({
+        mode:'chat',
+        employeeId:'d1',
+        chatId:'chat_d1',
+        message:'Поздоровайся с Олегом одной естественной фразой и скажи, что связь с ИИ работает.'
+      });
+      toast(result?.reply ? 'Связь с ИИ работает' : 'Worker отвечает без текста','good');
+    }catch(e){
+      state.settings.aiEnabled = wasEnabled;
+      save();
+      toast('Ошибка ИИ: '+e.message,'danger');
+    }
+  };
+
+  function findPrivateChat(employeeId){
+    return state.chats.find(c=>c.type==='private' && c.participants.includes('ceo') && c.participants.includes(employeeId));
+  }
+
+  function applyAIAction(action, actorId, originChatId){
+    if(!action || typeof action !== 'object') return;
+    const actor = employee(actorId);
+    if(action.type==='remember'){
+      const target = employee(action.employeeId) || actor;
+      if(target && action.text) remember(target,String(action.text).slice(0,500));
+      return;
+    }
+    if(action.type==='send_message'){
+      const c = state.chats.find(x=>x.id===action.chatId) || state.chats.find(x=>x.id===originChatId);
+      if(c && action.text) pushMessage(c.id,actorId,String(action.text).slice(0,1200),'employee');
+      return;
+    }
+    if(action.type==='create_task'){
+      const owner = employee(action.ownerId) || actor;
+      if(!owner || actor?.type==='employee') return;
+      const t={id:'ait'+state.company.nextId++,title:String(action.title||'Задача от AI').slice(0,160),ownerId:owner.id,dealId:action.dealId||null,projectId:action.projectId||null,priority:action.priority==='High'?'High':'Normal',status:'Open',due:Math.max(1,Number(action.dueDays)||1),createdDay:state.company.day};
+      state.tasks.push(t); owner.workload=Math.min(100,owner.workload+6); remember(owner,'Мне назначили задачу: '+t.title); addEvent('🤖','ИИ создал задачу',`${actor.name}: ${t.title}`,'employee',actor.name,'info');
+      return;
+    }
+    if(action.type==='update_deal'){
+      const d=deal(action.dealId); if(!d||!actor) return;
+      if(!['director','manager'].includes(actor.type) && d.ownerId!==actor.id) return;
+      if(stages.includes(action.stage)) d.stage=action.stage;
+      const p=Number(action.prob); if(Number.isFinite(p)) d.prob=Math.max(0,Math.min(100,p));
+      d.history.push({day:state.company.day,text:`ИИ ${actor.name} обновил сделку: ${stageNames[d.stage]} · ${d.prob}%`});
+      addEvent('⌁','ИИ обновил CRM',`${actor.name}: ${d.name} → ${stageNames[d.stage]}, ${d.prob}%`,'crm',actor.name,'info');
+      return;
+    }
+    if(action.type==='create_decision'){
+      if(!actor || actor.type!=='director') return;
+      const exists=state.decisions.some(d=>d.status==='pending'&&d.title===String(action.title||''));
+      if(exists) return;
+      state.decisions.unshift({id:'ai_dec'+state.company.nextId++,title:String(action.title||'Решение директора').slice(0,180),source:actor.name,summary:String(action.summary||'AI-директор предлагает управленческое решение.').slice(0,700),options:Array.isArray(action.options)&&action.options.length?action.options:[['approve','Одобрить',0],['hold','Отложить',0]],status:'pending'});
+      addEvent('⚖','ИИ предложил решение',`${actor.name}: ${action.title}`,'decision',actor.name,'warn');
+    }
+    if(action.type==='create_event'){
+      addEvent('🤖',String(action.title||'Событие ИИ').slice(0,120),String(action.text||'').slice(0,500),action.category||'system',actor?.name||'AI',action.severity||'info');
+    }
+  }
+
+  sendChat = window.sendChat = async function(){
+    const input=document.getElementById('chatText');
+    if(!input) return;
+    const text=input.value.trim();
+    if(!text) return;
+    const c=state.chats.find(x=>x.id===selectedChat);
+    if(!c) return;
+
+    chatDraft='';
+    input.value='';
+    pushMessage(c.id,'ceo',text,'ceo');
+    save();
+    refreshChatMessages();
+    requestAnimationFrame(()=>document.getElementById('chatText')?.focus());
+
+    const primaryId=c.participants.find(id=>id!=='ceo');
+    const primary=primaryId ? employee(primaryId) : null;
+    if(!primary) return;
+
+    if(state.settings.aiEnabled && state.settings.aiEndpoint){
+      toast(primary.name+' формирует ответ…');
+      try{
+        const result=await askAIInternal({mode:'chat',employeeId:primary.id,message:text,chatId:c.id});
+        if(result?.reply){
+          pushMessage(c.id,primary.id,String(result.reply).slice(0,1600),'employee');
+          remember(primary,'Олег спросил: '+text.slice(0,100)+' Ответ: '+String(result.reply).slice(0,140));
+        }
+        if(Array.isArray(result?.actions)) result.actions.slice(0,4).forEach(a=>applyAIAction(a,primary.id,c.id));
+        save();
+        refreshChatMessages();
+        requestAnimationFrame(()=>document.getElementById('chatText')?.focus());
+      }catch(e){
+        toast('ИИ недоступен: '+e.message,'warn');
+        const reactions=generateChatResponses(c,text);
+        if(reactions.length){
+          reactions.forEach((r,i)=>setTimeout(()=>{pushMessage(c.id,r.author,r.text,'employee');const emp=employee(r.author);if(emp)remember(emp,'CEO написал: '+text.slice(0,100));save();refreshChatMessages()},450*(i+1)));
+        }
       }
+      return;
+    }
 
-      const key =
-        state.company.day +
-        '-' +
-        state.company.hour;
+    const reactions=generateChatResponses(c,text);
+    reactions.forEach((r,i)=>setTimeout(()=>{
+      pushMessage(c.id,r.author,r.text,'employee');
+      const emp=employee(r.author);if(emp)remember(emp,'CEO написал: '+text.slice(0,100));
+      save();refreshChatMessages();
+    },450*(i+1)));
+  };
 
-      if (
-        state.company.hour %
-          6 === 0 &&
-        key !==
-          aiLastHourKey
-      ) {
-
-        aiLastHourKey = key;
-        runAutonomousAI();
+  window.runAutonomousAI = async function(){
+    if(!state.settings.aiEnabled || !state.settings.aiAutonomy || !state.settings.aiEndpoint) return;
+    const directors=activeEmployees().filter(e=>e.type==='director');
+    for(const d of directors){
+      try{
+        const result=await askAIInternal({mode:'agent',employeeId:d.id,chatId:'board',message:'Проанализируй текущее состояние компании. Действуй только в пределах своей роли. Не создавай активность без причины. Если нужно действие — предложи максимум 3 конкретных действия.'});
+        if(Array.isArray(result?.actions)) result.actions.slice(0,4).forEach(a=>applyAIAction(a,d.id,'board'));
+        if(result?.reply && result?.actions?.length) pushMessage('board',d.id,String(result.reply).slice(0,1200),'employee');
+        remember(d,'Автономный AI-анализ: '+String(result?.reply||'Без новых действий').slice(0,180));
+      }catch(e){
+        addEvent('⚠','Ошибка AI-директора',`${d.name}: ${e.message}`,'system',d.name,'warn');
       }
+    }
+    save();
+    if(currentPage==='messenger'||currentPage==='dashboard'||currentPage==='observer'||currentPage==='decisions') renderPage();
+  };
 
-    },
-    4000
-  );
+  let aiLastHourKey='';
+  setInterval(()=>{
+    if(!state.company.running || !state.settings.aiEnabled || !state.settings.aiAutonomy || !state.settings.aiEndpoint) return;
+    const key=state.company.day+'-'+state.company.hour;
+    if(state.company.hour%6===0 && key!==aiLastHourKey){
+      aiLastHourKey=key;
+      runAutonomousAI();
+    }
+  },4000);
 
-  /*
-    Фикс Messenger:
-    AI-ответ не перерисовывает всю страницу,
-    поэтому поле ввода не исчезает и введённый
-    пользователем текст не теряется.
-  */
+  // Русские подписи AI-панели уже заданы напрямую; общий перевод интерфейса остаётся штатным.
 
+  // Фикс: AI reply не перерисовывает страницу и не уничтожает поле ввода.
+  const originalStartTimer = window.startTimer;
+  window.startTimer = function(){
+    originalStartTimer();
+    if(currentPage==='messenger') refreshChatMessages();
+  };
+
+  // После первоначальной отрисовки добавляем AI-настройки в уже открытом состоянии.
+  if(currentPage==='settings') renderPage();
 })();
+
+// ALATAU AI HOTFIX END
 </script>
 </body>
 </html>
